@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+  "coolPropVersion": "6.8.0",
+  "report": [
+    {
+      "refrigerant": "R32",
+      "status": "ok",
+      "points": 181
+    },
+    {
+      "refrigerant": "R410A",
+      "status": "ok",
+      "points": 181
+    },
+    {
+      "refrigerant": "R134a",
+      "status": "ok",
+      "points": 181
+    },
+    {
+      "refrigerant": "R407C",
+      "status": "ok",
+      "points": 181
+    },
+    {
+      "refrigerant": "R404A",
+      "status": "ok",
+      "points": 181
+    },
+    {
+      "refrigerant": "R22",
+      "status": "ok",
+      "points": 181
+    },
+    {
+      "refrigerant": "R290",
+      "status": "ok",
+      "points": 181
+    },
+    {
+      "refrigerant": "R600a",
+      "status": "ok",
+      "points": 181
+    },
+    {
+      "refrigerant": "R1234yf",
+      "status": "ok",
+      "points": 181
+    },
+    {
+      "refrigerant": "R744",
+      "status": "ok",
+      "points": 181
+    },
+    {
+      "refrigerant": "R454B",
+      "status": "pending",
+      "reason": "unsupported or invalid critical/triple temperature"
+    },
+    {
+      "refrigerant": "R454C",
+      "status": "pending",
+      "reason": "unsupported or invalid critical/triple temperature"
+    }
+  ]
+}

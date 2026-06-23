@@ -5,7 +5,7 @@ export type SaturationPoint = {
   bubbleC: number | null
   dewC: number | null
   source: string
-  warning?: string
+  warning?: string | null
 }
 
 export type RefrigerantTable = {

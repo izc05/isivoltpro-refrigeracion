@@ -21,7 +21,13 @@ Los datos termodinámicos de producción no están incluidos manualmente. Deben 
 python scripts/generate_refrigerant_data.py
 ```
 
-El entorno actual no tiene Python, por lo que las tablas quedan en estado pendiente y los cálculos PT se bloquean de forma segura.
+En entornos sin Python instalado pero con `uv`, usa:
+
+```bash
+npm run data:generate:uv
+```
+
+La generación actual usa CoolProp 6.8.0. Hay tablas validadas para R32, R410A, R134a, R407C, R404A, R22, R290, R600a, R1234yf y R744. R454B y R454C quedan como pendientes de validación porque CoolProp 6.8.0 no los resolvió correctamente en este entorno.
 
 ## Desarrollo
 

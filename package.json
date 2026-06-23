@@ -16,7 +16,8 @@
     "cap:sync": "npm run build && npx cap sync android",
     "android:debug": "npm run cap:sync && cd android && gradlew.bat assembleDebug",
     "android:apk:release": "npm run cap:sync && cd android && gradlew.bat assembleRelease",
-    "android:aab:release": "npm run cap:sync && cd android && gradlew.bat bundleRelease"
+    "android:aab:release": "npm run cap:sync && cd android && gradlew.bat bundleRelease",
+    "data:generate:uv": "uv run --python 3.12 --with CoolProp==6.8.0 python scripts/generate_refrigerant_data.py"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.1",

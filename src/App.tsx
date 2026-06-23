@@ -8,6 +8,7 @@ import './index.css'
 import { refrigerantTables, type RefrigerantTable } from './data/generated'
 import { refrigerantMetadata } from './data/refrigerant-metadata'
 import { calculateSubcooling, calculateSuperheat, interpolatePressureFromTemperature, interpolateTemperatureFromPressure } from './domain/refrigerants/calculations'
+import { commonPressureRows, formatRange, maxGlideK, tableStatusLabel } from './domain/refrigerants/summary'
 import { DEFAULT_ATMOSPHERE_PA, formatPressureLabel, paAbsoluteToPressure, parseLocalizedNumber, pressureToPaAbsolute, type PressureKind, type PressureUnit, vacuumToPaAbsolute, paAbsoluteToVacuum, type VacuumUnit } from './domain/units'
 import { calculateAdditionalCharge } from './domain/charge'
 import { runDiagnosticRules } from './domain/diagnostics/rules'
@@ -49,7 +50,8 @@ function HomePage() {
 
 function SaturationTable({ table, unit, kind }: { table: RefrigerantTable; unit: PressureUnit; kind: PressureKind }) {
   if (table.points.length === 0) return <div className="empty-table"><Table2 /><strong>Tabla pendiente</strong><p>Genera datos con CoolProp para mostrar filas P/T reales. No se cargan valores manuales.</p></div>
-  return <div className="table-wrap"><table><thead><tr><th>Temp. °C</th><th>Burbuja</th><th>Rocío</th><th>{formatPressureLabel(unit, kind)}</th></tr></thead><tbody>{table.points.slice(0, 12).map((point) => <tr key={`${point.pressurePaAbs}-${point.dewC}`}><td>{(point.dewC ?? point.bubbleC)?.toFixed(1)}</td><td>{point.bubbleC?.toFixed(1) ?? '-'}</td><td>{point.dewC?.toFixed(1) ?? '-'}</td><td>{paAbsoluteToPressure(point.pressurePaAbs, unit, kind).toFixed(2)}</td></tr>)}</tbody></table></div>
+  const rows = commonPressureRows(table, [-20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35])
+  return <div className="table-wrap"><table><thead><tr><th>Temp. °C</th><th>Burbuja {formatPressureLabel(unit, kind)}</th><th>Rocío {formatPressureLabel(unit, kind)}</th></tr></thead><tbody>{rows.map((row) => <tr key={row.temperatureC}><td>{row.temperatureC.toFixed(0)}</td><td>{row.bubblePressurePaAbs === null ? '-' : paAbsoluteToPressure(row.bubblePressurePaAbs, unit, kind).toFixed(2)}</td><td>{row.dewPressurePaAbs === null ? '-' : paAbsoluteToPressure(row.dewPressurePaAbs, unit, kind).toFixed(2)}</td></tr>)}</tbody></table></div>
 }
 
 function UnitTabs({ unit, setUnit }: { unit: PressureUnit; setUnit: (unit: PressureUnit) => void }) {
@@ -93,10 +95,17 @@ function ConverterPage() {
 }
 
 function RefrigerantsPage() {
-  return <main className="screen"><h1 className="page-title">Refrigerantes</h1>{refrigerantTables.map((table) => { const meta = refrigerantMetadata[table.refrigerant]; return <article className="panel refrigerant-card" key={table.refrigerant}><div><h2>{meta.name}</h2><p>{table.limitations.join(' ')}</p></div><dl><dt>Tipo</dt><dd>{meta.familyType.value ?? meta.familyType.note}</dd><dt>Seguridad</dt><dd>{meta.safetyClass.value ?? meta.safetyClass.note}</dd><dt>GWP</dt><dd>{meta.gwp.value ?? meta.gwp.note}</dd></dl></article> })}</main>
+  return <main className="screen"><h1 className="page-title">Refrigerantes</h1>{refrigerantTables.map((table) => { const meta = refrigerantMetadata[table.refrigerant]; const glide = maxGlideK(table); return <article className="panel refrigerant-card" key={table.refrigerant}><div><h2>{meta.name}</h2><p>{tableStatusLabel(table)}</p></div><dl><dt>Tipo tabla</dt><dd>{table.refrigerantType}</dd><dt>Rango</dt><dd>{formatRange(table)}</dd><dt>Deslizamiento</dt><dd>{glide === null ? 'Pendiente' : `${glide.toFixed(2)} K`}</dd><dt>Seguridad</dt><dd>{meta.safetyClass.value ?? meta.safetyClass.note}</dd><dt>GWP</dt><dd>{meta.gwp.value ?? meta.gwp.note}</dd></dl><p className="source-line">{table.limitations.join(' ')}</p></article> })}</main>
 }
 
-function ComparePage() { return <main className="screen"><h1 className="page-title">Comparador de refrigerantes</h1><div className="compare-select"><button>R32</button><span>VS</span><button>R410A</button></div><div className="panel warning-panel"><Scale /><strong>No mezclar refrigerantes</strong><p>No se debe considerar un refrigerante como sustituto directo únicamente porque sus presiones sean similares.</p><button>Ver más información</button></div><Notice /></main> }
+function ComparePage() {
+  const [left, setLeft] = useState('R32')
+  const [right, setRight] = useState('R410A')
+  const leftTable = getTable(left)
+  const rightTable = getTable(right)
+  const rows = commonPressureRows(leftTable).map((row, index) => ({ left: row, right: commonPressureRows(rightTable)[index] }))
+  return <main className="screen"><h1 className="page-title">Comparador de refrigerantes</h1><div className="compare-select"><select value={left} onChange={(event) => setLeft(event.target.value)}>{refrigerantTables.map((table) => <option key={table.refrigerant}>{table.refrigerant}</option>)}</select><span>VS</span><select value={right} onChange={(event) => setRight(event.target.value)}>{refrigerantTables.map((table) => <option key={table.refrigerant}>{table.refrigerant}</option>)}</select></div><section className="panel compare-summary"><dl><dt>{left}</dt><dd>{tableStatusLabel(leftTable)}</dd><dt>{right}</dt><dd>{tableStatusLabel(rightTable)}</dd><dt>Glide {left}</dt><dd>{maxGlideK(leftTable)?.toFixed(2) ?? 'Pendiente'} K</dd><dt>Glide {right}</dt><dd>{maxGlideK(rightTable)?.toFixed(2) ?? 'Pendiente'} K</dd></dl></section><div className="table-wrap"><table><thead><tr><th>Temp.</th><th>{left} bar(a)</th><th>{right} bar(a)</th></tr></thead><tbody>{rows.map(({ left, right }) => <tr key={left.temperatureC}><td>{left.temperatureC} °C</td><td>{left.dewPressurePaAbs === null ? '-' : paAbsoluteToPressure(left.dewPressurePaAbs, 'bar', 'absolute').toFixed(2)}</td><td>{right.dewPressurePaAbs === null ? '-' : paAbsoluteToPressure(right.dewPressurePaAbs, 'bar', 'absolute').toFixed(2)}</td></tr>)}</tbody></table></div><div className="panel warning-panel"><Scale /><strong>No mezclar refrigerantes</strong><p>No se debe considerar un refrigerante como sustituto directo únicamente porque sus presiones sean similares.</p><button>Ver más información</button></div><Notice /></main>
+}
 
 function ChargePage() {
   const [factory, setFactory] = useState('850'); const [included, setIncluded] = useState('5'); const [installed, setInstalled] = useState('9'); const [gpm, setGpm] = useState('20')

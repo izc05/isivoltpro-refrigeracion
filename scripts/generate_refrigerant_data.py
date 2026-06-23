@@ -48,6 +48,25 @@ def classify(ref: str) -> str:
     return "pure"
 
 
+def logspace(start: float, stop: float, count: int) -> list[float]:
+    if start <= 0 or stop <= 0:
+        raise ValueError("logspace requires positive bounds")
+    start_log = math.log(start)
+    stop_log = math.log(stop)
+    return [math.exp(start_log + (stop_log - start_log) * i / (count - 1)) for i in range(count)]
+
+
+def saturation_pressure_at_temp(props, ref: str, temp_c: float, quality: int) -> float | None:
+    return safe_props(props, "P", "T", temp_c + 273.15, "Q", quality, ref)
+
+
+def saturation_temp_at_pressure(props, ref: str, pressure_pa: float, quality: int) -> float | None:
+    temp_k = safe_props(props, "T", "P", pressure_pa, "Q", quality, ref)
+    if temp_k is None:
+        return None
+    return temp_k - 273.15
+
+
 def generate():
     CoolProp = ensure_coolprop()
     from CoolProp.CoolProp import PropsSI  # type: ignore
@@ -77,24 +96,38 @@ def generate():
 
         min_c = max(-60.0, triple_k - 273.15 + 1.0)
         max_c = min(critical_k - 273.15 - 1.0, 65.0)
+
+        min_bubble_pa = saturation_pressure_at_temp(PropsSI, ref, min_c, 0)
+        min_dew_pa = saturation_pressure_at_temp(PropsSI, ref, min_c, 1)
+        max_bubble_pa = saturation_pressure_at_temp(PropsSI, ref, max_c, 0)
+        max_dew_pa = saturation_pressure_at_temp(PropsSI, ref, max_c, 1)
+        pressure_min = max(value for value in [min_bubble_pa, min_dew_pa] if value is not None)
+        pressure_max = min(value for value in [max_bubble_pa, max_dew_pa] if value is not None)
+
         points = []
-        for i in range(0, 126):
-            temp_c = min_c + (max_c - min_c) * i / 125
-            temp_k = temp_c + 273.15
-            bubble_pa = safe_props(PropsSI, "P", "T", temp_k, "Q", 0, ref)
-            dew_pa = safe_props(PropsSI, "P", "T", temp_k, "Q", 1, ref)
-            if bubble_pa is None and dew_pa is None:
+        for pressure in logspace(pressure_min, pressure_max, 181):
+            bubble_c = saturation_temp_at_pressure(PropsSI, ref, pressure, 0)
+            dew_c = saturation_temp_at_pressure(PropsSI, ref, pressure, 1)
+            if bubble_c is None and dew_c is None:
                 continue
-            pressure = dew_pa if dew_pa is not None else bubble_pa
             points.append({
                 "pressurePaAbs": pressure,
-                "bubbleC": temp_c if bubble_pa is not None else None,
-                "dewC": temp_c if dew_pa is not None else None,
-                "source": f"CoolProp {CoolProp.__version__}, PropsSI saturation by temperature",
+                "bubbleC": bubble_c,
+                "dewC": dew_c,
+                "source": f"CoolProp {CoolProp.__version__}, PropsSI saturation by pressure",
                 "warning": None,
             })
 
-        valid = len(points) > 5 and all(points[j]["pressurePaAbs"] > points[j-1]["pressurePaAbs"] for j in range(1, len(points)))
+        valid = (
+            len(points) > 5
+            and all(points[j]["pressurePaAbs"] > points[j-1]["pressurePaAbs"] for j in range(1, len(points)))
+            and all(
+                point["bubbleC"] is None
+                or point["dewC"] is None
+                or point["dewC"] >= point["bubbleC"] - 1e-6
+                for point in points
+            )
+        )
         tables.append({
             "schemaVersion": 1,
             "generatedAt": generated_at,
