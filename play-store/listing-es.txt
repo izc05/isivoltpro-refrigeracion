@@ -1,0 +1,10 @@
+Descripción corta:
+Herramientas locales para técnicos de refrigeración.
+
+Descripción completa:
+IsiVoltPro Refrigeración ayuda a técnicos de aire acondicionado y refrigeración a consultar herramientas de campo, registrar intervenciones y generar informes PDF sin conexión. Los cálculos son orientativos y deben validarse con mediciones, documentación del fabricante y procedimientos profesionales.
+
+Categoría recomendada: Productividad / Herramientas.
+
+Notas versión 1.0.0:
+Primera versión con PWA offline, registros locales, PDF y preparación Android.
