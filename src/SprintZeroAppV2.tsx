@@ -1,12 +1,14 @@
 import { Route, Routes } from 'react-router-dom'
 import './sprint-zero.css'
+import './mobile-reference.css'
 import { Shell } from './sprint0/shared'
 import { HomePage, ToolsPage } from './sprint0/home-tools'
-import { PtPage } from './sprint0/pt-page'
+import { PtPage } from './sprint0/pt-ruler-page'
 import { ConverterPage } from './sprint0/converter-page'
 import { ChargePage, VacuumPage } from './sprint0/charge-vacuum-pages'
 import { ComparePage, DiagnosticsPage, RefrigerantsPage } from './sprint0/data-pages'
-import { InterventionsPage, NotFoundPage, ReportsPage, SettingsPage } from './sprint0/work-pages'
+import { InterventionsPage, NotFoundPage, ReportsPage } from './sprint0/work-pages'
+import { SettingsPage } from './sprint0/settings-page'
 
 export default function SprintZeroAppV2() {
   return <Shell><Routes>
