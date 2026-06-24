@@ -1,3 +1,4 @@
+/* eslint react-refresh/only-export-components: ["error", { "allowExportNames": ["APP_VERSION", "appIconUrl", "preferredPressureUnits", "formatNumber", "parseRequiredNumber", "optionalNumber", "getTable", "isZeotropicWithGlide", "useSettings", "createMeasurementDraft", "downloadBlob"] }] */
 import { useEffect, useState, type ReactNode } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { AlertTriangle, ArrowLeft, CheckCircle2, ClipboardList, FileText, Grid3X3, Home, RefreshCw, Settings, Wifi, WifiOff } from 'lucide-react'
