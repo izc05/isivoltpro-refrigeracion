@@ -612,6 +612,26 @@ tbody tr:nth-child(5) {
 }
 .pt-error { border-color: rgba(239, 68, 68, 0.4); }
 
+.vacuum-chart {
+  height: 110px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: end;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, .18);
+}
+.vacuum-chart span {
+  display: block;
+  min-height: 8px;
+  border-radius: 8px 8px 2px 2px;
+  background: var(--accent-gradient);
+  box-shadow: 0 0 14px var(--primary-glow);
+}
+
 .meter {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

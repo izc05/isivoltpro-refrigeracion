@@ -8,10 +8,17 @@ Aplicación móvil/PWA para técnicos de aire acondicionado y refrigeración. Fu
 - UI mobile first con navegación inferior.
 - Herramientas de presión-temperatura, recalentamiento, subenfriamiento, conversor, carga adicional, diagnóstico, refrigerantes, comparador, intervenciones, informes y ajustes.
 - Conversión de presión absoluta/manométrica y vacío.
+- Conversor técnico con presión, vacío, temperatura, potencia frigorífica, masa, longitud, caudal, electricidad y COP/EER.
+- Calculadora de vacío con fases de prueba, valores inicial/final y gráfica orientativa.
+- Calculadora de carga por peso con g, kg, lb y oz.
 - Interpolación monotónica y cálculo de recalentamiento/subenfriamiento contra tablas generadas.
 - Almacenamiento local Dexie/IndexedDB.
 - PDF A4 con jsPDF.
 - Capacitor Android con `com.isivoltpro.refrigeracion`.
+
+## Roadmap técnico
+
+Las ampliaciones de campo están ordenadas en [ROADMAP_TECHNICAL.md](ROADMAP_TECHNICAL.md). La prioridad actual es cerrar Fase 1 antes de entrar de lleno en equipos, QR, inventario y mantenimiento.
 
 ## Limitación de datos
 

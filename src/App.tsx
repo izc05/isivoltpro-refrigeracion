@@ -11,7 +11,8 @@ import { commercialRefrigerantWarning, commercialRefrigerants } from './data/com
 import { calculateSubcooling, calculateSuperheat, evaluateSubcooling, evaluateSuperheat, interpolatePressureFromTemperature, interpolateTemperatureFromPressure, type ThermalIndicator } from './domain/refrigerants/calculations'
 import { commonPressureRows, formatRange, maxGlideK, tableStatusLabel } from './domain/refrigerants/summary'
 import { altitudeToAtmospherePa, DEFAULT_ATMOSPHERE_PA, formatPressureLabel, paAbsoluteToPressure, pressureToPaAbsolute, parseLocalizedNumber, type PressureKind, type PressureUnit, vacuumToPaAbsolute, paAbsoluteToVacuum, type VacuumUnit } from './domain/units'
-import { calculateAdditionalCharge } from './domain/charge'
+import { calculateAdditionalChargeWithUnits } from './domain/charge'
+import { convertAirflow, convertCoolingPower, convertLength, convertMass, convertTemperature, copFromEer, eerFromCop, singlePhaseCurrent, threePhaseCurrent, type AirflowUnit, type CoolingPowerUnit, type LengthUnit, type MassUnit, type TemperatureUnit } from './domain/technical-conversions'
 import { runDiagnosticRules } from './domain/diagnostics/rules'
 import { db, newId, type Intervention } from './domain/storage/db'
 import { generateInterventionPdf } from './domain/reports/pdf'
@@ -19,10 +20,15 @@ import { generateInterventionPdf } from './domain/reports/pdf'
 const pressureUnits: PressureUnit[] = ['Pa', 'kPa', 'MPa', 'bar', 'PSI', 'kgf/cm2', 'atm']
 const preferredPressureUnits: PressureUnit[] = ['bar', 'PSI', 'kPa', 'MPa']
 const vacuumUnits: VacuumUnit[] = ['micron', 'Pa_abs', 'mbar_abs', 'Torr', 'mmHg', 'inHg', 'bar_abs']
+const massUnits: MassUnit[] = ['g', 'kg', 'lb', 'oz']
+const lengthUnits: LengthUnit[] = ['m', 'ft']
+const coolingPowerUnits: CoolingPowerUnit[] = ['kW', 'frig_h', 'BTU_h']
+const airflowUnits: AirflowUnit[] = ['m3_h', 'l_s', 'CFM']
 const tools = [
   ['Presión - Temperatura', 'Tabla P/T', 'pt', Thermometer],
   ['Recalentamiento', 'Cálculos', 'superheat', ArrowUpDown],
   ['Conversor', 'Presión y vacío', 'converter', Gauge],
+  ['Vacío', 'Micrones y prueba', 'vacuum', Gauge],
   ['Refrigerantes', 'Tablas y datos', 'refrigerants', Table2],
   ['Comparador', 'Compatibilidad', 'compare', Scale],
   ['Calculadora de carga', 'Longitud y carga', 'charge', LockKeyhole],
@@ -204,9 +210,32 @@ function ConverterPage() {
   const [value, setValue] = useState('500')
   const [from, setFrom] = useState<PressureUnit>('bar')
   const [vacuum, setVacuum] = useState<VacuumUnit>('micron')
+  const [temp, setTemp] = useState('25')
+  const [tempUnit, setTempUnit] = useState<TemperatureUnit>('C')
+  const [power, setPower] = useState('3000')
+  const [powerUnit, setPowerUnit] = useState<CoolingPowerUnit>('frig_h')
+  const [mass, setMass] = useState('1')
+  const [massUnit, setMassUnit] = useState<MassUnit>('kg')
+  const [length, setLength] = useState('10')
+  const [lengthUnit, setLengthUnit] = useState<LengthUnit>('m')
+  const [airflow, setAirflow] = useState('500')
+  const [airflowUnit, setAirflowUnit] = useState<AirflowUnit>('m3_h')
+  const [kwElectrical, setKwElectrical] = useState('3,5')
+  const [voltage, setVoltage] = useState('230')
+  const [powerFactor, setPowerFactor] = useState('0,85')
+  const [cop, setCop] = useState('3,2')
   const pa = useMemo(() => pressureToPaAbsolute(Math.max(0.00001, parseLocalizedNumber(value)), from, 'absolute', atmospherePa), [value, from, atmospherePa])
   const vacuumPa = vacuumToPaAbsolute(Math.max(0, parseLocalizedNumber(value)), vacuum)
-  return <main className="screen"><h1 className="page-title">Conversor de presión y vacío</h1><section className="panel form"><label>Tipo de conversión<div className="segmented"><button className="active" type="button">Presión</button><button type="button">Vacío</button></div></label><div className="two-col"><label>Valor de entrada<input inputMode="decimal" value={value} onChange={(e) => setValue(e.target.value)} /></label><label>Unidad<select value={from} onChange={(e) => setFrom(e.target.value as PressureUnit)}>{pressureUnits.map((u) => <option key={u}>{u}</option>)}</select></label></div><div className="data-list">{pressureUnits.slice(0, 6).map((u) => <p key={u}><span>{u}</span><strong>{paAbsoluteToPressure(pa, u, 'absolute', atmospherePa).toFixed(4)}</strong></p>)}</div></section><section className="panel form"><h2>Vacío</h2><select value={vacuum} onChange={(e) => setVacuum(e.target.value as VacuumUnit)}>{vacuumUnits.map((u) => <option key={u}>{u}</option>)}</select><div className="data-list">{vacuumUnits.slice(0, 6).map((u) => <p key={u}><span>{u}</span><strong>{paAbsoluteToVacuum(vacuumPa, u).toFixed(4)}</strong></p>)}</div><p className="hint">Para verificar vacío profundo en refrigeración se necesita un vacuómetro electrónico en micrones.</p></section></main>
+  const tempValue = parseLocalizedNumber(temp)
+  const powerValue = parseLocalizedNumber(power)
+  const massValue = parseLocalizedNumber(mass)
+  const lengthValue = parseLocalizedNumber(length)
+  const airflowValue = parseLocalizedNumber(airflow)
+  const electricalKw = parseLocalizedNumber(kwElectrical)
+  const voltageValue = parseLocalizedNumber(voltage)
+  const pfValue = parseLocalizedNumber(powerFactor)
+  const copValue = parseLocalizedNumber(cop)
+  return <main className="screen"><h1 className="page-title">Conversor técnico</h1><section className="panel form"><h2>Presión</h2><div className="two-col"><label>Valor<input inputMode="decimal" value={value} onChange={(e) => setValue(e.target.value)} /></label><label>Unidad<select value={from} onChange={(e) => setFrom(e.target.value as PressureUnit)}>{pressureUnits.map((u) => <option key={u}>{u}</option>)}</select></label></div><div className="data-list">{(['bar','PSI','kPa','MPa'] as PressureUnit[]).map((u) => <p key={u}><span>{u}</span><strong>{formatNumber(paAbsoluteToPressure(pa, u, 'absolute', atmospherePa), u === 'MPa' ? 4 : 2)}</strong></p>)}</div></section><section className="panel form"><h2>Vacío</h2><div className="two-col"><label>Valor<input inputMode="decimal" value={value} onChange={(e) => setValue(e.target.value)} /></label><label>Unidad<select value={vacuum} onChange={(e) => setVacuum(e.target.value as VacuumUnit)}>{vacuumUnits.map((u) => <option key={u}>{u}</option>)}</select></label></div><div className="data-list">{(['micron','Pa_abs','mbar_abs','inHg'] as VacuumUnit[]).map((u) => <p key={u}><span>{u}</span><strong>{formatNumber(paAbsoluteToVacuum(vacuumPa, u), 4)}</strong></p>)}</div><p className="hint">Para verificar vacío profundo en refrigeración se necesita un vacuómetro electrónico en micrones.</p></section><section className="panel form"><h2>Temperatura</h2><div className="two-col"><label>Valor<input inputMode="decimal" value={temp} onChange={(e) => setTemp(e.target.value)} /></label><label>Unidad<select value={tempUnit} onChange={(e) => setTempUnit(e.target.value as TemperatureUnit)}><option value="C">°C</option><option value="F">°F</option></select></label></div><div className="data-list"><p><span>°C</span><strong>{formatNumber(convertTemperature(tempValue, tempUnit, 'C'))}</strong></p><p><span>°F</span><strong>{formatNumber(convertTemperature(tempValue, tempUnit, 'F'))}</strong></p></div></section><section className="panel form"><h2>Potencia frigorífica</h2><div className="two-col"><label>Valor<input inputMode="decimal" value={power} onChange={(e) => setPower(e.target.value)} /></label><label>Unidad<select value={powerUnit} onChange={(e) => setPowerUnit(e.target.value as CoolingPowerUnit)}>{coolingPowerUnits.map((u) => <option key={u}>{u}</option>)}</select></label></div><div className="data-list">{coolingPowerUnits.map((u) => <p key={u}><span>{u}</span><strong>{formatNumber(convertCoolingPower(powerValue, powerUnit, u), u === 'kW' ? 2 : 0)}</strong></p>)}</div></section><section className="panel form"><h2>Masa y longitud</h2><div className="two-col"><label>Masa<input inputMode="decimal" value={mass} onChange={(e) => setMass(e.target.value)} /></label><label>Unidad<select value={massUnit} onChange={(e) => setMassUnit(e.target.value as MassUnit)}>{massUnits.map((u) => <option key={u}>{u}</option>)}</select></label></div><div className="data-list">{massUnits.map((u) => <p key={u}><span>{u}</span><strong>{formatNumber(convertMass(massValue, massUnit, u), u === 'g' ? 0 : 3)}</strong></p>)}</div><div className="two-col"><label>Longitud<input inputMode="decimal" value={length} onChange={(e) => setLength(e.target.value)} /></label><label>Unidad<select value={lengthUnit} onChange={(e) => setLengthUnit(e.target.value as LengthUnit)}>{lengthUnits.map((u) => <option key={u}>{u}</option>)}</select></label></div><div className="data-list">{lengthUnits.map((u) => <p key={u}><span>{u}</span><strong>{formatNumber(convertLength(lengthValue, lengthUnit, u), 2)}</strong></p>)}</div></section><section className="panel form"><h2>Caudal de aire</h2><div className="two-col"><label>Valor<input inputMode="decimal" value={airflow} onChange={(e) => setAirflow(e.target.value)} /></label><label>Unidad<select value={airflowUnit} onChange={(e) => setAirflowUnit(e.target.value as AirflowUnit)}>{airflowUnits.map((u) => <option key={u}>{u}</option>)}</select></label></div><div className="data-list">{airflowUnits.map((u) => <p key={u}><span>{u}</span><strong>{formatNumber(convertAirflow(airflowValue, airflowUnit, u), 1)}</strong></p>)}</div></section><section className="panel form"><h2>Eléctrico y rendimiento</h2><div className="two-col"><label>Potencia kW<input inputMode="decimal" value={kwElectrical} onChange={(e) => setKwElectrical(e.target.value)} /></label><label>Tensión V<input inputMode="decimal" value={voltage} onChange={(e) => setVoltage(e.target.value)} /></label></div><label>Factor de potencia<input inputMode="decimal" value={powerFactor} onChange={(e) => setPowerFactor(e.target.value)} /></label><div className="data-list"><p><span>Intensidad monofásica</span><strong>{formatNumber(singlePhaseCurrent(electricalKw, voltageValue, pfValue))} A</strong></p><p><span>Intensidad trifásica</span><strong>{formatNumber(threePhaseCurrent(electricalKw, 400, pfValue))} A</strong></p></div><label>COP<input inputMode="decimal" value={cop} onChange={(e) => setCop(e.target.value)} /></label><div className="data-list"><p><span>EER desde COP</span><strong>{formatNumber(eerFromCop(copValue), 2)}</strong></p><p><span>COP desde EER 12</span><strong>{formatNumber(copFromEer(12), 2)}</strong></p></div><p className="hint">Los cálculos eléctricos son orientativos y deben verificarse con REBT, fabricante y condiciones reales de instalación.</p></section></main>
 }
 
 function RefrigerantsPage() {
@@ -226,9 +255,33 @@ function ComparePage() {
 }
 
 function ChargePage() {
-  const [factory, setFactory] = useState('850'); const [included, setIncluded] = useState('5'); const [installed, setInstalled] = useState('9'); const [gpm, setGpm] = useState('20')
-  const r = calculateAdditionalCharge(parseLocalizedNumber(factory), parseLocalizedNumber(included), parseLocalizedNumber(installed), parseLocalizedNumber(gpm))
-  return <main className="screen"><h1 className="page-title">Calculadora de carga</h1><div className="panel form compact-form"><label>Carga de fábrica (g)<input value={factory} onChange={(e) => setFactory(e.target.value)} /></label><label>Longitud incluida (m)<input value={included} onChange={(e) => setIncluded(e.target.value)} /></label><label>Longitud instalada (m)<input value={installed} onChange={(e) => setInstalled(e.target.value)} /></label><label>Carga adicional (g/m)<input value={gpm} onChange={(e) => setGpm(e.target.value)} /></label></div><section className="result-panel charge-result"><small>Carga total calculada</small><strong>{(r.totalChargeG / 1000).toFixed(3)} kg</strong><p>Longitud adicional: {r.additionalLengthM.toFixed(0)} m · Carga adicional: {r.additionalChargeG.toFixed(0)} g</p></section><p className="hint">Introducir siempre la carga en líquido según indicaciones del fabricante.</p><button className="full-width">Guardar en intervención</button></main>
+  const [factory, setFactory] = useState('0,85')
+  const [factoryUnit, setFactoryUnit] = useState<MassUnit>('kg')
+  const [included, setIncluded] = useState('5')
+  const [installed, setInstalled] = useState('12')
+  const [lengthUnit, setLengthUnit] = useState<LengthUnit>('m')
+  const [gpm, setGpm] = useState('20')
+  const [recovered, setRecovered] = useState('0')
+  const [added, setAdded] = useState('0')
+  const [movementUnit, setMovementUnit] = useState<MassUnit>('g')
+  const r = calculateAdditionalChargeWithUnits({ factoryCharge: parseLocalizedNumber(factory), factoryUnit, includedLength: parseLocalizedNumber(included), installedLength: parseLocalizedNumber(installed), lengthUnit, additionalPerMeterG: parseLocalizedNumber(gpm), recovered: parseLocalizedNumber(recovered), recoveredUnit: movementUnit, added: parseLocalizedNumber(added), addedUnit: movementUnit })
+  return <main className="screen"><h1 className="page-title">Calculadora de carga</h1><div className="panel form compact-form"><div className="two-col"><label>Carga placa<input inputMode="decimal" value={factory} onChange={(e) => setFactory(e.target.value)} /></label><label>Unidad<select value={factoryUnit} onChange={(e) => setFactoryUnit(e.target.value as MassUnit)}>{massUnits.map((unit) => <option key={unit}>{unit}</option>)}</select></label></div><div className="two-col"><label>Longitud incluida<input inputMode="decimal" value={included} onChange={(e) => setIncluded(e.target.value)} /></label><label>Longitud instalada<input inputMode="decimal" value={installed} onChange={(e) => setInstalled(e.target.value)} /></label></div><label>Unidad longitud<select value={lengthUnit} onChange={(e) => setLengthUnit(e.target.value as LengthUnit)}>{lengthUnits.map((unit) => <option key={unit}>{unit}</option>)}</select></label><label>Carga adicional indicada por fabricante (g/m)<input inputMode="decimal" value={gpm} onChange={(e) => setGpm(e.target.value)} /></label><div className="two-col"><label>Cantidad recuperada<input inputMode="decimal" value={recovered} onChange={(e) => setRecovered(e.target.value)} /></label><label>Cantidad añadida<input inputMode="decimal" value={added} onChange={(e) => setAdded(e.target.value)} /></label></div><label>Unidad recuperada/añadida<select value={movementUnit} onChange={(e) => setMovementUnit(e.target.value as MassUnit)}>{massUnits.map((unit) => <option key={unit}>{unit}</option>)}</select></label></div><section className="result-panel charge-result"><small>Carga total orientativa</small><strong>{formatNumber(r.totalChargeG / 1000, 3)} kg</strong><div className="data-list thermal-data"><p><span>Carga nominal</span><strong>{formatNumber(r.totalChargeG / 1000 - r.additionalChargeG / 1000, 3)} kg</strong></p><p><span>Longitud adicional</span><strong>{formatNumber(r.additionalLengthM, 1)} m</strong></p><p><span>Carga adicional calculada</span><strong>{formatNumber(r.additionalChargeG, 0)} g</strong></p><p><span>Recuperado / añadido</span><strong>{formatNumber(r.recoveredG, 0)} g / {formatNumber(r.addedG, 0)} g</strong></p></div></section><p className="notice">La carga final debe realizarse según la placa, el manual del fabricante y el procedimiento técnico aplicable. No debe determinarse únicamente por presión.</p><button className="full-width">Guardar en intervención</button></main>
+}
+
+function VacuumPage() {
+  const [microns, setMicrons] = useState('500')
+  const [initial, setInitial] = useState('2500')
+  const [finalValue, setFinalValue] = useState('650')
+  const [vacuumMinutes, setVacuumMinutes] = useState('30')
+  const [stabilityMinutes, setStabilityMinutes] = useState('10')
+  const [ambient, setAmbient] = useState('24')
+  const [phase, setPhase] = useState<'process' | 'isolation' | 'stability' | 'finished'>('process')
+  const pa = vacuumToPaAbsolute(parseLocalizedNumber(microns), 'micron')
+  const initialNumber = parseLocalizedNumber(initial)
+  const finalNumber = parseLocalizedNumber(finalValue)
+  const trend = [initialNumber, (initialNumber + finalNumber) / 2, finalNumber].filter(Number.isFinite)
+  const maxTrend = Math.max(...trend, 1)
+  return <main className="screen"><h1 className="page-title">Vacío y estabilidad</h1><section className="panel form compact-form"><label>Fase<div className="segmented two-segment"><button type="button" className={phase === 'process' ? 'active' : ''} onClick={() => setPhase('process')}>Vacío</button><button type="button" className={phase === 'isolation' ? 'active' : ''} onClick={() => setPhase('isolation')}>Aislar</button><button type="button" className={phase === 'stability' ? 'active' : ''} onClick={() => setPhase('stability')}>Estabilidad</button><button type="button" className={phase === 'finished' ? 'active' : ''} onClick={() => setPhase('finished')}>Fin</button></div></label><div className="two-col"><label>Micrones actuales<input inputMode="decimal" value={microns} onChange={(e) => setMicrons(e.target.value)} /></label><label>Temperatura ambiente °C<input inputMode="decimal" value={ambient} onChange={(e) => setAmbient(e.target.value)} /></label></div><div className="two-col"><label>Valor inicial μm<input inputMode="decimal" value={initial} onChange={(e) => setInitial(e.target.value)} /></label><label>Valor final μm<input inputMode="decimal" value={finalValue} onChange={(e) => setFinalValue(e.target.value)} /></label></div><div className="two-col"><label>Tiempo vacío min<input inputMode="decimal" value={vacuumMinutes} onChange={(e) => setVacuumMinutes(e.target.value)} /></label><label>Prueba estabilidad min<input inputMode="decimal" value={stabilityMinutes} onChange={(e) => setStabilityMinutes(e.target.value)} /></label></div></section><section className="result-panel"><small>{phase === 'process' ? 'Vacío en proceso' : phase === 'isolation' ? 'Aislamiento de bomba' : phase === 'stability' ? 'Prueba de estabilidad' : 'Prueba terminada'}</small><strong>{formatNumber(parseLocalizedNumber(microns), 0)} μm</strong><div className="data-list thermal-data"><p><span>mbar absolutos</span><strong>{formatNumber(paAbsoluteToVacuum(pa, 'mbar_abs'), 4)}</strong></p><p><span>Pa absolutos</span><strong>{formatNumber(paAbsoluteToVacuum(pa, 'Pa_abs'), 2)}</strong></p><p><span>inHg absoluto</span><strong>{formatNumber(paAbsoluteToVacuum(pa, 'inHg'), 4)}</strong></p><p><span>Variación estabilidad</span><strong>{formatNumber(finalNumber - initialNumber, 0)} μm</strong></p></div><div className="vacuum-chart" aria-label="Evolución orientativa del vacío">{trend.map((value, index) => <span key={index} style={{ height: `${Math.max(8, 100 - (value / maxTrend) * 92)}%` }} />)}</div></section><p className="notice">No usar solamente el manómetro analógico de baja presión para certificar un vacío profundo. Utiliza vacuómetro electrónico en micrones y el procedimiento del fabricante.</p></main>
 }
 
 function DiagnosticsPage() { 
@@ -336,5 +389,5 @@ function SettingsPage() {
 }
 
 export default function App() {
-  return <Shell><Routes><Route path="/" element={<HomePage />} /><Route path="/pt" element={<PtPage />} /><Route path="/superheat" element={<PtPage mode="superheat" />} /><Route path="/subcooling" element={<PtPage mode="subcooling" />} /><Route path="/converter" element={<ConverterPage />} /><Route path="/refrigerants" element={<RefrigerantsPage />} /><Route path="/compare" element={<ComparePage />} /><Route path="/charge" element={<ChargePage />} /><Route path="/diagnostics" element={<DiagnosticsPage />} /><Route path="/interventions" element={<InterventionsPage />} /><Route path="/reports" element={<ReportsPage />} /><Route path="/settings" element={<SettingsPage />} /><Route path="/tools" element={<HomePage />} /></Routes></Shell>
+  return <Shell><Routes><Route path="/" element={<HomePage />} /><Route path="/pt" element={<PtPage />} /><Route path="/superheat" element={<PtPage mode="superheat" />} /><Route path="/subcooling" element={<PtPage mode="subcooling" />} /><Route path="/converter" element={<ConverterPage />} /><Route path="/vacuum" element={<VacuumPage />} /><Route path="/refrigerants" element={<RefrigerantsPage />} /><Route path="/compare" element={<ComparePage />} /><Route path="/charge" element={<ChargePage />} /><Route path="/diagnostics" element={<DiagnosticsPage />} /><Route path="/interventions" element={<InterventionsPage />} /><Route path="/reports" element={<ReportsPage />} /><Route path="/settings" element={<SettingsPage />} /><Route path="/tools" element={<HomePage />} /></Routes></Shell>
 }
