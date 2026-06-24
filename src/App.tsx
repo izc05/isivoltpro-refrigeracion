@@ -29,6 +29,8 @@ const tools = [
   ['Intervenciones', 'Registro y clientes', 'interventions', ClipboardList],
 ] as const
 
+const appIconUrl = `${import.meta.env.BASE_URL}icons/icon.png`
+
 type ThermalResult = {
   resultK: number
   saturationC: number
@@ -67,7 +69,7 @@ function Shell({ children }: { children: React.ReactNode }) {
 }
 
 function HomePage() {
-  return <main className="screen home-screen"><section className="brand-panel"><img src="/icons/icon.png" alt="IsiVoltPro Logo" /><div><h1>IsiVoltPro</h1><p>Refrigeración</p><span>Cálculo, diagnóstico y control de refrigerantes</span></div></section><div className="tool-grid">{tools.map(([label, subtitle, path, Icon]) => <NavLink className="tool-card" to={`/${path}`} key={path}><Icon /><strong>{label}</strong><small>{subtitle}</small></NavLink>)}</div><NavLink className="wide-action" to="/reports"><FileText />Informe PDF</NavLink><section className="info-grid"><article className="info-card"><h2>Características principales</h2><ul><li>Tablas P/T con burbuja y rocío cuando existan datos generados.</li><li>Cálculo de recalentamiento y subenfriamiento.</li><li>Registro local de intervenciones y PDF.</li><li>Funciona sin conexión.</li></ul></article><article className="info-card"><h2>Base de datos</h2><Database /><p>Los datos termodinámicos se generan con CoolProp y se almacenan localmente para uso sin conexión.</p></article><article className="info-card"><h2>Tecnologías</h2><p>React + TypeScript · Vite · Capacitor · PWA · IndexedDB</p></article></section><footer className="legal-strip">Herramienta orientativa para técnicos. Usar siempre procedimientos y normas de seguridad aplicables. <span>Versión 1.0.0</span></footer></main>
+  return <main className="screen home-screen"><section className="brand-panel"><img src={appIconUrl} alt="IsiVoltPro Logo" /><div><h1>IsiVoltPro</h1><p>Refrigeración</p><span>Cálculo, diagnóstico y control de refrigerantes</span></div></section><div className="tool-grid">{tools.map(([label, subtitle, path, Icon]) => <NavLink className="tool-card" to={`/${path}`} key={path}><Icon /><strong>{label}</strong><small>{subtitle}</small></NavLink>)}</div><NavLink className="wide-action" to="/reports"><FileText />Informe PDF</NavLink><section className="info-grid"><article className="info-card"><h2>Características principales</h2><ul><li>Tablas P/T con burbuja y rocío cuando existan datos generados.</li><li>Cálculo de recalentamiento y subenfriamiento.</li><li>Registro local de intervenciones y PDF.</li><li>Funciona sin conexión.</li></ul></article><article className="info-card"><h2>Base de datos</h2><Database /><p>Los datos termodinámicos se generan con CoolProp y se almacenan localmente para uso sin conexión.</p></article><article className="info-card"><h2>Tecnologías</h2><p>React + TypeScript · Vite · Capacitor · PWA · IndexedDB</p></article></section><footer className="legal-strip">Herramienta orientativa para técnicos. Usar siempre procedimientos y normas de seguridad aplicables. <span>Versión 1.0.0</span></footer></main>
 }
 
 function SaturationTable({ table, unit, kind, atmospherePa }: { table: RefrigerantTable; unit: PressureUnit; kind: PressureKind; atmospherePa: number }) {
@@ -88,6 +90,7 @@ function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcooling' }) {
   const [unit, setUnit] = useState<PressureUnit>('bar')
   const [kind, setKind] = useState<PressureKind>('gauge')
   const [result, setResult] = useState('Introduce datos y dale a calcular.')
+  const [ptDirection, setPtDirection] = useState<'pressure-to-temp' | 'temp-to-pressure'>('pressure-to-temp')
   const [thermalResult, setThermalResult] = useState<ThermalResult | null>(null)
   const table = getTable(refrigerant)
   const isSuperheat = mode === 'superheat'
@@ -95,8 +98,10 @@ function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcooling' }) {
   const title = isSuperheat ? 'Recalentamiento' : isSubcooling ? 'Subenfriamiento' : 'Presión - Temperatura'
   const calculate = () => {
     try {
-      const p = pressureToPaAbsolute(parseLocalizedNumber(pressure), unit, kind, atmospherePa)
-      const measuredC = parseLocalizedNumber(temperature)
+      const needsPressure = mode !== 'pt' || ptDirection === 'pressure-to-temp'
+      const needsTemperature = mode !== 'pt' || ptDirection === 'temp-to-pressure'
+      const p = needsPressure ? pressureToPaAbsolute(parseLocalizedNumber(pressure), unit, kind, atmospherePa) : 0
+      const measuredC = needsTemperature ? parseLocalizedNumber(temperature) : 0
       if (isSuperheat) {
         const saturationC = interpolateTemperatureFromPressure(table, p, 'dew')
         const resultK = calculateSuperheat(p, measuredC, table)
@@ -109,14 +114,19 @@ function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcooling' }) {
         setResult(`${resultK.toFixed(1)} K`)
       } else {
         setThermalResult(null)
-        const dew = interpolateTemperatureFromPressure(table, p, 'dew')
-        const bubble = interpolateTemperatureFromPressure(table, p, 'bubble')
-        const pressureFromTemp = paAbsoluteToPressure(interpolatePressureFromTemperature(table, parseLocalizedNumber(temperature), 'dew'), unit, kind, atmospherePa)
-        setResult(`Rocío ${dew.toFixed(2)} °C · Burbuja ${bubble.toFixed(2)} °C · ${pressureFromTemp.toFixed(3)} ${formatPressureLabel(unit, kind)}`)
+        if (ptDirection === 'pressure-to-temp') {
+          const dew = interpolateTemperatureFromPressure(table, p, 'dew')
+          const bubble = interpolateTemperatureFromPressure(table, p, 'bubble')
+          setResult(`Burbuja ${bubble.toFixed(2)} °C · Rocío ${dew.toFixed(2)} °C`)
+        } else {
+          const bubblePressure = interpolatePressureFromTemperature(table, measuredC, 'bubble')
+          const dewPressure = interpolatePressureFromTemperature(table, measuredC, 'dew')
+          setResult(`Burbuja ${paAbsoluteToPressure(bubblePressure, unit, kind, atmospherePa).toFixed(2)} · Rocío ${paAbsoluteToPressure(dewPressure, unit, kind, atmospherePa).toFixed(2)} ${formatPressureLabel(unit, kind)}`)
+        }
       }
     } catch (error) { setResult(error instanceof Error ? error.message : 'No se pudo calcular.') }
   }
-  return <main className="screen"><h1 className="page-title">{title}</h1><section className="panel form compact-form"><label>Refrigerante<select value={refrigerant} onChange={(e) => setRefrigerant(e.target.value)}>{refrigerantTables.map((table) => <option key={table.refrigerant}>{table.refrigerant}</option>)}</select></label>{mode === 'pt' && <UnitTabs unit={unit} setUnit={setUnit} />}<div className="two-col"><label>Presión<input inputMode="decimal" value={pressure} onChange={(e) => setPressure(e.target.value)} /></label><label>Tipo<select value={kind} onChange={(e) => setKind(e.target.value as PressureKind)}><option value="absolute">Absoluta</option><option value="gauge">Manométrica</option></select></label></div>{mode !== 'pt' && <label>{isSuperheat ? 'Temperatura de la tubería (°C)' : 'Temperatura línea líquido (°C)'}<input inputMode="decimal" value={temperature} onChange={(e) => setTemperature(e.target.value)} /></label>}<button onClick={calculate}>Calcular</button></section>{mode === 'pt' ? <><SaturationTable table={table} unit={unit} kind={kind} atmospherePa={atmospherePa} /><div className="button-row"><button>Tabla completa</button><button className="secondary"><BarChart3 />Gráfico</button></div></> : <section className={`result-panel result-${thermalResult?.indicator.tone ?? 'idle'}`}><small>{thermalResult ? thermalResult.indicator.label : 'Resultado'}</small><strong>{result}</strong>{thermalResult && <div className="data-list thermal-data"><p><span>Temperatura saturación</span><strong>{thermalResult.saturationC.toFixed(1)} °C</strong></p><p><span>Temperatura medida</span><strong>{thermalResult.measuredC.toFixed(1)} °C</strong></p><p><span>Presión absoluta</span><strong>{(thermalResult.pressurePaAbs / 100000).toFixed(2)} bar(a)</strong></p></div>}<div className="meter"><span /><span /><span /></div><p>{thermalResult?.indicator.explanation ?? 'Resultado orientativo. Debe interpretarse junto con subenfriamiento, temperaturas, caudal de aire, carga térmica y datos del fabricante.'}</p>{thermalResult && <ul className="check-list">{thermalResult.indicator.checks.map((check) => <li key={check}>{check}</li>)}</ul>}</section>}{kind === 'gauge' && <p className="hint">La conversión depende de la presión atmosférica configurada: {atmospherePa} Pa.</p>}</main>
+  return <main className="screen"><h1 className="page-title">{title}</h1><section className="panel form compact-form"><label>Refrigerante<select value={refrigerant} onChange={(e) => setRefrigerant(e.target.value)}>{refrigerantTables.map((table) => <option key={table.refrigerant}>{table.refrigerant}</option>)}</select></label>{mode === 'pt' && <><label>Dirección de cálculo<div className="segmented two-segment"><button type="button" className={ptDirection === 'pressure-to-temp' ? 'active' : ''} onClick={() => setPtDirection('pressure-to-temp')}>Presión → Temp.</button><button type="button" className={ptDirection === 'temp-to-pressure' ? 'active' : ''} onClick={() => setPtDirection('temp-to-pressure')}>Temp. → Presión</button></div></label><UnitTabs unit={unit} setUnit={setUnit} /></>}<div className="two-col"><label>Presión<input inputMode="decimal" value={pressure} onChange={(e) => setPressure(e.target.value)} /></label><label>Tipo<select value={kind} onChange={(e) => setKind(e.target.value as PressureKind)}><option value="absolute">Absoluta</option><option value="gauge">Manométrica</option></select></label></div><label>{mode === 'pt' ? 'Temperatura objetivo (°C)' : isSuperheat ? 'Temperatura de la tubería (°C)' : 'Temperatura línea líquido (°C)'}<input inputMode="decimal" value={temperature} onChange={(e) => setTemperature(e.target.value)} /></label><button onClick={calculate}>Calcular</button></section>{mode === 'pt' ? <><section className="result-panel pt-result"><small>{ptDirection === 'pressure-to-temp' ? 'Saturación desde presión' : 'Presión desde temperatura'}</small><strong>{result}</strong><p>Para mezclas zeotrópicas, usa rocío en recalentamiento y burbuja en subenfriamiento.</p></section><SaturationTable table={table} unit={unit} kind={kind} atmospherePa={atmospherePa} /><div className="button-row"><button>Tabla completa</button><button className="secondary"><BarChart3 />Gráfico</button></div></> : <section className={`result-panel result-${thermalResult?.indicator.tone ?? 'idle'}`}><small>{thermalResult ? thermalResult.indicator.label : 'Resultado'}</small><strong>{result}</strong>{thermalResult && <div className="data-list thermal-data"><p><span>Temperatura saturación</span><strong>{thermalResult.saturationC.toFixed(1)} °C</strong></p><p><span>Temperatura medida</span><strong>{thermalResult.measuredC.toFixed(1)} °C</strong></p><p><span>Presión absoluta</span><strong>{(thermalResult.pressurePaAbs / 100000).toFixed(2)} bar(a)</strong></p></div>}<div className="meter"><span /><span /><span /></div><p>{thermalResult?.indicator.explanation ?? 'Resultado orientativo. Debe interpretarse junto con subenfriamiento, temperaturas, caudal de aire, carga térmica y datos del fabricante.'}</p>{thermalResult && <ul className="check-list">{thermalResult.indicator.checks.map((check) => <li key={check}>{check}</li>)}</ul>}</section>}{kind === 'gauge' && <p className="hint">La conversión depende de la presión atmosférica configurada: {atmospherePa} Pa.</p>}</main>
 }
 
 function ConverterPage() {
