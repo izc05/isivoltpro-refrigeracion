@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { RefrigerantTable } from '../data/generated/refrigerants'
-import { calculateSubcooling, calculateSuperheat, interpolatePressureFromTemperature, interpolateTemperatureFromPressure } from '../domain/refrigerants/calculations'
+import { calculateSubcooling, calculateSuperheat, evaluateSubcooling, evaluateSuperheat, interpolatePressureFromTemperature, interpolateTemperatureFromPressure } from '../domain/refrigerants/calculations'
 
 const fixture: RefrigerantTable = {
   schemaVersion: 1,
@@ -32,5 +32,10 @@ describe('refrigerant interpolation and calculations', () => {
   })
   it('rejects values outside the generated range', () => {
     expect(() => interpolateTemperatureFromPressure(fixture, 1, 'dew')).toThrow(RangeError)
+  })
+  it('classifies orientative field indicators', () => {
+    expect(evaluateSuperheat(16).label).toBe('Elevado')
+    expect(evaluateSuperheat(7).label).toBe('Normal')
+    expect(evaluateSubcooling(1).label).toBe('Bajo')
   })
 })
