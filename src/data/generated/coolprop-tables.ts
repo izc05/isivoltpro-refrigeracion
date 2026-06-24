@@ -3,7 +3,7 @@ import type { RefrigerantTable } from './refrigerants'
 export const generatedRefrigerantTables: RefrigerantTable[] = [
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R32",
@@ -1289,7 +1289,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R410A",
@@ -2575,7 +2575,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R134a",
@@ -3861,7 +3861,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R407C",
@@ -5147,7 +5147,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R404A",
@@ -6433,7 +6433,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R22",
@@ -7719,7 +7719,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R290",
@@ -9005,7 +9005,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R600a",
@@ -10291,7 +10291,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R1234yf",
@@ -11577,7 +11577,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R744",
@@ -12863,7 +12863,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
     "generator": "pending",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R454B",
@@ -12881,7 +12881,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T16:57:18.691999+00:00",
+    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
     "generator": "pending",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R454C",
