@@ -58,8 +58,9 @@ export function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcoolin
   const [full, setFull] = useState(false)
   const [chart, setChart] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [showOptions, setShowOptions] = useState(true)
   const table = getTable(refrigerant)
-  const metadata = refrigerantMetadata[refrigerant]
+  const metadata = refrigerantMetadata[table.refrigerant]
   const superheat = mode === 'superheat'
   const subcooling = mode === 'subcooling'
   const title = superheat ? 'Recalentamiento' : subcooling ? 'Subenfriamiento' : 'Regla de refrigerantes'
@@ -157,15 +158,15 @@ export function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcoolin
 
     <section className="sz-pt-toolbar">
       <label>Refrigerante<select value={refrigerant} onChange={(event) => setRefrigerant(event.target.value)}>{refrigerantTables.map((item) => <option key={item.refrigerant}>{item.refrigerant}</option>)}</select></label>
-      <button className="sz-icon-button sz-pt-settings-button" type="button" aria-label="Opciones de cálculo"><SlidersHorizontal /></button>
+      <button className={`sz-icon-button sz-pt-settings-button ${showOptions ? 'active' : ''}`} type="button" aria-label="Mostrar u ocultar opciones de cálculo" aria-expanded={showOptions} onClick={() => setShowOptions(!showOptions)}><SlidersHorizontal /></button>
     </section>
 
     {mode === 'pt' && <>
-      <section className="sz-pt-options">
+      {showOptions && <section className="sz-pt-options">
         <div className="sz-setting-segments"><button type="button" className={direction === 'pressure' ? 'active' : ''} onClick={() => setDirection('pressure')}>Presión → temperatura</button><button type="button" className={direction === 'temperature' ? 'active' : ''} onClick={() => setDirection('temperature')}>Temperatura → presión</button></div>
         <div className="sz-two-columns"><label>Unidad de presión<select value={unit} onChange={(event) => setUnit(event.target.value as PressureUnit)}><option value="bar">bar</option><option value="PSI">PSI</option><option value="kPa">kPa</option><option value="MPa">MPa</option></select></label><label>Referencia<select value={kind} onChange={(event) => setKind(event.target.value as PressureKind)}><option value="gauge">Manométrica</option><option value="absolute">Absoluta</option></select></label></div>
         <div className="sz-setting-segments"><button type="button" className={application === 'evaporacion' ? 'active' : ''} onClick={() => setApplication('evaporacion')}>Rocío · evaporación</button><button type="button" className={application === 'condensacion' ? 'active' : ''} onClick={() => setApplication('condensacion')}>Burbuja · condensación</button></div>
-      </section>
+      </section>}
 
       {direction === 'pressure' ? <section className="sz-ruler-shell">
         <div className="sz-ruler-header"><strong>{formatPressureLabel(unit, kind)}</strong><strong>{refrigerant}</strong><strong>{temperatureSymbol(temperatureUnit)}</strong></div>
