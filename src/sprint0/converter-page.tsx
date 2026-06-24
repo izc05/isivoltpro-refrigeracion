@@ -16,7 +16,13 @@ function Section({ title, children, open = false }: { title: string; children: R
   return <section className="sz-panel sz-collapsible"><button className="sz-collapsible-head" type="button" onClick={() => setShown(!shown)}><span><Wrench/><strong>{title}</strong></span>{shown ? <ChevronUp/> : <ChevronDown/>}</button>{shown && <div className="sz-collapsible-body">{children}</div>}</section>
 }
 
-function Safe({ fn, digits = 2, suffix = '' }: { fn: () => number; digits?: number; suffix?: string }) { try { return <strong>{formatNumber(fn(), digits)}{suffix}</strong> } catch { return <strong>—</strong> } }
+function safeValue(fn: () => number, digits: number, suffix: string) {
+  try { return `${formatNumber(fn(), digits)}${suffix}` } catch { return '—' }
+}
+
+function Safe({ fn, digits = 2, suffix = '' }: { fn: () => number; digits?: number; suffix?: string }) {
+  return <strong>{safeValue(fn, digits, suffix)}</strong>
+}
 
 export function ConverterPage() {
   const { atmospherePa } = useSettings()

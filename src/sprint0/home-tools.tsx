@@ -1,3 +1,4 @@
+/* eslint react-refresh/only-export-components: ["error", { "allowExportNames": ["tools"] }] */
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { ArrowUpDown, Database, FileText, Gauge, Grid3X3, LockKeyhole, Plus, Scale, Search, Stethoscope, Table2, Thermometer } from 'lucide-react'
