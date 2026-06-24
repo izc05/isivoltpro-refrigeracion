@@ -6,7 +6,8 @@ import { useForm } from 'react-hook-form'
 import { ArrowLeft, ArrowUpDown, BarChart3, ClipboardList, Database, FileText, Gauge, Grid3X3, Home, LockKeyhole, Menu, Scale, Settings, Stethoscope, Table2, Thermometer } from 'lucide-react'
 import './index.css'
 import { refrigerantTables, type RefrigerantTable } from './data/generated'
-import { refrigerantMetadata } from './data/refrigerant-metadata'
+import { refrigerantCategoryLabels, refrigerantMetadata, type RefrigerantCategory } from './data/refrigerant-metadata'
+import { commercialRefrigerantWarning, commercialRefrigerants } from './data/commercial-refrigerants'
 import { calculateSubcooling, calculateSuperheat, evaluateSubcooling, evaluateSuperheat, interpolatePressureFromTemperature, interpolateTemperatureFromPressure, type ThermalIndicator } from './domain/refrigerants/calculations'
 import { commonPressureRows, formatRange, maxGlideK, tableStatusLabel } from './domain/refrigerants/summary'
 import { altitudeToAtmospherePa, DEFAULT_ATMOSPHERE_PA, formatPressureLabel, paAbsoluteToPressure, pressureToPaAbsolute, parseLocalizedNumber, type PressureKind, type PressureUnit, vacuumToPaAbsolute, paAbsoluteToVacuum, type VacuumUnit } from './domain/units'
@@ -37,6 +38,26 @@ type ThermalResult = {
   measuredC: number
   pressurePaAbs: number
   indicator: ThermalIndicator
+}
+
+type PtDirection = 'pressure-to-temp' | 'temp-to-pressure'
+type PtResult = {
+  pressureMeasured?: { value: string; saturationC: string; bubbleC: number; dewC: number }
+  temperatureTarget?: { value: string; pressure: string; bubblePressure: number; dewPressure: number }
+  glideK: number | null
+  zeotropic: boolean
+  error?: string
+}
+
+const formatNumber = (value: number, digits = 2) => value.toLocaleString('es-ES', { minimumFractionDigits: digits, maximumFractionDigits: digits })
+
+function isZeotropicWithGlide(table: RefrigerantTable): boolean {
+  const glide = maxGlideK(table)
+  return table.refrigerantType === 'zeotropic' && glide !== null && glide > 0.1
+}
+
+function refrigerantOptions(category: RefrigerantCategory | 'all' = 'all') {
+  return refrigerantTables.filter((table) => category === 'all' || refrigerantMetadata[table.refrigerant].category === category)
 }
 
 function getTable(name: string): RefrigerantTable {
@@ -79,23 +100,27 @@ function SaturationTable({ table, unit, kind, atmospherePa }: { table: Refrigera
 }
 
 function UnitTabs({ unit, setUnit }: { unit: PressureUnit; setUnit: (unit: PressureUnit) => void }) {
-  return <div className="segmented">{preferredPressureUnits.map((u) => <button type="button" className={unit === u ? 'active' : ''} onClick={() => setUnit(u)} key={u}>{u === 'bar' ? 'Bar(g)' : u === 'PSI' ? 'PSI(g)' : u}</button>)}</div>
+  return <div className="segmented">{preferredPressureUnits.map((u) => <button type="button" className={unit === u ? 'active' : ''} onClick={() => setUnit(u)} key={u}>{u}</button>)}</div>
 }
 
 function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcooling' }) {
   const { atmospherePa } = useSettings()
   const [refrigerant, setRefrigerant] = useState('R32')
-  const [pressure, setPressure] = useState('7,50')
+  const [pressure, setPressure] = useState('9')
   const [temperature, setTemperature] = useState(mode === 'pt' ? '5' : '12,5')
   const [unit, setUnit] = useState<PressureUnit>('bar')
   const [kind, setKind] = useState<PressureKind>('gauge')
   const [result, setResult] = useState('Introduce datos y dale a calcular.')
-  const [ptDirection, setPtDirection] = useState<'pressure-to-temp' | 'temp-to-pressure'>('pressure-to-temp')
+  const [ptDirection, setPtDirection] = useState<PtDirection>('pressure-to-temp')
+  const [calculationMode, setCalculationMode] = useState<'evaporacion' | 'condensacion'>('evaporacion')
+  const [ptResult, setPtResult] = useState<PtResult | null>(null)
   const [thermalResult, setThermalResult] = useState<ThermalResult | null>(null)
   const table = getTable(refrigerant)
   const isSuperheat = mode === 'superheat'
   const isSubcooling = mode === 'subcooling'
   const title = isSuperheat ? 'Recalentamiento' : isSubcooling ? 'Subenfriamiento' : 'Presión - Temperatura'
+  const glideK = maxGlideK(table)
+  const zeotropic = isZeotropicWithGlide(table)
   const calculate = () => {
     try {
       const needsPressure = mode !== 'pt' || ptDirection === 'pressure-to-temp'
@@ -114,19 +139,64 @@ function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcooling' }) {
         setResult(`${resultK.toFixed(1)} K`)
       } else {
         setThermalResult(null)
+        const nextResult: PtResult = { glideK, zeotropic }
         if (ptDirection === 'pressure-to-temp') {
           const dew = interpolateTemperatureFromPressure(table, p, 'dew')
           const bubble = interpolateTemperatureFromPressure(table, p, 'bubble')
-          setResult(`Burbuja ${bubble.toFixed(2)} °C · Rocío ${dew.toFixed(2)} °C`)
+          const saturationC = zeotropic ? (calculationMode === 'evaporacion' ? dew : bubble) : (dew + bubble) / 2
+          nextResult.pressureMeasured = {
+            value: `${formatNumber(parseLocalizedNumber(pressure))} ${formatPressureLabel(unit, kind)}`,
+            saturationC: `${formatNumber(saturationC)} °C`,
+            bubbleC: bubble,
+            dewC: dew,
+          }
+          const targetC = parseLocalizedNumber(temperature)
+          if (Number.isFinite(targetC)) {
+            const targetBubble = interpolatePressureFromTemperature(table, targetC, 'bubble')
+            const targetDew = interpolatePressureFromTemperature(table, targetC, 'dew')
+            const targetPressure = zeotropic ? (calculationMode === 'evaporacion' ? targetDew : targetBubble) : (targetBubble + targetDew) / 2
+            nextResult.temperatureTarget = {
+              value: `${formatNumber(targetC)} °C`,
+              pressure: `≈ ${formatNumber(paAbsoluteToPressure(targetPressure, unit, kind, atmospherePa))} ${formatPressureLabel(unit, kind)}`,
+              bubblePressure: targetBubble,
+              dewPressure: targetDew,
+            }
+          }
+          setResult(nextResult.pressureMeasured.saturationC)
         } else {
           const bubblePressure = interpolatePressureFromTemperature(table, measuredC, 'bubble')
           const dewPressure = interpolatePressureFromTemperature(table, measuredC, 'dew')
-          setResult(`Burbuja ${paAbsoluteToPressure(bubblePressure, unit, kind, atmospherePa).toFixed(2)} · Rocío ${paAbsoluteToPressure(dewPressure, unit, kind, atmospherePa).toFixed(2)} ${formatPressureLabel(unit, kind)}`)
+          const targetPressure = zeotropic ? (calculationMode === 'evaporacion' ? dewPressure : bubblePressure) : (bubblePressure + dewPressure) / 2
+          nextResult.temperatureTarget = {
+            value: `${formatNumber(measuredC)} °C`,
+            pressure: `≈ ${formatNumber(paAbsoluteToPressure(targetPressure, unit, kind, atmospherePa))} ${formatPressureLabel(unit, kind)}`,
+            bubblePressure,
+            dewPressure,
+          }
+          const pressureValue = parseLocalizedNumber(pressure)
+          if (Number.isFinite(pressureValue)) {
+            const pressurePa = pressureToPaAbsolute(pressureValue, unit, kind, atmospherePa)
+            const dew = interpolateTemperatureFromPressure(table, pressurePa, 'dew')
+            const bubble = interpolateTemperatureFromPressure(table, pressurePa, 'bubble')
+            const saturationC = zeotropic ? (calculationMode === 'evaporacion' ? dew : bubble) : (dew + bubble) / 2
+            nextResult.pressureMeasured = {
+              value: `${formatNumber(pressureValue)} ${formatPressureLabel(unit, kind)}`,
+              saturationC: `${formatNumber(saturationC)} °C`,
+              bubbleC: bubble,
+              dewC: dew,
+            }
+          }
+          setResult(nextResult.temperatureTarget.pressure)
         }
+        setPtResult(nextResult)
       }
-    } catch (error) { setResult(error instanceof Error ? error.message : 'No se pudo calcular.') }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'No se pudo calcular.'
+      setResult(message)
+      if (mode === 'pt') setPtResult({ glideK, zeotropic, error: message })
+    }
   }
-  return <main className="screen"><h1 className="page-title">{title}</h1><section className="panel form compact-form"><label>Refrigerante<select value={refrigerant} onChange={(e) => setRefrigerant(e.target.value)}>{refrigerantTables.map((table) => <option key={table.refrigerant}>{table.refrigerant}</option>)}</select></label>{mode === 'pt' && <><label>Dirección de cálculo<div className="segmented two-segment"><button type="button" className={ptDirection === 'pressure-to-temp' ? 'active' : ''} onClick={() => setPtDirection('pressure-to-temp')}>Presión → Temp.</button><button type="button" className={ptDirection === 'temp-to-pressure' ? 'active' : ''} onClick={() => setPtDirection('temp-to-pressure')}>Temp. → Presión</button></div></label><UnitTabs unit={unit} setUnit={setUnit} /></>}<div className="two-col"><label>Presión<input inputMode="decimal" value={pressure} onChange={(e) => setPressure(e.target.value)} /></label><label>Tipo<select value={kind} onChange={(e) => setKind(e.target.value as PressureKind)}><option value="absolute">Absoluta</option><option value="gauge">Manométrica</option></select></label></div><label>{mode === 'pt' ? 'Temperatura objetivo (°C)' : isSuperheat ? 'Temperatura de la tubería (°C)' : 'Temperatura línea líquido (°C)'}<input inputMode="decimal" value={temperature} onChange={(e) => setTemperature(e.target.value)} /></label><button onClick={calculate}>Calcular</button></section>{mode === 'pt' ? <><section className="result-panel pt-result"><small>{ptDirection === 'pressure-to-temp' ? 'Saturación desde presión' : 'Presión desde temperatura'}</small><strong>{result}</strong><p>Para mezclas zeotrópicas, usa rocío en recalentamiento y burbuja en subenfriamiento.</p></section><SaturationTable table={table} unit={unit} kind={kind} atmospherePa={atmospherePa} /><div className="button-row"><button>Tabla completa</button><button className="secondary"><BarChart3 />Gráfico</button></div></> : <section className={`result-panel result-${thermalResult?.indicator.tone ?? 'idle'}`}><small>{thermalResult ? thermalResult.indicator.label : 'Resultado'}</small><strong>{result}</strong>{thermalResult && <div className="data-list thermal-data"><p><span>Temperatura saturación</span><strong>{thermalResult.saturationC.toFixed(1)} °C</strong></p><p><span>Temperatura medida</span><strong>{thermalResult.measuredC.toFixed(1)} °C</strong></p><p><span>Presión absoluta</span><strong>{(thermalResult.pressurePaAbs / 100000).toFixed(2)} bar(a)</strong></p></div>}<div className="meter"><span /><span /><span /></div><p>{thermalResult?.indicator.explanation ?? 'Resultado orientativo. Debe interpretarse junto con subenfriamiento, temperaturas, caudal de aire, carga térmica y datos del fabricante.'}</p>{thermalResult && <ul className="check-list">{thermalResult.indicator.checks.map((check) => <li key={check}>{check}</li>)}</ul>}</section>}{kind === 'gauge' && <p className="hint">La conversión depende de la presión atmosférica configurada: {atmospherePa} Pa.</p>}</main>
+  return <main className="screen"><h1 className="page-title">{title}</h1><section className="panel form compact-form"><label>Refrigerante<select value={refrigerant} onChange={(e) => { setRefrigerant(e.target.value); setPtResult(null) }}>{refrigerantOptions().map((table) => <option key={table.refrigerant}>{table.refrigerant}</option>)}</select></label>{mode === 'pt' && <><label>Modo<div className="segmented two-segment"><button type="button" className={ptDirection === 'pressure-to-temp' ? 'active' : ''} onClick={() => setPtDirection('pressure-to-temp')}>Presión → Temperatura</button><button type="button" className={ptDirection === 'temp-to-pressure' ? 'active' : ''} onClick={() => setPtDirection('temp-to-pressure')}>Temperatura → Presión</button></div></label><label>Tipo de cálculo<select value={calculationMode} onChange={(e) => setCalculationMode(e.target.value as 'evaporacion' | 'condensacion')}><option value="evaporacion">Evaporación / rocío</option><option value="condensacion">Condensación / burbuja</option></select></label><UnitTabs unit={unit} setUnit={setUnit} /></>}<div className="two-col">{(mode !== 'pt' || ptDirection === 'pressure-to-temp') && <label>Presión<input inputMode="decimal" value={pressure} onChange={(e) => setPressure(e.target.value)} /></label>}<label>Tipo<select value={kind} onChange={(e) => setKind(e.target.value as PressureKind)}><option value="gauge">Manométrica</option><option value="absolute">Absoluta</option></select></label></div>{(mode !== 'pt' || ptDirection === 'temp-to-pressure') && <label>{mode === 'pt' ? 'Temperatura objetivo (°C)' : isSuperheat ? 'Temperatura de la tubería (°C)' : 'Temperatura línea líquido (°C)'}<input inputMode="decimal" value={temperature} onChange={(e) => setTemperature(e.target.value)} /></label>}<button onClick={calculate}>Calcular</button></section>{mode === 'pt' ? <><section className={`pt-result-card ${ptResult?.error ? 'pt-error' : ''}`}><div className="pt-result-head"><strong>{refrigerant}</strong><span>{table.generator === 'CoolProp' ? 'Datos CoolProp validados' : 'Datos P/T pendientes'}</span></div>{ptResult?.error ? <p className="notice">{ptResult.error}</p> : <div className="pt-result-grid">{ptResult?.pressureMeasured && <article><small>Presión medida</small><strong>{ptResult.pressureMeasured.value}</strong><small>Temperatura de saturación</small><strong>{ptResult.pressureMeasured.saturationC}</strong></article>}{ptResult?.temperatureTarget && <article><small>Temperatura objetivo</small><strong>{ptResult.temperatureTarget.value}</strong><small>Presión objetivo</small><strong>{ptResult.temperatureTarget.pressure}</strong></article>}{!ptResult && <p>Introduce datos y calcula para ver resultados separados.</p>}</div>}<div className="pt-glide"><span>{zeotropic ? 'Mezcla zeotrópica' : 'Refrigerante puro o sin deslizamiento relevante'}</span><span>{zeotropic ? 'Usar rocío para recalentamiento y burbuja para subenfriamiento.' : 'Burbuja y rocío coinciden o son equivalentes en la práctica.'}</span><span>Deslizamiento: {glideK === null ? 'pendiente' : `${formatNumber(glideK)} K`}</span></div>{zeotropic && <p className="notice">Para mezclas zeotrópicas, usa rocío en recalentamiento y burbuja en subenfriamiento.</p>}</section><SaturationTable table={table} unit={unit} kind={kind} atmospherePa={atmospherePa} /><div className="button-row"><button>Tabla completa</button><button className="secondary"><BarChart3 />Gráfico</button></div></> : <section className={`result-panel result-${thermalResult?.indicator.tone ?? 'idle'}`}><small>{thermalResult ? thermalResult.indicator.label : 'Resultado'}</small><strong>{result}</strong>{thermalResult && <div className="data-list thermal-data"><p><span>Temperatura saturación</span><strong>{thermalResult.saturationC.toFixed(1)} °C</strong></p><p><span>Temperatura medida</span><strong>{thermalResult.measuredC.toFixed(1)} °C</strong></p><p><span>Presión absoluta</span><strong>{(thermalResult.pressurePaAbs / 100000).toFixed(2)} bar(a)</strong></p></div>}<div className="meter"><span /><span /><span /></div><p>{thermalResult?.indicator.explanation ?? 'Resultado orientativo. Debe interpretarse junto con subenfriamiento, temperaturas, caudal de aire, carga térmica y datos del fabricante.'}</p>{thermalResult && <ul className="check-list">{thermalResult.indicator.checks.map((check) => <li key={check}>{check}</li>)}</ul>}</section>}{kind === 'gauge' && <p className="hint">La conversión depende de la presión atmosférica configurada: {atmospherePa} Pa ({formatNumber(atmospherePa / 100000, 5)} bar).</p>}</main>
 }
 
 function ConverterPage() {
@@ -140,7 +210,9 @@ function ConverterPage() {
 }
 
 function RefrigerantsPage() {
-  return <main className="screen"><h1 className="page-title">Refrigerantes</h1>{refrigerantTables.map((table) => { const meta = refrigerantMetadata[table.refrigerant]; const glide = maxGlideK(table); return <article className="panel refrigerant-card" key={table.refrigerant}><div><h2>{meta.name}</h2><p>{tableStatusLabel(table)}</p></div><dl><dt>Tipo tabla</dt><dd>{table.refrigerantType}</dd><dt>Rango</dt><dd>{formatRange(table)}</dd><dt>Deslizamiento</dt><dd>{glide === null ? 'Pendiente' : `${glide.toFixed(2)} K`}</dd><dt>Seguridad</dt><dd>{meta.safetyClass.value ?? meta.safetyClass.note}</dd><dt>GWP</dt><dd>{meta.gwp.value ?? meta.gwp.note}</dd></dl><p className="source-line">{table.limitations.join(' ')}</p></article> })}</main>
+  const [category, setCategory] = useState<RefrigerantCategory | 'all'>('all')
+  const visibleTables = refrigerantOptions(category)
+  return <main className="screen"><h1 className="page-title">Refrigerantes</h1><section className="panel form compact-form"><label>Filtro<div className="segmented three-segment">{(['all', 'traditional', 'lower-gwp'] as const).map((item) => <button key={item} type="button" className={category === item ? 'active' : ''} onClick={() => setCategory(item)}>{refrigerantCategoryLabels[item]}</button>)}</div></label><p className="hint">Alternativa de menor GWP no significa equivalente directo. Usar siempre documentación del fabricante.</p></section><section className="panel warning-panel compact-warning"><strong>Productos comerciales equivalentes</strong><p>{commercialRefrigerants.length === 0 ? 'No hay productos comerciales registrados. Cuando se añadan, cada uno deberá tener tabla P/T y documentación propia.' : `${commercialRefrigerants.length} productos registrados.`}</p>{commercialRefrigerantWarning.map((warning) => <p key={warning}>{warning}</p>)}</section>{visibleTables.map((table) => { const meta = refrigerantMetadata[table.refrigerant]; const glide = maxGlideK(table); return <article className="panel refrigerant-card" key={table.refrigerant}><div className="refrigerant-title"><div><h2>{meta.name}</h2><p>{refrigerantCategoryLabels[meta.category]} · {tableStatusLabel(table)}</p></div><span>{table.generator === 'CoolProp' ? 'P/T validada' : 'Sin P/T fiable'}</span></div><dl><dt>Tipo</dt><dd>{meta.familyType.value ?? table.refrigerantType}</dd><dt>Composición</dt><dd>{meta.composition.value ?? meta.composition.note}</dd><dt>Rango</dt><dd>{formatRange(table)}</dd><dt>Seguridad</dt><dd>{meta.safetyClass.value ?? meta.safetyClass.note}</dd><dt>Inflamabilidad</dt><dd>{meta.flammability.value ?? meta.flammability.note}</dd><dt>Toxicidad</dt><dd>{meta.toxicity.value ?? meta.toxicity.note}</dd><dt>GWP / PCA</dt><dd>{meta.gwp.value ?? meta.gwp.note}</dd><dt>Deslizamiento</dt><dd>{glide === null ? 'Pendiente' : `${formatNumber(glide)} K`}</dd><dt>Presión trabajo</dt><dd>{meta.workPressure.value ?? meta.workPressure.note}</dd><dt>Aceite</dt><dd>{meta.oils.value ?? meta.oils.note}</dd><dt>Aplicaciones</dt><dd>{meta.applications.value ?? meta.applications.note}</dd><dt>Carga</dt><dd>{meta.chargingMethod.value ?? meta.chargingMethod.note}</dd><dt>Compatibilidad</dt><dd>{meta.compatibility.value ?? meta.compatibility.note}</dd></dl><ul className="warning-list">{meta.warnings.map((warning) => <li key={warning}>{warning}</li>)}</ul><p className="source-line">{table.limitations.join(' ')}</p></article> })}</main>
 }
 
 function ComparePage() {
