@@ -22,7 +22,7 @@ jobs:
       - name: Check obvious secrets
         run: |
           ! grep -RInE "(BEGIN (RSA|OPENSSH|PRIVATE) KEY|AIza|sk-[A-Za-z0-9]|ISIVOLT_KEYSTORE_PASSWORD=.+)" -- . --exclude-dir=node_modules --exclude-dir=.git --exclude=package-lock.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: web-dist
           path: dist
