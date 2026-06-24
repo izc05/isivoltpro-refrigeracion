@@ -45,3 +45,60 @@ export function calculateSuperheat(suctionPressurePaAbs: number, measuredSuction
 export function calculateSubcooling(highPressurePaAbs: number, measuredLiquidLineC: number, table: RefrigerantTable): number {
   return interpolateTemperatureFromPressure(table, highPressurePaAbs, 'bubble') - measuredLiquidLineC
 }
+
+export type ThermalIndicator = {
+  label: 'Bajo' | 'Normal' | 'Elevado'
+  tone: 'low' | 'normal' | 'high'
+  explanation: string
+  checks: string[]
+}
+
+export function evaluateSuperheat(superheatK: number): ThermalIndicator {
+  if (superheatK < 3) {
+    return {
+      label: 'Bajo',
+      tone: 'low',
+      explanation: 'Recalentamiento bajo. Puede indicar evaporador muy alimentado, caudal de aire bajo o medición inestable.',
+      checks: ['Comprobar caudal de aire', 'Verificar sonda de temperatura', 'Contrastar con subenfriamiento'],
+    }
+  }
+  if (superheatK > 12) {
+    return {
+      label: 'Elevado',
+      tone: 'high',
+      explanation: 'Recalentamiento elevado. Es una señal orientativa, no una orden de añadir refrigerante.',
+      checks: ['Comprobar caudal de aire', 'Comprobar restricción', 'Verificar carga por peso y fabricante'],
+    }
+  }
+  return {
+    label: 'Normal',
+    tone: 'normal',
+    explanation: 'Recalentamiento dentro de una zona orientativa habitual. Confirmar siempre con el comportamiento completo del equipo.',
+    checks: ['Contrastar con subenfriamiento', 'Revisar condiciones de trabajo', 'Comparar con datos del fabricante'],
+  }
+}
+
+export function evaluateSubcooling(subcoolingK: number): ThermalIndicator {
+  if (subcoolingK < 3) {
+    return {
+      label: 'Bajo',
+      tone: 'low',
+      explanation: 'Subenfriamiento bajo. Puede apuntar a alimentación insuficiente de líquido, falta de carga o condiciones de condensación bajas.',
+      checks: ['Verificar carga por peso', 'Comprobar condensación', 'Revisar presencia de burbujas/restricciones'],
+    }
+  }
+  if (subcoolingK > 12) {
+    return {
+      label: 'Elevado',
+      tone: 'high',
+      explanation: 'Subenfriamiento elevado. Puede asociarse a exceso de carga, restricción o condensador trabajando fuera de rango.',
+      checks: ['Comprobar condensador', 'Comprobar restricción', 'Comparar con documentación del fabricante'],
+    }
+  }
+  return {
+    label: 'Normal',
+    tone: 'normal',
+    explanation: 'Subenfriamiento dentro de una zona orientativa habitual. Debe validarse con el equipo y refrigerante concretos.',
+    checks: ['Contrastar con recalentamiento', 'Verificar temperatura exterior', 'Comparar con datos del fabricante'],
+  }
+}

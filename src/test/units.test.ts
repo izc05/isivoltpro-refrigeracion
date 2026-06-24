@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { convertPressure, paAbsoluteToPressure, pressureToPaAbsolute, vacuumToPaAbsolute, paAbsoluteToVacuum } from '../domain/units'
+import { altitudeToAtmospherePa, convertPressure, paAbsoluteToPressure, pressureToPaAbsolute, vacuumToPaAbsolute, paAbsoluteToVacuum } from '../domain/units'
 
 describe('unit conversions', () => {
   it('converts Pa, bar and PSI', () => {
@@ -14,5 +14,9 @@ describe('unit conversions', () => {
     const pa = vacuumToPaAbsolute(500, 'micron')
     expect(pa).toBeCloseTo(66.661, 3)
     expect(paAbsoluteToVacuum(pa, 'Torr')).toBeCloseTo(0.5, 3)
+  })
+  it('estimates lower atmospheric pressure at altitude', () => {
+    expect(altitudeToAtmospherePa(0)).toBeCloseTo(101325, 0)
+    expect(altitudeToAtmospherePa(1000)).toBeLessThan(101325)
   })
 })

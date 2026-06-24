@@ -716,3 +716,4 @@ dd { margin: 0; color: var(--text-main); font-weight: 700;}
   .brand-panel span { max-width: none; margin-inline: auto;}
 }
 
+.result-low{border-color:rgba(245,158,11,.42)}.result-low strong{color:#fbbf24;text-shadow:0 0 20px rgba(245,158,11,.25)}.result-normal{border-color:rgba(16,185,129,.42)}.result-normal strong{color:#34d399;text-shadow:0 0 20px rgba(16,185,129,.25)}.result-high{border-color:rgba(239,68,68,.42)}.result-high strong{color:#f87171;text-shadow:0 0 20px rgba(239,68,68,.25)}.thermal-data{margin:14px 0;text-align:left}.check-list{margin:14px 0 0;padding:0;list-style:none;text-align:left;color:var(--text-muted);font-size:.88rem}.check-list li{padding:7px 0 7px 22px;border-bottom:1px solid var(--line-soft);position:relative}.check-list li:last-child{border-bottom:0}.check-list li::before{content:'•';position:absolute;left:6px;color:var(--primary);font-weight:900}

@@ -7,9 +7,9 @@ import { ArrowLeft, ArrowUpDown, BarChart3, ClipboardList, Database, FileText, G
 import './index.css'
 import { refrigerantTables, type RefrigerantTable } from './data/generated'
 import { refrigerantMetadata } from './data/refrigerant-metadata'
-import { calculateSubcooling, calculateSuperheat, interpolatePressureFromTemperature, interpolateTemperatureFromPressure } from './domain/refrigerants/calculations'
+import { calculateSubcooling, calculateSuperheat, evaluateSubcooling, evaluateSuperheat, interpolatePressureFromTemperature, interpolateTemperatureFromPressure, type ThermalIndicator } from './domain/refrigerants/calculations'
 import { commonPressureRows, formatRange, maxGlideK, tableStatusLabel } from './domain/refrigerants/summary'
-import { DEFAULT_ATMOSPHERE_PA, formatPressureLabel, paAbsoluteToPressure, pressureToPaAbsolute, parseLocalizedNumber, type PressureKind, type PressureUnit, vacuumToPaAbsolute, paAbsoluteToVacuum, type VacuumUnit } from './domain/units'
+import { altitudeToAtmospherePa, DEFAULT_ATMOSPHERE_PA, formatPressureLabel, paAbsoluteToPressure, pressureToPaAbsolute, parseLocalizedNumber, type PressureKind, type PressureUnit, vacuumToPaAbsolute, paAbsoluteToVacuum, type VacuumUnit } from './domain/units'
 import { calculateAdditionalCharge } from './domain/charge'
 import { runDiagnosticRules } from './domain/diagnostics/rules'
 import { db, newId, type Intervention } from './domain/storage/db'
@@ -29,6 +29,14 @@ const tools = [
   ['Intervenciones', 'Registro y clientes', 'interventions', ClipboardList],
 ] as const
 
+type ThermalResult = {
+  resultK: number
+  saturationC: number
+  measuredC: number
+  pressurePaAbs: number
+  indicator: ThermalIndicator
+}
+
 function getTable(name: string): RefrigerantTable {
   return refrigerantTables.find((table) => table.refrigerant === name) ?? refrigerantTables[0]
 }
@@ -39,11 +47,16 @@ function useSettings() {
     return saved ? parseFloat(saved) : DEFAULT_ATMOSPHERE_PA
   })
   const [technician, setTechnician] = useState(() => localStorage.getItem('isivolt_technician') || '')
+  const [altitudeM, setAltitudeM] = useState(() => {
+    const saved = localStorage.getItem('isivolt_altitude_m')
+    return saved ? parseFloat(saved) : 0
+  })
   
   useEffect(() => { localStorage.setItem('isivolt_atmosphere', atmospherePa.toString()) }, [atmospherePa])
   useEffect(() => { localStorage.setItem('isivolt_technician', technician) }, [technician])
+  useEffect(() => { localStorage.setItem('isivolt_altitude_m', altitudeM.toString()) }, [altitudeM])
 
-  return { atmospherePa, setAtmospherePa, technician, setTechnician }
+  return { atmospherePa, setAtmospherePa, technician, setTechnician, altitudeM, setAltitudeM }
 }
 
 function Shell({ children }: { children: React.ReactNode }) {
@@ -75,6 +88,7 @@ function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcooling' }) {
   const [unit, setUnit] = useState<PressureUnit>('bar')
   const [kind, setKind] = useState<PressureKind>('gauge')
   const [result, setResult] = useState('Introduce datos y dale a calcular.')
+  const [thermalResult, setThermalResult] = useState<ThermalResult | null>(null)
   const table = getTable(refrigerant)
   const isSuperheat = mode === 'superheat'
   const isSubcooling = mode === 'subcooling'
@@ -82,9 +96,19 @@ function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcooling' }) {
   const calculate = () => {
     try {
       const p = pressureToPaAbsolute(parseLocalizedNumber(pressure), unit, kind, atmospherePa)
-      if (isSuperheat) setResult(`${calculateSuperheat(p, parseLocalizedNumber(temperature), table).toFixed(1)} K`)
-      else if (isSubcooling) setResult(`${calculateSubcooling(p, parseLocalizedNumber(temperature), table).toFixed(1)} K`)
-      else {
+      const measuredC = parseLocalizedNumber(temperature)
+      if (isSuperheat) {
+        const saturationC = interpolateTemperatureFromPressure(table, p, 'dew')
+        const resultK = calculateSuperheat(p, measuredC, table)
+        setThermalResult({ resultK, saturationC, measuredC, pressurePaAbs: p, indicator: evaluateSuperheat(resultK) })
+        setResult(`${resultK.toFixed(1)} K`)
+      } else if (isSubcooling) {
+        const saturationC = interpolateTemperatureFromPressure(table, p, 'bubble')
+        const resultK = calculateSubcooling(p, measuredC, table)
+        setThermalResult({ resultK, saturationC, measuredC, pressurePaAbs: p, indicator: evaluateSubcooling(resultK) })
+        setResult(`${resultK.toFixed(1)} K`)
+      } else {
+        setThermalResult(null)
         const dew = interpolateTemperatureFromPressure(table, p, 'dew')
         const bubble = interpolateTemperatureFromPressure(table, p, 'bubble')
         const pressureFromTemp = paAbsoluteToPressure(interpolatePressureFromTemperature(table, parseLocalizedNumber(temperature), 'dew'), unit, kind, atmospherePa)
@@ -92,7 +116,7 @@ function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcooling' }) {
       }
     } catch (error) { setResult(error instanceof Error ? error.message : 'No se pudo calcular.') }
   }
-  return <main className="screen"><h1 className="page-title">{title}</h1><section className="panel form compact-form"><label>Refrigerante<select value={refrigerant} onChange={(e) => setRefrigerant(e.target.value)}>{refrigerantTables.map((table) => <option key={table.refrigerant}>{table.refrigerant}</option>)}</select></label>{mode === 'pt' && <UnitTabs unit={unit} setUnit={setUnit} />}<div className="two-col"><label>Presión<input inputMode="decimal" value={pressure} onChange={(e) => setPressure(e.target.value)} /></label><label>Tipo<select value={kind} onChange={(e) => setKind(e.target.value as PressureKind)}><option value="absolute">Absoluta</option><option value="gauge">Manométrica</option></select></label></div>{mode !== 'pt' && <label>{isSuperheat ? 'Temperatura de la tubería (°C)' : 'Temperatura línea líquido (°C)'}<input inputMode="decimal" value={temperature} onChange={(e) => setTemperature(e.target.value)} /></label>}<button onClick={calculate}>Calcular</button></section>{mode === 'pt' ? <><SaturationTable table={table} unit={unit} kind={kind} atmospherePa={atmospherePa} /><div className="button-row"><button>Tabla completa</button><button className="secondary"><BarChart3 />Gráfico</button></div></> : <section className="result-panel"><small>Resultado</small><strong>{result}</strong><div className="meter"><span /><span /><span /></div><p>Resultado orientativo. Debe interpretarse junto con subenfriamiento, temperaturas, caudal de aire, carga térmica y datos del fabricante.</p></section>}{kind === 'gauge' && <p className="hint">La conversión depende de la presión atmosférica configurada: {atmospherePa} Pa.</p>}</main>
+  return <main className="screen"><h1 className="page-title">{title}</h1><section className="panel form compact-form"><label>Refrigerante<select value={refrigerant} onChange={(e) => setRefrigerant(e.target.value)}>{refrigerantTables.map((table) => <option key={table.refrigerant}>{table.refrigerant}</option>)}</select></label>{mode === 'pt' && <UnitTabs unit={unit} setUnit={setUnit} />}<div className="two-col"><label>Presión<input inputMode="decimal" value={pressure} onChange={(e) => setPressure(e.target.value)} /></label><label>Tipo<select value={kind} onChange={(e) => setKind(e.target.value as PressureKind)}><option value="absolute">Absoluta</option><option value="gauge">Manométrica</option></select></label></div>{mode !== 'pt' && <label>{isSuperheat ? 'Temperatura de la tubería (°C)' : 'Temperatura línea líquido (°C)'}<input inputMode="decimal" value={temperature} onChange={(e) => setTemperature(e.target.value)} /></label>}<button onClick={calculate}>Calcular</button></section>{mode === 'pt' ? <><SaturationTable table={table} unit={unit} kind={kind} atmospherePa={atmospherePa} /><div className="button-row"><button>Tabla completa</button><button className="secondary"><BarChart3 />Gráfico</button></div></> : <section className={`result-panel result-${thermalResult?.indicator.tone ?? 'idle'}`}><small>{thermalResult ? thermalResult.indicator.label : 'Resultado'}</small><strong>{result}</strong>{thermalResult && <div className="data-list thermal-data"><p><span>Temperatura saturación</span><strong>{thermalResult.saturationC.toFixed(1)} °C</strong></p><p><span>Temperatura medida</span><strong>{thermalResult.measuredC.toFixed(1)} °C</strong></p><p><span>Presión absoluta</span><strong>{(thermalResult.pressurePaAbs / 100000).toFixed(2)} bar(a)</strong></p></div>}<div className="meter"><span /><span /><span /></div><p>{thermalResult?.indicator.explanation ?? 'Resultado orientativo. Debe interpretarse junto con subenfriamiento, temperaturas, caudal de aire, carga térmica y datos del fabricante.'}</p>{thermalResult && <ul className="check-list">{thermalResult.indicator.checks.map((check) => <li key={check}>{check}</li>)}</ul>}</section>}{kind === 'gauge' && <p className="hint">La conversión depende de la presión atmosférica configurada: {atmospherePa} Pa.</p>}</main>
 }
 
 function ConverterPage() {
@@ -187,7 +211,11 @@ function InterventionsPage() {
 function ReportsPage() { return <main className="screen"><h1 className="page-title">Informes PDF</h1><div className="panel"><p>Los informes PDF se generan desde cada intervención y permanecen locales en el dispositivo.</p></div></main> }
 
 function SettingsPage() { 
-  const { atmospherePa, setAtmospherePa, technician, setTechnician } = useSettings()
+  const { atmospherePa, setAtmospherePa, technician, setTechnician, altitudeM, setAltitudeM } = useSettings()
+  const updateAltitude = (value: number) => {
+    setAltitudeM(value)
+    setAtmospherePa(Math.round(altitudeToAtmospherePa(value)))
+  }
   return (
     <main className="screen">
       <h1 className="page-title">Ajustes</h1>
@@ -197,6 +225,13 @@ function SettingsPage() {
             type="number" 
             value={atmospherePa} 
             onChange={(e) => setAtmospherePa(parseFloat(e.target.value) || DEFAULT_ATMOSPHERE_PA)} 
+          />
+        </label>
+        <label>Altitud aproximada (m)
+          <input
+            type="number"
+            value={altitudeM}
+            onChange={(e) => updateAltitude(parseFloat(e.target.value) || 0)}
           />
         </label>
         <label>Técnico
