@@ -27,6 +27,7 @@ const libraryItems = [
   { title: 'Normativa', text: 'Referencias técnicas y obligaciones aplicables.', path: '/planned/regulations', icon: FileText },
   { title: 'Productos', text: 'Equipos, repuestos, válvulas, filtros y compatibilidades.', path: '/planned/products', icon: PackageSearch },
   { title: 'Formación', text: 'Modo explicado, ejemplos, errores frecuentes y glosario.', path: '/planned/training', icon: BookOpen },
+  { title: 'Biblioteca visual', text: 'Fotografías propias, esquemas, anotaciones y ayuda por campo.', path: '/visual-library', icon: Camera },
 ]
 
 function HubGrid({ items }: { items: Array<{ title: string; text: string; path: string; icon: typeof BookOpen }> }) {

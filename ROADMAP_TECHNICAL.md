@@ -46,3 +46,7 @@ Este roadmap ordena las ampliaciones solicitadas para convertir IsiVoltPro Refri
 ## Inventario maestro
 
 El inventario operativo de calculadoras, entradas, fórmulas, pantallas y prioridades está en [docs/calculators-inventory.md](docs/calculators-inventory.md).
+
+## Biblioteca visual técnica
+
+La estructura de imágenes, esquemas, anotaciones y editor local está documentada en [docs/visual-library.md](docs/visual-library.md).
