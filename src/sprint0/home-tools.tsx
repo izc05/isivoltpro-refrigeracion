@@ -1,12 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { BookOpen, ChevronRight, Clock3, Database, FileText, Grid3X3, Pin, PinOff, Plus, Search, Table2, Thermometer } from 'lucide-react'
+import { AlertTriangle, ArrowDown, ArrowUp, BookOpen, ChevronRight, ClipboardList, Clock3, Database, FileText, Grid3X3, Pin, PinOff, Plus, QrCode, Search, Table2, Thermometer, UserPlus } from 'lucide-react'
 import { APP_VERSION, EmptyState, PageTitle } from './shared'
+import { db, type Intervention } from '../domain/storage/db'
 import { toolCategories, tools, type ToolCategory } from './tool-catalog'
 
 const PINNED_KEY = 'isivolt_pinned_tools'
+const QUICK_ORDER_KEY = 'isivolt_home_quick_order'
+const DEFAULT_QUICK_IDS = ['pt', 'superheat', 'subcooling', 'vacuum', 'charge', 'diagnostics', 'converter']
 
 type Tool = (typeof tools)[number]
+type WorkSnapshot = { last?: Intervention; drafts: number; total: number }
 
 const categoryDescriptions: Record<ToolCategory, string> = {
   refrigerantes: 'P/T, recalentamiento, subenfriamiento, vacío, carga y fichas.',
@@ -17,9 +21,9 @@ const categoryDescriptions: Record<ToolCategory, string> = {
   diagnostico: 'Hipótesis, comprobaciones y resolución de fallos.',
 }
 
-function readPinnedTools() {
+function readStringArray(key: string) {
   try {
-    const value = JSON.parse(localStorage.getItem(PINNED_KEY) ?? '[]')
+    const value = JSON.parse(localStorage.getItem(key) ?? '[]')
     return Array.isArray(value) ? value.filter((id): id is string => typeof id === 'string') : []
   } catch {
     return []
@@ -39,13 +43,23 @@ function ToolRow({ tool, pinned, pinMode, onTogglePin }: { tool: Tool; pinned: b
   </article>
 }
 
-function QuickCard({ tool }: { tool: Tool }) {
+function QuickCard({ tool, editable, canMoveUp, canMoveDown, onMove }: { tool: Tool; editable: boolean; canMoveUp: boolean; canMoveDown: boolean; onMove: (direction: -1 | 1) => void }) {
   const Icon = tool.icon
-  return <NavLink className="sz-quick-tool-card" to={tool.path}>
-    <Icon />
-    <strong>{tool.title}</strong>
-    <small>{tool.subtitle}</small>
-  </NavLink>
+  return <article className={`sz-quick-tool-shell ${editable ? 'is-editing' : ''}`}>
+    <NavLink className="sz-quick-tool-card" to={tool.path}>
+      <Icon />
+      <strong>{tool.title}</strong>
+      <small>{tool.subtitle}</small>
+    </NavLink>
+    {editable && <div className="sz-quick-move-controls" aria-label={`Mover ${tool.title}`}>
+      <button type="button" aria-label={`Subir ${tool.title}`} disabled={!canMoveUp} onClick={() => onMove(-1)}><ArrowUp /></button>
+      <button type="button" aria-label={`Bajar ${tool.title}`} disabled={!canMoveDown} onClick={() => onMove(1)}><ArrowDown /></button>
+    </div>}
+  </article>
+}
+
+function FieldAction({ to, icon: Icon, title, text }: { to: string; icon: typeof ClipboardList; title: string; text: string }) {
+  return <NavLink className="sz-field-action" to={to}><span><Icon /></span><strong>{title}</strong><small>{text}</small></NavLink>
 }
 
 function CategoryTile({ id, label, selected, onSelect }: { id: ToolCategory; label: string; selected: boolean; onSelect: (id: ToolCategory) => void }) {
@@ -61,23 +75,54 @@ function CategoryTile({ id, label, selected, onSelect }: { id: ToolCategory; lab
 }
 
 export function HomePage() {
-  const [pinnedIds, setPinnedIds] = useState<string[]>(readPinnedTools)
+  const [pinnedIds, setPinnedIds] = useState<string[]>(() => readStringArray(PINNED_KEY))
+  const [quickOrder, setQuickOrder] = useState<string[]>(() => readStringArray(QUICK_ORDER_KEY))
+  const [editQuick, setEditQuick] = useState(false)
+  const [work, setWork] = useState<WorkSnapshot>({ drafts: 0, total: 0 })
 
   useEffect(() => {
-    const sync = () => setPinnedIds(readPinnedTools())
+    const sync = () => setPinnedIds(readStringArray(PINNED_KEY))
     addEventListener('storage', sync)
     return () => removeEventListener('storage', sync)
   }, [])
 
-  const quickIds = pinnedIds.length > 0 ? pinnedIds : ['pt', 'superheat', 'subcooling', 'vacuum', 'charge', 'diagnostics', 'converter']
-  const featured = tools.filter((tool) => quickIds.includes(tool.id)).slice(0, 7)
+  useEffect(() => {
+    let active = true
+    void db.interventions.orderBy('updatedAt').reverse().toArray().then((items) => {
+      if (!active) return
+      setWork({ last: items[0], drafts: items.filter((item) => item.status === 'borrador').length, total: items.length })
+    })
+    return () => { active = false }
+  }, [])
+
+  const baseQuickIds = pinnedIds.length > 0 ? pinnedIds : DEFAULT_QUICK_IDS
+  const orderedQuickIds = [...quickOrder.filter((id) => baseQuickIds.includes(id)), ...baseQuickIds.filter((id) => !quickOrder.includes(id))]
+  const featured = orderedQuickIds.map((id) => tools.find((tool) => tool.id === id)).filter((tool): tool is Tool => Boolean(tool)).slice(0, 7)
+
+  const moveQuick = (index: number, direction: -1 | 1) => {
+    const next = [...orderedQuickIds]
+    const target = index + direction
+    if (target < 0 || target >= next.length) return
+    ;[next[index], next[target]] = [next[target], next[index]]
+    setQuickOrder(next)
+    localStorage.setItem(QUICK_ORDER_KEY, JSON.stringify(next))
+  }
 
   return <main className="sz-screen sz-home sz-iphone-home">
     <section className="sz-home-identity"><div><h1>IsiVoltPro</h1><p>Refrigeración y Climatización</p></div><NavLink className="sz-icon-button" to="/settings" aria-label="Ajustes"><Grid3X3 /></NavLink></section>
-    <NavLink className="sz-new-intervention" to="/interventions"><span><Plus /></span><div><strong>Nueva intervención</strong><small>Inicia una nueva intervención y guarda tus datos</small></div><ChevronRight /></NavLink>
-    <div className="sz-quick-grid">{featured.slice(0, 6).map((tool) => <QuickCard key={tool.id} tool={tool} />)}</div>
+    <NavLink className="sz-new-intervention" to="/interventions"><span><Plus /></span><div><strong>Nueva intervención</strong><small>Inicia una intervención y registra cliente, equipo y mediciones</small></div><ChevronRight /></NavLink>
+    <section className="sz-field-actions" aria-label="Acciones de campo">
+      <FieldAction to="/interventions" icon={ClipboardList} title="Continuar" text={work.last ? `${work.last.clientName} · ${work.last.workType}` : 'Sin intervención reciente'} />
+      <FieldAction to="/planned/qr" icon={QrCode} title="Escanear QR" text="Abrir equipo o instalación" />
+      <FieldAction to="/planned/clients" icon={UserPlus} title="Crear ficha" text="Cliente, instalación o equipo" />
+      <FieldAction to="/pt" icon={Thermometer} title="Regla P/T" text="Acceso directo a refrigerantes" />
+    </section>
+    <div className="sz-section-heading compact"><div><span className="sz-eyebrow">Accesos directos</span><h2>Favoritos</h2></div><button className="sz-button secondary sz-compact-button" type="button" onClick={() => setEditQuick(!editQuick)}>{editQuick ? 'Terminar' : 'Mover'}</button></div>
+    <div className="sz-quick-grid">{featured.slice(0, 6).map((tool, index) => <QuickCard key={tool.id} tool={tool} editable={editQuick} canMoveUp={index > 0} canMoveDown={index < Math.min(featured.length, 6) - 1} onMove={(direction) => moveQuick(index, direction)} />)}</div>
     <NavLink className="sz-wide-tool-card" to="/converter"><Thermometer /><span><strong>Conversor</strong><small>Unidades, propiedades y conversiones técnicas</small></span><ChevronRight /></NavLink>
-    <section className="sz-activity-strip"><article><Clock3 /><div><strong>Actividad reciente</strong><p>Cálculos e intervenciones se guardan localmente.</p></div></article><article><FileText /><div><strong>Informes</strong><p>Disponibles dentro de Trabajo.</p></div></article></section>
+    <section className="sz-activity-strip"><article><Clock3 /><div><strong>Actividad reciente</strong><p>{work.total ? `${work.total} intervenciones locales. Última: ${work.last?.clientName ?? 'sin cliente'}.` : 'Cálculos e intervenciones se guardan localmente.'}</p></div></article><article><FileText /><div><strong>Informes</strong><p>Disponibles dentro de Trabajo, generados desde intervenciones.</p></div></article></section>
+    <section className="sz-alert-strip" aria-label="Avisos"><article className={work.drafts ? 'is-warning' : 'is-ok'}><AlertTriangle /><div><strong>{work.drafts ? `${work.drafts} borradores pendientes` : 'Sin borradores pendientes'}</strong><p>{work.drafts ? 'Revisa y cierra intervenciones antes de generar informes finales.' : 'El flujo de trabajo local está limpio.'}</p></div></article><article><Database /><div><strong>Copia local</strong><p>Exporta una copia desde Ajustes antes de cambiar de dispositivo.</p></div></article></section>
+    <section className="sz-phase-strip"><strong>Fases</strong><span>1 UI iPhone</span><span>2 Frigoríficas</span><span>3 Nuevas herramientas</span><span>4 Trabajo profesional</span></section>
     <footer className="sz-legal">Herramienta orientativa. Verifica siempre placa, manual, procedimiento y normativa.<span>Versión {APP_VERSION}</span></footer>
   </main>
 }
@@ -86,7 +131,7 @@ export function ToolsPage() {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<'todos' | ToolCategory>('todos')
   const [pinMode, setPinMode] = useState(false)
-  const [pinnedIds, setPinnedIds] = useState<string[]>(readPinnedTools)
+  const [pinnedIds, setPinnedIds] = useState<string[]>(() => readStringArray(PINNED_KEY))
 
   const visible = useMemo(() => tools.filter((tool) => {
     const matchesCategory = category === 'todos' || tool.category === category
