@@ -117,10 +117,10 @@ export const tools = [
     id: 'ducts',
     title: 'Caudales y conductos',
     subtitle: 'Caudal, velocidad, sección, diámetro equivalente y equilibrado.',
-    path: '/planned/ducts',
+    path: '/ducts',
     icon: Wind,
     category: 'conductos',
-    status: 'planned',
+    status: 'active',
   },
   {
     id: 'pressure-loss',
