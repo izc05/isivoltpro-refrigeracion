@@ -1473,3 +1473,368 @@
   .sz-modal-backdrop { padding: 10px; }
   .sz-visual-modal { max-height: calc(100vh - 20px); padding: 13px; }
 }
+
+/* Electric rainbow theme: visual-only layer. No layout, content, or behavior changes. */
+:root,
+:root[data-theme='dark'] {
+  --electric-blue: #00C2FF;
+  --deep-blue: #2563EB;
+  --electric-violet: #7C3AED;
+  --electric-purple: #A855F7;
+  --electric-pink: #EC4899;
+  --electric-red: #F43F5E;
+  --electric-orange: #F97316;
+  --electric-yellow: #FACC15;
+  --electric-lime: #84CC16;
+  --electric-green: #10B981;
+  --electric-cyan: #06B6D4;
+  --bg-main: #050816;
+  --bg-panel: #0A1022;
+  --bg-card: #0D1428;
+  --bg-card-soft: #111A31;
+  --text-main: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --border-soft: rgba(148, 163, 184, 0.18);
+  --border-electric: rgba(56, 189, 248, 0.45);
+  --sz-bg: var(--bg-main);
+  --sz-bg-soft: #071025;
+  --sz-panel: rgba(10, 16, 34, 0.86);
+  --sz-panel-strong: rgba(13, 20, 40, 0.96);
+  --sz-panel-muted: rgba(17, 26, 49, 0.78);
+  --sz-text: var(--text-main);
+  --sz-muted: var(--text-secondary);
+  --sz-border: var(--border-soft);
+  --sz-border-strong: var(--border-electric);
+  --sz-primary: var(--electric-blue);
+  --sz-primary-strong: var(--electric-cyan);
+  --sz-primary-text: #ffffff;
+  --sz-secondary: var(--electric-violet);
+  --sz-success: var(--electric-green);
+  --sz-warning: var(--electric-yellow);
+  --sz-danger: var(--electric-red);
+  --sz-shadow: 0 16px 46px rgba(0, 0, 0, 0.34), 0 0 28px rgba(0, 194, 255, 0.08);
+  --sz-focus: 0 0 0 3px rgba(0, 194, 255, 0.23), 0 0 22px rgba(124, 58, 237, 0.16);
+  --sz-gradient:
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.09), transparent 35%),
+    linear-gradient(180deg, #050816 0%, #070b1b 46%, #050816 100%);
+}
+
+:root[data-theme='light'] {
+  --electric-blue: #0EA5E9;
+  --deep-blue: #2563EB;
+  --electric-violet: #7C3AED;
+  --electric-purple: #A855F7;
+  --electric-pink: #EC4899;
+  --electric-red: #E11D48;
+  --electric-orange: #EA580C;
+  --electric-yellow: #D97706;
+  --electric-lime: #65A30D;
+  --electric-green: #059669;
+  --electric-cyan: #0891B2;
+  --bg-main: #F4F8FC;
+  --bg-panel: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-card-soft: #F1F5F9;
+  --text-main: #0F172A;
+  --text-secondary: #64748B;
+  --text-muted: #7C8796;
+  --border-soft: rgba(15, 23, 42, 0.11);
+  --border-electric: rgba(14, 165, 233, 0.32);
+  --sz-bg: var(--bg-main);
+  --sz-bg-soft: #EAF2F8;
+  --sz-panel: rgba(255, 255, 255, 0.96);
+  --sz-panel-strong: #FFFFFF;
+  --sz-panel-muted: rgba(226, 232, 240, 0.72);
+  --sz-text: var(--text-main);
+  --sz-muted: var(--text-secondary);
+  --sz-border: var(--border-soft);
+  --sz-border-strong: var(--border-electric);
+  --sz-primary: #0EA5E9;
+  --sz-primary-strong: #2563EB;
+  --sz-primary-text: #ffffff;
+  --sz-secondary: #7C3AED;
+  --sz-shadow: 0 12px 32px rgba(37, 99, 235, 0.09), 0 2px 16px rgba(15, 23, 42, 0.06);
+  --sz-gradient:
+    radial-gradient(circle at top right, rgba(14, 165, 233, 0.14), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.08), transparent 35%),
+    #F4F8FC;
+}
+
+.sz-topbar {
+  background:
+    linear-gradient(120deg, rgba(14, 165, 233, 0.16), rgba(37, 99, 235, 0.12) 35%, rgba(124, 58, 237, 0.12) 70%, rgba(236, 72, 153, 0.10)),
+    color-mix(in srgb, var(--sz-bg) 86%, transparent);
+  border-bottom-color: color-mix(in srgb, var(--electric-blue) 28%, var(--sz-border));
+  box-shadow: 0 10px 30px rgba(0, 194, 255, 0.06);
+}
+
+.sz-topbar-title strong span,
+.sz-eyebrow,
+.sz-section-heading a {
+  background: linear-gradient(120deg, var(--electric-blue), var(--electric-cyan) 32%, var(--electric-violet) 70%, var(--electric-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sz-bottom-nav,
+.sz-connection {
+  background: color-mix(in srgb, var(--bg-main) 88%, transparent);
+  border-color: color-mix(in srgb, var(--electric-blue) 18%, var(--sz-border));
+}
+
+.sz-bottom-nav a.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(0, 194, 255, 0.22), rgba(124, 58, 237, 0.28));
+  border: 1px solid color-mix(in srgb, var(--electric-blue) 35%, transparent);
+  box-shadow: 0 0 20px rgba(0, 194, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.sz-panel,
+.sz-refrigerant-card,
+.sz-work-card,
+.sz-finding,
+.sz-result,
+.sz-chart,
+.sz-table-wrap,
+.sz-empty,
+.sz-gallery-card,
+.sz-visual-modal,
+.psychro-state-mini,
+.psychro-accordion,
+.psychro-history-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 42%),
+    var(--sz-panel);
+  border-color: color-mix(in srgb, var(--electric-blue) 16%, var(--sz-border));
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.24),
+    0 0 22px rgba(0, 194, 255, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.sz-primary-action,
+.sz-secondary-action,
+.sz-new-intervention,
+.sz-field-action,
+.sz-quick-tool-card,
+.sz-tool-card,
+.sz-summary-card,
+.sz-button,
+.sz-theme-picker button,
+.sz-visual-help-button {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease,
+    border-color 180ms ease;
+}
+
+.sz-primary-action:hover,
+.sz-secondary-action:hover,
+.sz-new-intervention:hover,
+.sz-field-action:hover,
+.sz-quick-tool-card:hover,
+.sz-tool-card:hover,
+.sz-summary-card:hover,
+.sz-button:hover,
+.sz-theme-picker button:hover,
+.sz-visual-help-button:hover {
+  filter: saturate(1.08) brightness(1.04);
+  transform: translateY(-2px);
+}
+
+.sz-primary-action:active,
+.sz-secondary-action:active,
+.sz-new-intervention:active,
+.sz-field-action:active,
+.sz-quick-tool-card:active,
+.sz-tool-card:active,
+.sz-summary-card:active,
+.sz-button:active,
+.sz-theme-picker button:active,
+.sz-visual-help-button:active {
+  filter: brightness(0.96);
+  transform: translateY(0);
+}
+
+.sz-primary-action,
+.sz-new-intervention,
+.sz-button.primary {
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.20), transparent 28%),
+    linear-gradient(120deg, var(--deep-blue) 0%, var(--electric-blue) 34%, var(--electric-violet) 70%, var(--electric-pink) 100%);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 10px 30px rgba(37, 99, 235, 0.18),
+    0 0 22px rgba(0, 194, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.24);
+}
+
+.sz-secondary-action {
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.13), transparent 30%),
+    linear-gradient(135deg, var(--sz-card-gradient, var(--bg-card)), color-mix(in srgb, var(--sz-card-gradient-end, var(--bg-card-soft)) 82%, #000));
+  border-color: color-mix(in srgb, var(--sz-card-glow, var(--electric-blue)) 34%, transparent);
+  box-shadow:
+    0 10px 28px color-mix(in srgb, var(--sz-card-glow, var(--electric-blue)) 18%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+.sz-field-action {
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 86% 18%, rgba(255, 255, 255, 0.12), transparent 30%),
+    linear-gradient(135deg, var(--field-gradient-a, var(--bg-card)), var(--field-gradient-b, var(--bg-card-soft)));
+  border-color: color-mix(in srgb, var(--field-glow, var(--electric-blue)) 34%, transparent);
+  box-shadow:
+    0 10px 28px color-mix(in srgb, var(--field-glow, var(--electric-blue)) 16%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.sz-field-action:nth-child(1) { --field-gradient-a: var(--deep-blue); --field-gradient-b: var(--electric-violet); --field-glow: var(--deep-blue); }
+.sz-field-action:nth-child(2) { --field-gradient-a: var(--electric-violet); --field-gradient-b: var(--electric-pink); --field-glow: var(--electric-purple); }
+.sz-field-action:nth-child(3) { --field-gradient-a: var(--electric-pink); --field-gradient-b: var(--electric-orange); --field-glow: var(--electric-pink); }
+.sz-field-action:nth-child(4) { --field-gradient-a: var(--electric-orange); --field-gradient-b: var(--electric-lime); --field-glow: var(--electric-yellow); }
+
+.sz-field-action span,
+.sz-quick-tool-card {
+  border-color: color-mix(in srgb, var(--field-glow, var(--electric-blue)) 24%, transparent);
+}
+
+.sz-field-action svg,
+.sz-new-intervention svg {
+  color: #ffffff;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.18));
+}
+
+.sz-quick-tool-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 45%),
+    var(--bg-card);
+  border-color: color-mix(in srgb, var(--quick-accent, var(--electric-blue)) 30%, var(--sz-border));
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.18),
+    0 0 20px color-mix(in srgb, var(--quick-accent, var(--electric-blue)) 12%, transparent),
+    inset 0 3px 0 color-mix(in srgb, var(--quick-accent, var(--electric-blue)) 82%, transparent);
+}
+
+.sz-quick-tool-shell:nth-child(1) .sz-quick-tool-card { --quick-accent: var(--electric-yellow); --quick-next: var(--electric-green); }
+.sz-quick-tool-shell:nth-child(2) .sz-quick-tool-card { --quick-accent: var(--electric-cyan); --quick-next: var(--deep-blue); }
+.sz-quick-tool-shell:nth-child(3) .sz-quick-tool-card { --quick-accent: var(--electric-green); --quick-next: var(--electric-cyan); }
+.sz-quick-tool-shell:nth-child(4) .sz-quick-tool-card { --quick-accent: var(--electric-violet); --quick-next: var(--electric-purple); }
+.sz-quick-tool-shell:nth-child(5) .sz-quick-tool-card { --quick-accent: var(--electric-orange); --quick-next: var(--electric-yellow); }
+.sz-quick-tool-shell:nth-child(6) .sz-quick-tool-card { --quick-accent: var(--electric-red); --quick-next: var(--electric-pink); }
+.sz-quick-tool-shell:nth-child(7) .sz-quick-tool-card { --quick-accent: var(--electric-blue); --quick-next: var(--electric-cyan); }
+.sz-quick-tool-shell:nth-child(8) .sz-quick-tool-card { --quick-accent: var(--electric-lime); --quick-next: var(--electric-blue); }
+
+.sz-quick-tool-card svg {
+  color: var(--quick-accent, var(--electric-blue));
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--quick-accent, var(--electric-blue)) 28%, transparent));
+}
+
+.sz-dashboard-grid .sz-secondary-action:nth-child(2) { --sz-card-gradient: var(--deep-blue); --sz-card-gradient-end: var(--electric-violet); --sz-card-glow: var(--deep-blue); }
+.sz-dashboard-grid .sz-secondary-action:nth-child(3) { --sz-card-gradient: var(--electric-violet); --sz-card-gradient-end: var(--electric-pink); --sz-card-glow: var(--electric-purple); }
+.sz-dashboard-grid .sz-secondary-action:nth-child(4) { --sz-card-gradient: var(--electric-pink); --sz-card-gradient-end: var(--electric-orange); --sz-card-glow: var(--electric-pink); }
+.sz-dashboard-grid .sz-secondary-action:nth-child(5) { --sz-card-gradient: var(--electric-orange); --sz-card-gradient-end: var(--electric-lime); --sz-card-glow: var(--electric-yellow); }
+
+.sz-primary-action svg,
+.sz-secondary-action svg {
+  color: #ffffff;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.18));
+}
+
+.sz-tool-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 45%),
+    var(--bg-card);
+  border-color: color-mix(in srgb, var(--tool-accent, var(--electric-blue)) 28%, var(--sz-border));
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.18),
+    0 0 20px color-mix(in srgb, var(--tool-accent, var(--electric-blue)) 10%, transparent),
+    inset 0 3px 0 color-mix(in srgb, var(--tool-accent, var(--electric-blue)) 82%, transparent);
+}
+
+.sz-tool-card:nth-child(1) { --tool-accent: var(--electric-yellow); --tool-accent-next: var(--electric-green); }
+.sz-tool-card:nth-child(2) { --tool-accent: var(--electric-cyan); --tool-accent-next: var(--deep-blue); }
+.sz-tool-card:nth-child(3) { --tool-accent: var(--electric-green); --tool-accent-next: var(--electric-cyan); }
+.sz-tool-card:nth-child(4) { --tool-accent: var(--electric-violet); --tool-accent-next: var(--electric-purple); }
+.sz-tool-card:nth-child(5) { --tool-accent: var(--electric-orange); --tool-accent-next: var(--electric-yellow); }
+.sz-tool-card:nth-child(6) { --tool-accent: var(--electric-red); --tool-accent-next: var(--electric-pink); }
+.sz-tool-card:nth-child(7) { --tool-accent: var(--electric-blue); --tool-accent-next: var(--electric-cyan); }
+.sz-tool-card:nth-child(8) { --tool-accent: var(--electric-lime); --tool-accent-next: var(--electric-blue); }
+
+.sz-tool-card svg,
+.sz-summary-card > svg,
+.sz-icon-button svg,
+.sz-visual-help-button svg {
+  color: var(--tool-accent, var(--sz-primary));
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--tool-accent, var(--sz-primary)) 25%, transparent));
+}
+
+.sz-result,
+.sz-notice,
+.psychro-atmosphere,
+.sz-app input,
+.sz-app select,
+.sz-app textarea {
+  border-color: color-mix(in srgb, var(--electric-cyan) 18%, var(--sz-border));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.sz-button,
+.sz-segmented button.active,
+.psychro-atmosphere .segmented button.active,
+.psychro-screen .segmented button.active,
+.sz-theme-picker button.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--electric-blue), var(--deep-blue) 48%, var(--electric-violet));
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.16), 0 0 18px rgba(0, 194, 255, 0.10);
+}
+
+.sz-button.secondary,
+.sz-button.ghost,
+.sz-visual-help-button,
+.sz-theme-picker button {
+  color: var(--sz-text);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.01)), var(--sz-panel-muted);
+  border-color: color-mix(in srgb, var(--electric-blue) 22%, var(--sz-border));
+}
+
+.sz-button.danger {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--electric-red), var(--electric-pink));
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.sz-badge.ok,
+.sz-badge.pending,
+.sz-tag-row span {
+  border: 1px solid color-mix(in srgb, var(--electric-cyan) 24%, transparent);
+  background: color-mix(in srgb, var(--electric-blue) 10%, transparent);
+}
+
+:root[data-theme='light'] .sz-panel,
+:root[data-theme='light'] .sz-refrigerant-card,
+:root[data-theme='light'] .sz-work-card,
+:root[data-theme='light'] .sz-finding,
+:root[data-theme='light'] .sz-result,
+:root[data-theme='light'] .sz-chart,
+:root[data-theme='light'] .sz-table-wrap,
+:root[data-theme='light'] .sz-empty,
+:root[data-theme='light'] .sz-gallery-card,
+:root[data-theme='light'] .sz-visual-modal,
+:root[data-theme='light'] .psychro-state-mini,
+:root[data-theme='light'] .psychro-accordion,
+:root[data-theme='light'] .psychro-history-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.44)),
+    var(--sz-panel);
+  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.80);
+}
