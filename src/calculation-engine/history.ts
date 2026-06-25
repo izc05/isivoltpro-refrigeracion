@@ -29,3 +29,12 @@ export function listRecentCalculationHistory(limit = 20, calculator?: string) {
   const query = db.calculationHistory.orderBy('createdAt').reverse()
   return query.toArray().then((records) => records.filter((record) => !calculator || record.calculator === calculator).slice(0, limit))
 }
+
+export async function deleteCalculationHistory(id: string) {
+  await db.calculationHistory.delete(id)
+}
+
+export async function clearCalculationHistoryByCalculators(calculators: string[]) {
+  const records = await db.calculationHistory.where('calculator').anyOf(calculators).toArray()
+  await db.calculationHistory.bulkDelete(records.map((record) => record.id))
+}

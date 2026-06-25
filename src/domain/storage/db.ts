@@ -62,6 +62,40 @@ export type Intervention = {
   updatedAt: string
 }
 
+export type VisualResourceType = 'real-photo' | 'annotated-photo' | 'technical-diagram' | 'step-by-step' | 'correct-incorrect' | 'interactive-diagram' | 'chart'
+
+export type VisualAnnotation = {
+  id: string
+  xPct: number
+  yPct: number
+  label: string
+  description?: string
+  field?: string
+}
+
+export type VisualResource = {
+  id: string
+  module: string
+  calculator: string
+  type: VisualResourceType
+  title: string
+  description: string
+  imagePath: string
+  thumbnailPath?: string
+  altText: string
+  tags: string[]
+  source: string
+  sourceUrl?: string
+  license: string
+  version: string
+  annotations: VisualAnnotation[]
+  relatedFields: string[]
+  relatedCalculations: string[]
+  active: boolean
+  sortOrder: number
+  createdAt: string
+  updatedAt: string
+}
 export type CalculationHistoryRecord = {
   id: string
   module: string
@@ -82,6 +116,7 @@ export class IsiVoltDb extends Dexie {
   equipment!: EntityTable<Equipment, 'id'>
   interventions!: EntityTable<Intervention, 'id'>
   calculationHistory!: EntityTable<CalculationHistoryRecord, 'id'>
+  visualResources!: EntityTable<VisualResource, 'id'>
 
   constructor() {
     super('isivoltpro-refrigeracion')
@@ -107,6 +142,15 @@ export class IsiVoltDb extends Dexie {
       interventions: 'id, date, clientName, installationName, equipmentLabel, refrigerant, workType, status, updatedAt',
       calculationHistory: 'id, module, calculator, refrigerant, equipmentId, interventionId, reportId, createdAt',
     })
+
+    this.version(4).stores({
+      clients: 'id, name',
+      installations: 'id, clientId, name',
+      equipment: 'id, installationId, refrigerant, serialNumber',
+      interventions: 'id, date, clientName, installationName, equipmentLabel, refrigerant, workType, status, updatedAt',
+      calculationHistory: 'id, module, calculator, refrigerant, equipmentId, interventionId, reportId, createdAt',
+      visualResources: 'id, module, calculator, type, active, sortOrder, updatedAt',
+    })
   }
 }
 
@@ -118,7 +162,7 @@ export function newId(prefix: string) {
 
 export async function exportBackup() {
   return {
-    schemaVersion: 3,
+    schemaVersion: 4,
     app: 'IsiVoltPro Refrigeración',
     exportedAt: new Date().toISOString(),
     clients: await db.clients.toArray(),
@@ -126,6 +170,7 @@ export async function exportBackup() {
     equipment: await db.equipment.toArray(),
     interventions: await db.interventions.toArray(),
     calculationHistory: await db.calculationHistory.toArray(),
+    visualResources: await db.visualResources.toArray(),
   }
 }
 
@@ -134,11 +179,12 @@ export type IsiVoltBackup = Awaited<ReturnType<typeof exportBackup>>
 export async function importBackup(data: Partial<IsiVoltBackup>) {
   if (!data || typeof data !== 'object') throw new TypeError('La copia de seguridad no es válida.')
 
-  await db.transaction('rw', db.clients, db.installations, db.equipment, db.interventions, db.calculationHistory, async () => {
+  await db.transaction('rw', [db.clients, db.installations, db.equipment, db.interventions, db.calculationHistory, db.visualResources], async () => {
     await db.clients.bulkPut(data.clients ?? [])
     await db.installations.bulkPut(data.installations ?? [])
     await db.equipment.bulkPut(data.equipment ?? [])
     await db.interventions.bulkPut(data.interventions ?? [])
     await db.calculationHistory.bulkPut(data.calculationHistory ?? [])
+    await db.visualResources.bulkPut(data.visualResources ?? [])
   })
 }

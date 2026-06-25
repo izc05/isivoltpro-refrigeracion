@@ -248,6 +248,33 @@ body { background: var(--sz-bg); background-image: var(--sz-gradient); color: va
 .sz-empty p { max-width: 430px; margin: 0; font-size: .82rem; line-height: 1.45; }
 .sz-not-found { text-align: center; }
 .sz-not-found .sz-button { margin-top: 4px; }
+.psychro-screen .psychro-tabs { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.psychro-atmosphere { display: grid; gap: 10px; padding: 12px; background: var(--sz-panel-muted); border: 1px solid var(--sz-border); border-radius: 14px; }
+.psychro-atmosphere .segmented, .psychro-screen .segmented { display: grid; gap: 4px; padding: 4px; background: color-mix(in srgb, var(--sz-bg) 44%, var(--sz-panel)); border: 1px solid var(--sz-border); border-radius: 13px; }
+.psychro-atmosphere .three-segment { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.psychro-screen .two-segment { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.psychro-atmosphere .segmented button, .psychro-screen .segmented button { min-width: 0; min-height: 39px; padding: 7px 8px; color: var(--sz-muted); background: transparent; border: 1px solid transparent; border-radius: 9px; box-shadow: none; font-size: .77rem; font-weight: 760; }
+.psychro-atmosphere .segmented button.active, .psychro-screen .segmented button.active { color: var(--sz-primary-text); background: var(--sz-primary); }
+.psychro-warning { margin: 0; color: var(--sz-warning); font-size: .78rem; line-height: 1.4; }
+.psychro-result h3, .psychro-condensation h3 { margin: 16px 0 0; font-size: .88rem; color: var(--sz-primary); }
+.psychro-condensation.is-high { border-color: color-mix(in srgb, var(--sz-danger) 46%, var(--sz-border)); }
+.psychro-condensation.is-high > strong { color: var(--sz-danger); }
+.psychro-condensation.is-preventive > strong { color: var(--sz-warning); }
+.psychro-condensation.is-none > strong { color: var(--sz-success); }
+.psychro-state-mini { display: grid; gap: 10px; padding: 12px; background: var(--sz-panel-muted); border: 1px solid var(--sz-border); border-radius: 14px; }
+.psychro-state-mini h3 { margin: 0; color: var(--sz-primary); font-size: .92rem; }
+.psychro-learning { display: grid; gap: 10px; }
+.psychro-accordion { overflow: hidden; background: var(--sz-panel-muted); border: 1px solid var(--sz-border); border-radius: 14px; }
+.psychro-accordion > button { width: 100%; min-height: 54px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--sz-text); background: transparent; border: 0; border-radius: 0; box-shadow: none; text-align: left; }
+.psychro-accordion > button span { color: var(--sz-primary); font-size: .75rem; font-weight: 780; }
+.psychro-accordion > div { padding: 0 14px 14px; border-top: 1px solid var(--sz-border); }
+.psychro-accordion p { margin: 10px 0 0; color: var(--sz-muted); font-size: .83rem; line-height: 1.5; }
+.psychro-history-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.psychro-history-head h2 { margin: 0; }
+.psychro-history-list { display: grid; gap: 12px; }
+.psychro-history-card { padding: 14px; background: var(--sz-panel-muted); border: 1px solid var(--sz-border); border-radius: 15px; }
+.psychro-history-card small { color: var(--sz-muted); font-size: .74rem; }
+.psychro-history-card h3 { margin: 5px 0 8px; color: var(--sz-text); font-size: .98rem; }
 
 @media (min-width: 980px) {
   .sz-app { padding-left: 92px; }
@@ -277,6 +304,9 @@ body { background: var(--sz-bg); background-image: var(--sz-gradient); color: va
   .sz-bottom-nav span { font-size: .62rem; }
   .sz-card-head { align-items: flex-start; }
   .sz-result-foot { display: grid; }
+  .psychro-screen .psychro-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .psychro-atmosphere .three-segment { grid-template-columns: 1fr; }
+  .psychro-history-head { display: grid; }
 }
 
 @media (max-width: 360px) {
