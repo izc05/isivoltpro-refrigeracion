@@ -1178,3 +1178,114 @@
     border-radius: 16px;
   }
 }
+
+.sz-field-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin: 12px 0 4px;
+}
+
+.sz-field-action {
+  min-height: 74px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 11px;
+  color: var(--sz-text);
+  background: var(--sz-panel);
+  border: 1px solid var(--sz-border);
+  border-radius: 17px;
+  box-shadow: var(--sz-shadow);
+  text-decoration: none;
+}
+
+.sz-field-action span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: var(--sz-primary);
+  background: color-mix(in srgb, var(--sz-primary) 9%, var(--sz-panel));
+  border-radius: 11px;
+}
+
+.sz-field-action svg {
+  width: 18px;
+  height: 18px;
+}
+
+.sz-field-action strong,
+.sz-field-action small {
+  display: block;
+  min-width: 0;
+}
+
+.sz-field-action strong {
+  overflow: hidden;
+  font-size: .8rem;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sz-field-action small {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--sz-muted);
+  font-size: .64rem;
+  line-height: 1.22;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.sz-alert-strip {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.sz-alert-strip article {
+  display: flex;
+  gap: 11px;
+  padding: 13px;
+  color: var(--sz-text);
+  background: var(--sz-panel);
+  border: 1px solid var(--sz-border);
+  border-radius: 17px;
+  box-shadow: var(--sz-shadow);
+}
+
+.sz-alert-strip article.is-warning {
+  border-color: color-mix(in srgb, var(--sz-warning) 34%, var(--sz-border));
+  background: color-mix(in srgb, var(--sz-warning) 8%, var(--sz-panel));
+}
+
+.sz-alert-strip article.is-ok {
+  border-color: color-mix(in srgb, var(--sz-success) 24%, var(--sz-border));
+}
+
+.sz-alert-strip svg {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 auto;
+  color: var(--sz-warning);
+}
+
+.sz-alert-strip article.is-ok svg {
+  color: var(--sz-success);
+}
+
+.sz-alert-strip p {
+  margin: 4px 0 0;
+  color: var(--sz-muted);
+  font-size: .73rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 360px) {
+  .sz-field-actions {
+    grid-template-columns: 1fr;
+  }
+}

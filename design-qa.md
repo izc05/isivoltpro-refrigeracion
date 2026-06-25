@@ -18,7 +18,7 @@ focused region comparison evidence: blocked for the same reason.
 ## DOM Checks Completed
 
 - Bottom navigation contains Inicio, Herramientas, Trabajo, Biblioteca, Ajustes.
-- Inicio renders six quick access tool cards at mobile viewport.
+- Inicio renders six quick access tool cards at mobile viewport.\n- Inicio renders four field actions: Continuar, Escanear QR, Crear ficha and Regla P/T.\n- Inicio renders two alert cards for drafts/work state and local backup.
 - The Mover control exposes 12 accessible up/down controls for six quick-access cards.
 - No horizontal overflow detected at 390 px width.
 - Regla P/T route exposes the quick/explained mode switch.
@@ -32,7 +32,7 @@ focused region comparison evidence: blocked for the same reason.
 - Added quick/explained mode switch to P/T, recalentamiento and subenfriamiento screen.
 - Added iPhone-style home access cards and category tiles.
 - Set light theme as the default for new sessions and refined the white/very-light gray visual option.
-- Added movable quick-access controls and phase strip on Inicio.
+- Added movable quick-access controls and phase strip on Inicio.\n- Added home work snapshot from IndexedDB: last intervention, draft count and total interventions.\n- Added field action grid and alert cards for QR, client/equipment creation, continuation and backup.
 
 ## Final Result
 
