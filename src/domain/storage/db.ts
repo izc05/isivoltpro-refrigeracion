@@ -62,11 +62,26 @@ export type Intervention = {
   updatedAt: string
 }
 
+export type CalculationHistoryRecord = {
+  id: string
+  module: string
+  calculator: string
+  refrigerant?: string
+  equipmentId?: string
+  interventionId?: string
+  reportId?: string
+  createdAt: string
+  sourceProvider: string
+  sourceVersion: string
+  payload: unknown
+}
+
 export class IsiVoltDb extends Dexie {
   clients!: EntityTable<Client, 'id'>
   installations!: EntityTable<Installation, 'id'>
   equipment!: EntityTable<Equipment, 'id'>
   interventions!: EntityTable<Intervention, 'id'>
+  calculationHistory!: EntityTable<CalculationHistoryRecord, 'id'>
 
   constructor() {
     super('isivoltpro-refrigeracion')
@@ -84,6 +99,14 @@ export class IsiVoltDb extends Dexie {
       equipment: 'id, installationId, refrigerant, serialNumber',
       interventions: 'id, date, clientName, installationName, equipmentLabel, refrigerant, workType, status, updatedAt',
     })
+
+    this.version(3).stores({
+      clients: 'id, name',
+      installations: 'id, clientId, name',
+      equipment: 'id, installationId, refrigerant, serialNumber',
+      interventions: 'id, date, clientName, installationName, equipmentLabel, refrigerant, workType, status, updatedAt',
+      calculationHistory: 'id, module, calculator, refrigerant, equipmentId, interventionId, reportId, createdAt',
+    })
   }
 }
 
@@ -95,13 +118,14 @@ export function newId(prefix: string) {
 
 export async function exportBackup() {
   return {
-    schemaVersion: 2,
+    schemaVersion: 3,
     app: 'IsiVoltPro Refrigeración',
     exportedAt: new Date().toISOString(),
     clients: await db.clients.toArray(),
     installations: await db.installations.toArray(),
     equipment: await db.equipment.toArray(),
     interventions: await db.interventions.toArray(),
+    calculationHistory: await db.calculationHistory.toArray(),
   }
 }
 
@@ -110,10 +134,11 @@ export type IsiVoltBackup = Awaited<ReturnType<typeof exportBackup>>
 export async function importBackup(data: Partial<IsiVoltBackup>) {
   if (!data || typeof data !== 'object') throw new TypeError('La copia de seguridad no es válida.')
 
-  await db.transaction('rw', db.clients, db.installations, db.equipment, db.interventions, async () => {
+  await db.transaction('rw', db.clients, db.installations, db.equipment, db.interventions, db.calculationHistory, async () => {
     await db.clients.bulkPut(data.clients ?? [])
     await db.installations.bulkPut(data.installations ?? [])
     await db.equipment.bulkPut(data.equipment ?? [])
     await db.interventions.bulkPut(data.interventions ?? [])
+    await db.calculationHistory.bulkPut(data.calculationHistory ?? [])
   })
 }

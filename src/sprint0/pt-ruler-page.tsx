@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BarChart3, BookOpen, ChevronDown, ChevronUp, Save, SlidersHorizontal } from 'lucide-react'
 import { refrigerantTables, type RefrigerantTable } from '../data/generated'
+import { calculatePressureTemperature as enginePressureTemperature, calculateSubcooling as engineSubcooling, calculateSuperheat as engineSuperheat } from '../calculation-engine/formulas/refrigerants'
+import { saveCalculationHistory } from '../calculation-engine/refrigerants/history'
 import { refrigerantMetadata } from '../data/refrigerant-metadata'
 import { calculateSubcooling, calculateSuperheat, evaluateSubcooling, evaluateSuperheat, interpolatePressureFromTemperature, interpolateTemperatureFromPressure, type ThermalIndicator } from '../domain/refrigerants/calculations'
 import { commonPressureRows, maxGlideK, tableStatusLabel } from '../domain/refrigerants/summary'
@@ -139,12 +141,19 @@ export function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcoolin
 
   const saveThermal = async () => {
     if (!thermal) return
+    if (superheat) {
+      await saveCalculationHistory(engineSuperheat({ refrigerant, suctionPressure: parseRequiredNumber(pressure, 'presión'), pressureUnit: unit, pressureKind: kind, suctionPipeTemperature: parseRequiredNumber(temperature, 'temperatura'), temperatureUnit, atmospherePa }))
+    } else {
+      await saveCalculationHistory(engineSubcooling({ refrigerant, liquidPressure: parseRequiredNumber(pressure, 'presión'), pressureUnit: unit, pressureKind: kind, liquidLineTemperature: parseRequiredNumber(temperature, 'temperatura'), temperatureUnit, atmospherePa }))
+    }
     await createMeasurementDraft({ workType: superheat ? 'Medición de recalentamiento' : 'Medición de subenfriamiento', refrigerant, pressures: `${pressure} ${formatPressureLabel(unit, kind)}`, temperatures: `${formatNumber(displayTemperature(thermal.measuredC, temperatureUnit), 1)} ${temperatureSymbol(temperatureUnit)}`, superheatK: superheat ? thermal.resultK : undefined, subcoolingK: subcooling ? thermal.resultK : undefined, observations: `Saturación ${formatNumber(displayTemperature(thermal.saturationC, temperatureUnit), 1)} ${temperatureSymbol(temperatureUnit)}.` })
     setSaved(true)
   }
 
   const savePtReading = async () => {
     if (!liveResult) return
+    const calculation = enginePressureTemperature({ refrigerant, mode: 'pressure-to-temperature', pressure: currentPressure, pressureUnit: unit, pressureKind: kind, temperatureUnit, branch: selectedBranch, atmospherePa })
+    await saveCalculationHistory(calculation)
     await createMeasurementDraft({ workType: 'Lectura presión-temperatura', refrigerant, pressures: `${formatNumber(currentPressure)} ${formatPressureLabel(unit, kind)}`, temperatures: `${formatNumber(displayTemperature(liveResult.selectedC, temperatureUnit), 2)} ${temperatureSymbol(temperatureUnit)}`, observations: `${selectedBranchLabel}; burbuja ${formatNumber(displayTemperature(liveResult.bubbleC, temperatureUnit), 2)} ${temperatureSymbol(temperatureUnit)}; rocío ${formatNumber(displayTemperature(liveResult.dewC, temperatureUnit), 2)} ${temperatureSymbol(temperatureUnit)}.` })
     setSaved(true)
   }

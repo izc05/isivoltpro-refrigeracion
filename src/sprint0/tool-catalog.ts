@@ -99,10 +99,10 @@ export const tools = [
     id: 'psychrometrics',
     title: 'Psicrometría',
     subtitle: 'Temperatura seca, humedad, punto de rocío y entalpía.',
-    path: '/planned/psychrometrics',
+    path: '/psychrometrics',
     icon: Waves,
     category: 'climatizacion',
-    status: 'planned',
+    status: 'active',
   },
   {
     id: 'thermal-load',
