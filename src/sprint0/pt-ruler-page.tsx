@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BarChart3, ChevronDown, ChevronUp, Save, SlidersHorizontal } from 'lucide-react'
+import { BarChart3, BookOpen, ChevronDown, ChevronUp, Save, SlidersHorizontal } from 'lucide-react'
 import { refrigerantTables, type RefrigerantTable } from '../data/generated'
 import { refrigerantMetadata } from '../data/refrigerant-metadata'
 import { calculateSubcooling, calculateSuperheat, evaluateSubcooling, evaluateSuperheat, interpolatePressureFromTemperature, interpolateTemperatureFromPressure, type ThermalIndicator } from '../domain/refrigerants/calculations'
@@ -59,6 +59,7 @@ export function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcoolin
   const [chart, setChart] = useState(false)
   const [saved, setSaved] = useState(false)
   const [showOptions, setShowOptions] = useState(true)
+  const [viewMode, setViewMode] = useState<'rapido' | 'explicado'>('rapido')
   const table = getTable(refrigerant)
   const metadata = refrigerantMetadata[table.refrigerant]
   const superheat = mode === 'superheat'
@@ -155,6 +156,13 @@ export function PtPage({ mode = 'pt' }: { mode?: 'pt' | 'superheat' | 'subcoolin
 
   return <main className="sz-screen sz-pt-screen">
     <PageTitle eyebrow="Cálculo termodinámico" title={title} description={mode === 'pt' ? 'Desliza la regla o introduce un valor para consultar la saturación.' : 'Usa presión medida y temperatura real de la tubería.'} />
+
+    <div className="sz-mode-switch" aria-label="Modo de herramienta">
+      <button type="button" className={viewMode === 'rapido' ? 'active' : ''} onClick={() => setViewMode('rapido')}>Modo rápido</button>
+      <button type="button" className={viewMode === 'explicado' ? 'active' : ''} onClick={() => setViewMode('explicado')}><BookOpen />Modo explicado</button>
+    </div>
+
+    {viewMode === 'explicado' && <section className="sz-explained-panel"><h2>{mode === 'pt' ? 'Qué se calcula' : superheat ? 'Recalentamiento' : 'Subenfriamiento'}</h2><p>{mode === 'pt' ? 'La regla P/T relaciona presión y temperatura de saturación. En mezclas con glide se separan rocío y burbuja.' : superheat ? 'Recalentamiento = temperatura medida en aspiración - temperatura de saturación por rocío.' : 'Subenfriamiento = temperatura de saturación por burbuja - temperatura medida en línea de líquido.'}</p><div className="sz-data-list compact"><p><span>Procedimiento</span><strong>Medir, elegir unidad, calcular, interpretar</strong></p><p><span>Error frecuente</span><strong>No confundir presión absoluta y manométrica</strong></p><p><span>Uso técnico</span><strong>Resultado orientativo con fuente de datos</strong></p></div></section>}
 
     <section className="sz-pt-toolbar">
       <label>Refrigerante<select value={refrigerant} onChange={(event) => setRefrigerant(event.target.value)}>{refrigerantTables.map((item) => <option key={item.refrigerant}>{item.refrigerant}</option>)}</select></label>

@@ -1,7 +1,7 @@
 /* eslint react-refresh/only-export-components: ["error", { "allowExportNames": ["APP_VERSION", "appIconUrl", "preferredPressureUnits", "formatNumber", "parseRequiredNumber", "optionalNumber", "getTable", "isZeotropicWithGlide", "useSettings", "createMeasurementDraft", "downloadBlob"] }] */
 import { useEffect, useState, type ReactNode } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { AlertTriangle, ArrowLeft, CheckCircle2, ClipboardList, FileText, Grid3X3, Home, RefreshCw, Settings, Wifi, WifiOff } from 'lucide-react'
+import { AlertTriangle, ArrowLeft, BookOpen, BriefcaseBusiness, CheckCircle2, Grid3X3, Home, RefreshCw, Settings, Wifi, WifiOff } from 'lucide-react'
 import { refrigerantTables, type RefrigerantTable } from '../data/generated'
 import { maxGlideK } from '../domain/refrigerants/summary'
 import { altitudeToAtmospherePa, DEFAULT_ATMOSPHERE_PA, parseLocalizedNumber, type PressureUnit } from '../domain/units'
@@ -103,7 +103,7 @@ export function Shell({ children }: { children: ReactNode }) {
     {updateReady && <div className="sz-update-banner"><RefreshCw /><span>Nueva versión disponible.</span><button type="button" onClick={() => window.location.reload()}>Actualizar</button></div>}
     {children}
     <nav className="sz-bottom-nav" aria-label="Navegación principal">
-      <NavLink to="/"><Home /><span>Inicio</span></NavLink><NavLink to="/tools"><Grid3X3 /><span>Herramientas</span></NavLink><NavLink to="/interventions"><ClipboardList /><span>Trabajo</span></NavLink><NavLink to="/reports"><FileText /><span>Informes</span></NavLink><NavLink to="/settings"><Settings /><span>Ajustes</span></NavLink>
+      <NavLink to="/"><Home /><span>Inicio</span></NavLink><NavLink to="/tools"><Grid3X3 /><span>Herramientas</span></NavLink><NavLink to="/work"><BriefcaseBusiness /><span>Trabajo</span></NavLink><NavLink to="/library"><BookOpen /><span>Biblioteca</span></NavLink><NavLink to="/settings"><Settings /><span>Ajustes</span></NavLink>
     </nav>
   </div>
 }
