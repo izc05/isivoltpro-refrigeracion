@@ -135,10 +135,10 @@ export const tools = [
     id: 'hydraulics',
     title: 'Aerotermia e hidráulica',
     subtitle: 'Caudal de agua, depósito, vaso de expansión, ACS y suelo radiante.',
-    path: '/planned/hydraulics',
+    path: '/hydraulics',
     icon: Fan,
     category: 'aerotermia',
-    status: 'planned',
+    status: 'active',
   },
   {
     id: 'electrical',

@@ -8,6 +8,7 @@ import { ConverterPage } from './sprint0/converter-page'
 import { ChargePage, VacuumPage } from './sprint0/charge-vacuum-pages'
 import { PsychrometricsPage } from './sprint0/psychrometrics-page'
 import { DuctsPage } from './sprint0/ducts-page'
+import { HydraulicsPage } from './sprint0/hydraulics-page'
 import { ComparePage, DiagnosticsPage, RefrigerantsPage } from './sprint0/data-pages'
 import { InterventionsPage, LibraryPage, NotFoundPage, PlannedPage, ReportsPage, WorkHubPage } from './sprint0/work-pages'
 import { SettingsPage } from './sprint0/settings-page'
@@ -27,6 +28,7 @@ export default function SprintZeroAppV2() {
     <Route path="/diagnostics" element={<DiagnosticsPage />} />
     <Route path="/psychrometrics" element={<PsychrometricsPage />} />
     <Route path="/ducts" element={<DuctsPage />} />
+    <Route path="/hydraulics" element={<HydraulicsPage />} />
     <Route path="/work" element={<WorkHubPage />} />
     <Route path="/library" element={<LibraryPage />} />
     <Route path="/planned/:id" element={<PlannedPage />} />
