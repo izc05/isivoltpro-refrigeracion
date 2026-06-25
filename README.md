@@ -12,7 +12,8 @@ Aplicación móvil/PWA para técnicos de aire acondicionado y refrigeración. Fu
 - Calculadora de vacío con fases de prueba, valores inicial/final y gráfica orientativa.
 - Calculadora de carga por peso con g, kg, lb y oz.
 - Interpolación monotónica y cálculo de recalentamiento/subenfriamiento contra tablas generadas.
-- Almacenamiento local Dexie/IndexedDB.
+- Motor modular src/calculation-engine con schemas, validación, normalización, resultados trazables, interpretación y advertencias.
+- Almacenamiento local Dexie/IndexedDB con historial estructurado de cálculos.
 - PDF A4 con jsPDF.
 - Capacitor Android con `com.isivoltpro.refrigeracion`.
 
@@ -71,6 +72,14 @@ No subas keystores a Git.
 - `android/app/build/outputs/apk/debug/app-debug.apk`
 - `android/app/build/outputs/apk/release/app-release.apk`
 - `android/app/build/outputs/bundle/release/app-release.aab`
+
+## Prueba rápida de calculadoras
+
+- Regla P/T: abre /pt, selecciona refrigerante, unidad y presión absoluta/manométrica; guarda la lectura para crear borrador e historial.
+- Recalentamiento: abre /superheat, introduce presión de aspiración y temperatura de tubería; revisa resultado, interpretación y guarda.
+- Subenfriamiento: abre /subcooling, introduce presión de líquido y temperatura de línea; revisa resultado e interpretación.
+- Carga adicional: abre /charge, introduce placa, longitud incluida/instalada y g/m del fabricante.
+- Comparador: abre /compare; la salida es informativa y no declara intercambiabilidad.
 
 ## Pruebas ejecutadas
 
