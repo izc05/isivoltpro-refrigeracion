@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { AlertTriangle, CheckCircle2, ClipboardList, Download, FileText, Moon, Plus, RefreshCw, Save, Search, Sun, Trash2 } from 'lucide-react'
+import { NavLink, useParams } from 'react-router-dom'
+import { AlertTriangle, BookOpen, Building2, Camera, CheckCircle2, ClipboardList, Download, FileText, History, Moon, PackageSearch, Plus, RefreshCw, Save, Search, Sun, Trash2, UsersRound, Wrench, ChevronRight } from 'lucide-react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -10,6 +10,43 @@ import { db, exportBackup, importBackup, newId, type Intervention } from '../dom
 import { generateInterventionPdf, interventionPdfFilename } from '../domain/reports/pdf'
 import { downloadBlob, EmptyState, Notice, optionalNumber, PageTitle, useSettings } from './shared'
 
+
+const workHubItems = [
+  { title: 'Clientes', text: 'Datos, contacto, instalaciones e historial.', path: '/planned/clients', icon: UsersRound },
+  { title: 'Instalaciones', text: 'Ubicación, uso, equipos asociados y documentación.', path: '/planned/installations', icon: Building2 },
+  { title: 'Equipos', text: 'Placa, refrigerante, carga, QR, manuales e historial.', path: '/planned/equipment', icon: Wrench },
+  { title: 'Intervenciones', text: 'Parte técnico, mediciones, diagnóstico y cierre.', path: '/interventions', icon: ClipboardList },
+  { title: 'Fotos', text: 'Placas, mediciones, estado inicial y final.', path: '/planned/photos', icon: Camera },
+  { title: 'Historial', text: 'Intervenciones, cálculos recientes y documentos.', path: '/planned/history', icon: History },
+  { title: 'Informes PDF', text: 'Generación y consulta de informes desde intervenciones.', path: '/reports', icon: FileText },
+]
+
+const libraryItems = [
+  { title: 'Refrigerantes', text: 'Fichas, seguridad, GWP, glide y fuentes.', path: '/refrigerants', icon: BookOpen },
+  { title: 'Procedimientos', text: 'Vacío, estanqueidad, recuperación, carga y diagnóstico.', path: '/planned/procedures', icon: ClipboardList },
+  { title: 'Normativa', text: 'Referencias técnicas y obligaciones aplicables.', path: '/planned/regulations', icon: FileText },
+  { title: 'Productos', text: 'Equipos, repuestos, válvulas, filtros y compatibilidades.', path: '/planned/products', icon: PackageSearch },
+  { title: 'Formación', text: 'Modo explicado, ejemplos, errores frecuentes y glosario.', path: '/planned/training', icon: BookOpen },
+]
+
+function HubGrid({ items }: { items: Array<{ title: string; text: string; path: string; icon: typeof BookOpen }> }) {
+  return <div className="sz-hub-grid">{items.map((item) => { const Icon = item.icon; return <NavLink className="sz-hub-card" to={item.path} key={item.title}><span><Icon /></span><strong>{item.title}</strong><small>{item.text}</small><ChevronRight /></NavLink> })}</div>
+}
+
+export function WorkHubPage() {
+  return <main className="sz-screen sz-hub-screen"><PageTitle eyebrow="Trabajo" title="Trabajo de campo" description="Clientes, instalaciones, equipos, intervenciones, fotografías, historial e informes PDF." /><HubGrid items={workHubItems} /><Notice tone="warning"><p>Los informes se gestionan dentro de Trabajo. Las herramientas solo guardan mediciones o borradores en intervención.</p></Notice></main>
+}
+
+export function LibraryPage() {
+  return <main className="sz-screen sz-hub-screen"><PageTitle eyebrow="Biblioteca" title="Biblioteca técnica" description="Refrigerantes, procedimientos, normativa, productos y formación para el modo explicado." /><HubGrid items={libraryItems} /><Notice><p>Las referencias técnicas deben mantener fuente, fecha de revisión y limitaciones de uso.</p></Notice></main>
+}
+
+export function PlannedPage() {
+  const { id } = useParams()
+  const item = [...workHubItems, ...libraryItems].find((entry) => entry.path === `/planned/${id}`)
+  const toolName = id?.split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ') ?? 'Módulo'
+  return <main className="sz-screen sz-hub-screen"><PageTitle eyebrow="Pendiente de activar" title={item?.title ?? toolName} description={item?.text ?? 'Pantalla reservada para una herramienta o módulo de la hoja de ruta.'} /><section className="sz-panel"><h2>Diseño preparado, cálculo no activado</h2><p>Este acceso forma parte de la estructura iPhone navegable. La lógica se añadirá en la etapa correspondiente sin inventar datos técnicos ni sustituir cálculos validados.</p><div className="sz-data-list"><p><span>Modo rápido</span><strong>pendiente</strong></p><p><span>Modo explicado</span><strong>pendiente</strong></p><p><span>Guardar en intervención</span><strong>pendiente</strong></p></div></section><Notice tone="warning"><p>Hasta que se active, esta pantalla no muestra resultados técnicos ni recomendaciones de cálculo.</p></Notice></main>
+}
 const schema = z.object({
   clientName: z.string().trim().min(2, 'Indica el cliente.'),
   installationName: z.string().optional(), equipmentLabel: z.string().optional(), refrigerant: z.string().optional(),
