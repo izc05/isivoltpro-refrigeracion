@@ -1378,6 +1378,24 @@
   display: block;
 }
 
+.psychro-chart-svg { background: linear-gradient(#f8fdff, #d7f4ff); }
+.psychro-grid { stroke: #36c9d5; stroke-width: .8; opacity: .58; }
+.psychro-diagonal { stroke: #1c8089; stroke-width: 1; opacity: .52; }
+.psychro-rh { fill: none; stroke: #22b8c7; stroke-width: 1.35; opacity: .9; }
+.psychro-saturation { fill: none; stroke: #0f8fb3; stroke-width: 3; }
+.psychro-guide { stroke: #2d6cdf; stroke-width: 1.6; stroke-dasharray: 5 4; opacity: .72; }
+.psychro-process { fill: none; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+.psychro-cooling { stroke: #dc2626; }
+.psychro-point { stroke: #ffffff; stroke-width: 2; }
+.psychro-point.aa { fill: #2563eb; }
+.psychro-point.da { fill: #dc2626; }
+.psychro-point.pp { fill: #7c3aed; }
+.psychro-title { fill: #0f766e; font-size: 15px; font-weight: 850; }
+.psychro-axis-title { fill: #0f766e; font-size: 11px; font-weight: 760; }
+.psychro-axis-label, .psychro-rh-label, .psychro-point-label, .psychro-legend { fill: #0f766e; font-size: 10px; font-weight: 680; }
+.psychro-point-label { font-size: 12px; fill: #16324f; }
+.psychro-legend { fill: #0e7490; }
+
 .sz-annotation-pin {
   position: absolute;
   max-width: 140px;
