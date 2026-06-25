@@ -16,7 +16,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 COOLPROP_VERSION = "6.8.0"
-REFRIGERANTS = ["R32", "R410A", "R134a", "R407C", "R404A", "R22", "R290", "R600a", "R1234yf", "R744", "R454B", "R454C"]
+REFRIGERANTS = [
+    "R32", "R410A", "R134a", "R407C", "R404A", "R507A", "R22",
+    "R290", "R600a", "R1234yf", "R1234ze(E)", "R744",
+    "R454B", "R452B", "R455A", "R454C", "R513A", "R450A",
+    "R470A", "R466A", "R448A", "R449A",
+]
 OUT_DIR = Path("src/data/generated")
 
 
@@ -41,9 +46,9 @@ def safe_props(props, output, name1, value1, name2, value2, fluid):
 
 
 def classify(ref: str) -> str:
-    if ref in {"R407C", "R404A"}:
+    if ref in {"R407C", "R404A", "R448A", "R449A", "R452B", "R455A", "R454B", "R454C"}:
         return "zeotropic"
-    if ref in {"R410A"}:
+    if ref in {"R410A", "R507A", "R513A", "R450A"}:
         return "near-azeotropic"
     return "pure"
 

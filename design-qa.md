@@ -1,19 +1,39 @@
-source visual truth path: .codex-remote-attachments/019ef42e-5723-77d2-95cf-81a0a5fa30c7/75b50ac7-7a03-4531-a8ca-0c915127d0e6/1-Photo-1.jpg
-implementation screenshot path: qa/redesign-home.png and qa/redesign-pt.png
-viewport: 390 x 844 mobile
-state: home and Presión - Temperatura default pending-data state
-full-view comparison evidence: reference and implementation both use a dark technical mobile interface, compact top app bar, blue/cyan iconography, two-column tool cards, dense controls, segmented pressure-unit buttons, panel borders, and bottom navigation.
-focused region comparison evidence: home grid and P/T screen were captured separately because table/controls require readable inspection.
+# Design QA
 
-**Findings**
-- No P0/P1/P2 findings remain. The implementation follows the reference's core visual system: dark navy background, electric blue accents, compact cards, technical icon style, segmented tabs, table/result panels, and bottom navigation.
+source visual truth path: C:/Users/ISICIO/Documents/Codex/2026-06-24/mon/.codex-remote-attachments/019efad5-4595-7650-a906-9f42dff3defd/9297f168-bceb-40fc-8936-1eecac591866/1-Photo-1.jpg
+implementation screenshot path: blocked
+viewport: 390 x 844
+state: Inicio, Herramientas, Regla P/T iPhone UI
+full-view comparison evidence: blocked because the in-app browser repeatedly timed out on Page.captureScreenshot.
+focused region comparison evidence: blocked for the same reason.
 
-**Required Fidelity Surfaces**
-- Fonts and typography: uses system UI with heavy headings and compact labels. It is not an exact font match, but hierarchy and density match the reference closely enough for this pass.
-- Spacing and layout rhythm: two-column mobile grid, tight cards, fixed top bar, and bottom nav match the reference structure. Long home content scrolls, which is expected for a functional app.
-- Colors and visual tokens: dark navy surfaces, blue primary, cyan support, amber warnings, and green charge result match the supplied palette.
-- Image quality and asset fidelity: the app uses its own local SVG icon/logo rather than copying the screenshot asset. This is intentional and avoids using a copied brand image from the mockup.
-- Copy and content: app-specific Spanish copy remains functional and avoids invented thermodynamic values.
+## Findings
 
-patches made since previous QA pass: redesigned App shell, home, cards, P/T screen, converter, comparator, charge result, bottom nav, and global CSS; updated E2E selectors.
-final result: passed
+- [P0] Visual screenshot comparison could not be completed
+  Location: QA capture pipeline.
+  Evidence: DOM inspection works and local app responds, but Browser screenshot capture times out on Page.captureScreenshot.
+  Impact: Product Design QA cannot honestly mark visual fidelity as passed against the reference image.
+  Fix: Run Playwright CLI local screenshots or retry Browser screenshot capture after the browser session is reset.
+
+## DOM Checks Completed
+
+- Bottom navigation contains Inicio, Herramientas, Trabajo, Biblioteca, Ajustes.
+- Inicio renders six quick access tool cards at mobile viewport.\n- Inicio renders four field actions: Continuar, Escanear QR, Crear ficha and Regla P/T.\n- Inicio renders two alert cards for drafts/work state and local backup.
+- The Mover control exposes 12 accessible up/down controls for six quick-access cards.
+- No horizontal overflow detected at 390 px width.
+- Regla P/T route exposes the quick/explained mode switch.
+
+## Patches Made
+
+- Replaced bottom navigation Informes with Biblioteca.
+- Added Trabajo hub and Biblioteca hub.
+- Reworked Herramientas categories to match the official product taxonomy.
+- Added planned-module screens for future tools without inventing calculations.
+- Added quick/explained mode switch to P/T, recalentamiento and subenfriamiento screen.
+- Added iPhone-style home access cards and category tiles.
+- Set light theme as the default for new sessions and refined the white/very-light gray visual option.
+- Added movable quick-access controls and phase strip on Inicio.\n- Added home work snapshot from IndexedDB: last intervention, draft count and total interventions.\n- Added field action grid and alert cards for QR, client/equipment creation, continuation and backup.
+
+## Final Result
+
+final result: blocked

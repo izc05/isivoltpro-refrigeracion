@@ -6,12 +6,21 @@ Aplicación móvil/PWA para técnicos de aire acondicionado y refrigeración. Fu
 
 - PWA instalable con service worker.
 - UI mobile first con navegación inferior.
-- Herramientas de presión-temperatura, recalentamiento, subenfriamiento, conversor, carga adicional, diagnóstico, refrigerantes, comparador, intervenciones, informes y ajustes.
+- Herramientas de presión-temperatura, recalentamiento, subenfriamiento, psicrometría, conductos, hidráulica, conversor, carga adicional, diagnóstico, refrigerantes, comparador, intervenciones, informes y ajustes.
 - Conversión de presión absoluta/manométrica y vacío.
+- Conversor técnico con presión, vacío, temperatura, potencia frigorífica, masa, longitud, caudal, electricidad y COP/EER.
+- Calculadora de vacío con fases de prueba, valores inicial/final y gráfica orientativa.
+- Calculadora de carga por peso con g, kg, lb y oz.
 - Interpolación monotónica y cálculo de recalentamiento/subenfriamiento contra tablas generadas.
-- Almacenamiento local Dexie/IndexedDB.
+- Motor modular src/calculation-engine con schemas, validación, normalización, resultados trazables, interpretación y advertencias.
+- Psicrometría con PsychroLib MIT, adaptada a resultados estructurados e historial local.`n- Dimensionado orientativo de conductos con sección, diámetro circular y rectangular sugerido.`n- Caudal de agua para hidráulica/aerotermia desde potencia y salto térmico.
+- Almacenamiento local Dexie/IndexedDB con historial estructurado de cálculos.
 - PDF A4 con jsPDF.
 - Capacitor Android con `com.isivoltpro.refrigeracion`.
+
+## Roadmap técnico
+
+Las ampliaciones de campo están ordenadas en [ROADMAP_TECHNICAL.md](ROADMAP_TECHNICAL.md). La prioridad actual es cerrar Fase 1 antes de entrar de lleno en equipos, QR, inventario y mantenimiento.
 
 ## Limitación de datos
 
@@ -65,6 +74,15 @@ No subas keystores a Git.
 - `android/app/build/outputs/apk/release/app-release.apk`
 - `android/app/build/outputs/bundle/release/app-release.aab`
 
+## Prueba rápida de calculadoras
+
+- Regla P/T: abre /pt, selecciona refrigerante, unidad y presión absoluta/manométrica; guarda la lectura para crear borrador e historial.
+- Recalentamiento: abre /superheat, introduce presión de aspiración y temperatura de tubería; revisa resultado, interpretación y guarda.
+- Subenfriamiento: abre /subcooling, introduce presión de líquido y temperatura de línea; revisa resultado e interpretación.
+- Carga adicional: abre /charge, introduce placa, longitud incluida/instalada y g/m del fabricante.
+- Comparador: abre /compare; la salida es informativa y no declara intercambiabilidad.
+- Psicrometría: abre /psychrometrics, introduce temperatura seca, humedad relativa y presión atmosférica.
+
 ## Pruebas ejecutadas
 
 - TypeScript: `npm run typecheck`
@@ -81,6 +99,10 @@ No subas keystores a Git.
 - `scripts`: generación de datos.
 - `android`: proyecto Capacitor Android.
 - `play-store`: textos y checklist de publicación.
+
+## Referencias externas
+
+La revisión de repositorios HVAC queda documentada en [docs/github-hvac-research.md](docs/github-hvac-research.md). Solo se integra código con licencia compatible y fuente técnica explícita.
 
 ## Fuentes de datos
 

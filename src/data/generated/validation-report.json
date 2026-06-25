@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+  "generatedAt": "2026-06-24T14:59:08.049867+00:00",
   "coolPropVersion": "6.8.0",
   "report": [
     {
@@ -28,6 +28,11 @@
       "points": 181
     },
     {
+      "refrigerant": "R507A",
+      "status": "ok",
+      "points": 181
+    },
+    {
       "refrigerant": "R22",
       "status": "ok",
       "points": 181
@@ -48,6 +53,11 @@
       "points": 181
     },
     {
+      "refrigerant": "R1234ze(E)",
+      "status": "ok",
+      "points": 181
+    },
+    {
       "refrigerant": "R744",
       "status": "ok",
       "points": 181
@@ -58,7 +68,47 @@
       "reason": "unsupported or invalid critical/triple temperature"
     },
     {
+      "refrigerant": "R452B",
+      "status": "pending",
+      "reason": "unsupported or invalid critical/triple temperature"
+    },
+    {
+      "refrigerant": "R455A",
+      "status": "pending",
+      "reason": "unsupported or invalid critical/triple temperature"
+    },
+    {
       "refrigerant": "R454C",
+      "status": "pending",
+      "reason": "unsupported or invalid critical/triple temperature"
+    },
+    {
+      "refrigerant": "R513A",
+      "status": "pending",
+      "reason": "unsupported or invalid critical/triple temperature"
+    },
+    {
+      "refrigerant": "R450A",
+      "status": "pending",
+      "reason": "unsupported or invalid critical/triple temperature"
+    },
+    {
+      "refrigerant": "R470A",
+      "status": "pending",
+      "reason": "unsupported or invalid critical/triple temperature"
+    },
+    {
+      "refrigerant": "R466A",
+      "status": "pending",
+      "reason": "unsupported or invalid critical/triple temperature"
+    },
+    {
+      "refrigerant": "R448A",
+      "status": "pending",
+      "reason": "unsupported or invalid critical/triple temperature"
+    },
+    {
+      "refrigerant": "R449A",
       "status": "pending",
       "reason": "unsupported or invalid critical/triple temperature"
     }

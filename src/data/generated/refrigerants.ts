@@ -1,4 +1,26 @@
-export type RefrigerantKey = 'R32' | 'R410A' | 'R134a' | 'R407C' | 'R404A' | 'R22' | 'R290' | 'R600a' | 'R1234yf' | 'R744' | 'R454B' | 'R454C'
+export type RefrigerantKey =
+  | 'R32'
+  | 'R410A'
+  | 'R134a'
+  | 'R407C'
+  | 'R404A'
+  | 'R507A'
+  | 'R22'
+  | 'R290'
+  | 'R600a'
+  | 'R1234yf'
+  | 'R1234ze(E)'
+  | 'R744'
+  | 'R454B'
+  | 'R452B'
+  | 'R455A'
+  | 'R454C'
+  | 'R513A'
+  | 'R450A'
+  | 'R470A'
+  | 'R466A'
+  | 'R448A'
+  | 'R449A'
 
 export type SaturationPoint = {
   pressurePaAbs: number
@@ -21,14 +43,14 @@ export type RefrigerantTable = {
 }
 
 export const pendingTables: RefrigerantTable[] = [
-  'R32','R410A','R134a','R407C','R404A','R22','R290','R600a','R1234yf','R744','R454B','R454C',
+  'R32','R410A','R134a','R407C','R404A','R507A','R22','R290','R600a','R1234yf','R1234ze(E)','R744','R454B','R452B','R455A','R454C','R513A','R450A','R470A','R466A','R448A','R449A',
 ].map((refrigerant) => ({
   schemaVersion: 1,
   generatedAt: null,
   generator: 'pending',
   coolPropVersion: null,
   refrigerant: refrigerant as RefrigerantKey,
-  refrigerantType: refrigerant === 'R407C' || refrigerant === 'R404A' ? 'zeotropic' : refrigerant === 'R454B' || refrigerant === 'R454C' ? 'pending' : 'pending',
+  refrigerantType: ['R407C','R404A','R448A','R449A','R452B','R455A','R454B','R454C'].includes(refrigerant) ? 'zeotropic' : 'pending',
   validRange: { minC: null, maxC: null, minPressurePaAbs: null, maxPressurePaAbs: null },
   limitations: ['Datos termodinámicos pendientes de generar con scripts/generate_refrigerant_data.py y CoolProp. No se usan valores manuales.'],
   points: [],

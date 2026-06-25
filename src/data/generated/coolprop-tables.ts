@@ -3,7 +3,7 @@ import type { RefrigerantTable } from './refrigerants'
 export const generatedRefrigerantTables: RefrigerantTable[] = [
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R32",
@@ -1289,7 +1289,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R410A",
@@ -2575,7 +2575,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R134a",
@@ -3861,7 +3861,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R407C",
@@ -5147,7 +5147,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R404A",
@@ -6433,7 +6433,1293 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
+    "generator": "CoolProp",
+    "coolPropVersion": "6.8.0",
+    "refrigerant": "R507A",
+    "refrigerantType": "near-azeotropic",
+    "validRange": {
+      "minC": -60.0,
+      "maxC": 65.0,
+      "minPressurePaAbs": 51053.57987585319,
+      "maxPressurePaAbs": 3283519.161826817
+    },
+    "limitations": [
+      "No se calcula saturación por encima de la temperatura crítica."
+    ],
+    "points": [
+      {
+        "pressurePaAbs": 51053.57987585319,
+        "bubbleC": -60.00000000002845,
+        "dewC": -59.998703645063046,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 52248.32660171146,
+        "bubbleC": -59.58226057461977,
+        "dewC": -59.58104230052592,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 53471.032576312326,
+        "bubbleC": -59.162579507588646,
+        "dewC": -59.16143343628963,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 54722.3520969837,
+        "bubbleC": -58.74094325322969,
+        "dewC": -58.73986350051217,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 56002.95477280237,
+        "bubbleC": -58.3173381516273,
+        "dewC": -58.3163188280904,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 57313.52588291644,
+        "bubbleC": -57.89175042744796,
+        "dewC": -57.8907856394691,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 58654.76674325411,
+        "bubbleC": -57.46416618900628,
+        "dewC": -57.4632500397276,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 60027.39508181315,
+        "bubbleC": -57.03457142728516,
+        "dewC": -57.03369801761917,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 61432.145422733265,
+        "bubbleC": -56.602952014951285,
+        "dewC": -56.60211544460671,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 62869.769479356444,
+        "bubbleC": -56.16929370536661,
+        "dewC": -56.16848807389343,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 64341.036556485575,
+        "bubbleC": -55.733582131595455,
+        "dewC": -55.73280153944992,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 65846.73396205666,
+        "bubbleC": -55.29580280540773,
+        "dewC": -55.29504135503703,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 67387.66742844503,
+        "bubbleC": -54.855941116278586,
+        "dewC": -54.855192913224926,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 68964.66154363028,
+        "bubbleC": -54.41398233038433,
+        "dewC": -54.41324148440867,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 70578.56019245248,
+        "bubbleC": -53.969911589594744,
+        "dewC": -53.96917221582004,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 72230.22700819337,
+        "bubbleC": -53.52371391046276,
+        "dewC": -53.52297013053624,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 73920.54583472594,
+        "bubbleC": -53.075374183210556,
+        "dewC": -53.07462012648563,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 75650.42119947907,
+        "bubbleC": -52.6248771707136,
+        "dewC": -52.62410697545039,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 77420.77879747046,
+        "bubbleC": -52.17220750748143,
+        "dewC": -52.17141532206654,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 79232.56598666664,
+        "bubbleC": -51.71734969863729,
+        "dewC": -51.71652968282186,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 81086.75229493568,
+        "bubbleC": -51.26028811889512,
+        "dewC": -51.25943444505168,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 82984.32993886257,
+        "bubbleC": -50.80100701153586,
+        "dewC": -50.800113865932985,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 84926.31435470744,
+        "bubbleC": -50.33949048728266,
+        "dewC": -50.33855207137785,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 86913.74474178765,
+        "bubbleC": -49.875722523663484,
+        "dewC": -49.87473305541616,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 88947.68461857669,
+        "bubbleC": -49.40968696332911,
+        "dewC": -49.408640678522175,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 91029.22239181677,
+        "bubbleC": -48.94136751358863,
+        "dewC": -48.94025866717806,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 93159.47193894963,
+        "bubbleC": -48.47074774513271,
+        "dewC": -48.46957061260693,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 95339.57320417723,
+        "bubbleC": -47.997811091049016,
+        "dewC": -47.996559969806185,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 97570.69280847159,
+        "bubbleC": -47.522540845794396,
+        "dewC": -47.52121005653484,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 99854.02467385915,
+        "bubbleC": -47.044920164168076,
+        "dewC": -47.04350405230201,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 102190.7906623161,
+        "bubbleC": -46.564932060286,
+        "dewC": -46.56342499735575,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 104582.24122961346,
+        "bubbleC": -46.08255940655738,
+        "dewC": -46.08095579167332,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 107029.65609446405,
+        "bubbleC": -45.5977849326633,
+        "dewC": -45.596079193953386,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 109534.34492332868,
+        "bubbleC": -45.11059122453861,
+        "dewC": -45.10877782061041,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 112097.64803124793,
+        "bubbleC": -44.62096072335652,
+        "dewC": -44.619034144771035,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 114720.93709907489,
+        "bubbleC": -44.12887572451763,
+        "dewC": -44.12683049527453,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 117405.61590749158,
+        "bubbleC": -43.63431837664314,
+        "dewC": -43.63214905567622,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 120153.12108820454,
+        "bubbleC": -43.137270680573096,
+        "dewC": -43.13497186325529,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 122964.92289271778,
+        "bubbleC": -42.63771448837042,
+        "dewC": -42.635280808027346,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 125842.5259790975,
+        "bubbleC": -42.13563150233131,
+        "dewC": -42.13305763176268,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 128787.47021714831,
+        "bubbleC": -41.631003274002865,
+        "dewC": -41.62828392701044,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 131801.331512432,
+        "bubbleC": -41.12381120320916,
+        "dewC": -41.120941136130284,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 134885.7226495698,
+        "bubbleC": -40.61403653698625,
+        "dewC": -40.61101055023195,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 138042.29415527964,
+        "bubbleC": -40.10166036894802,
+        "dewC": -40.098473308551206,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 141272.73518161013,
+        "bubbleC": -39.58666363789544,
+        "dewC": -39.583310397039696,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 144578.77440984262,
+        "bubbleC": -39.06902712717505,
+        "dewC": -39.06550264775177,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 147962.1809755487,
+        "bubbleC": -38.548731463660545,
+        "dewC": -38.545030737809924,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 151424.76541529325,
+        "bubbleC": -38.02575711684929,
+        "dewC": -38.02187518850255,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 154968.38063549343,
+        "bubbleC": -37.50008439796187,
+        "dewC": -37.49601636438098,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 158594.92290395015,
+        "bubbleC": -36.97169345905681,
+        "dewC": -36.96743447236881,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 162306.33286458364,
+        "bubbleC": -36.44056429216002,
+        "dewC": -36.43610956088557,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 166104.59657591558,
+        "bubbleC": -35.906676728411554,
+        "dewC": -35.902021518985265,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 169991.7465738523,
+        "bubbleC": -35.37001043722958,
+        "dewC": -35.36515007551077,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 173969.86295934196,
+        "bubbleC": -34.83054492549317,
+        "dewC": -34.82547479826542,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 178041.07451148218,
+        "bubbleC": -34.28825953674581,
+        "dewC": -34.28297509320299,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 182207.55982667726,
+        "bubbleC": -33.74313345041969,
+        "dewC": -33.73763020363734,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 186471.5484844542,
+        "bubbleC": -33.19514568108346,
+        "dewC": -33.189419209472675,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 190835.32224056046,
+        "bubbleC": -32.64427507771353,
+        "dewC": -32.63832102645631,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 195301.21624798255,
+        "bubbleC": -32.09050032299217,
+        "dewC": -32.0843144054551,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 199871.6203065386,
+        "bubbleC": -31.533799932631922,
+        "dewC": -31.52737793175706,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 204548.98014171416,
+        "bubbleC": -30.974152254729916,
+        "dewC": -30.967490024399694,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 209335.79871342314,
+        "bubbleC": -30.411535469152653,
+        "dewC": -30.404628935527654,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 214234.6375553998,
+        "bubbleC": -29.845927586953508,
+        "dewC": -29.83877274977945,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 219248.11814593145,
+        "bubbleC": -29.27730644982509,
+        "dewC": -29.269899383707894,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 224378.92331067036,
+        "bubbleC": -28.70564972948847,
+        "dewC": -28.697986585133833,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 229629.79865827394,
+        "bubbleC": -28.13093492760973,
+        "dewC": -28.123011933030966,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 235003.55404964162,
+        "bubbleC": -27.55313937472505,
+        "dewC": -27.544952836393463,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 240503.06510153288,
+        "bubbleC": -26.972240230393396,
+        "dewC": -26.963786534368012,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 246131.27472537625,
+        "bubbleC": -26.388214482620242,
+        "dewC": -26.379490095619758,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 251891.19470208586,
+        "bubbleC": -25.801038947602194,
+        "dewC": -25.792040418031632,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 257785.9072937328,
+        "bubbleC": -25.210690269481972,
+        "dewC": -25.201414228408225,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 263818.5668929328,
+        "bubbleC": -24.617144920156676,
+        "dewC": -24.607588082231274,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 269992.40171083226,
+        "bubbleC": -24.020379199143065,
+        "dewC": -24.010538363468015,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 276310.7155045961,
+        "bubbleC": -23.42036923348931,
+        "dewC": -23.410241284421602,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 282776.8893453224,
+        "bubbleC": -22.81709097778875,
+        "dewC": -22.80667288569407,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 289394.383427329,
+        "bubbleC": -22.210520214337095,
+        "dewC": -22.199809036260433,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 296166.7389197816,
+        "bubbleC": -21.600632552819945,
+        "dewC": -21.58962543310193,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 303097.57986165036,
+        "bubbleC": -20.98740343113019,
+        "dewC": -20.97609760194925,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 310190.61510101747,
+        "bubbleC": -20.37080811524271,
+        "dewC": -20.359200897084122,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 317449.6402797628,
+        "bubbleC": -19.75082169967166,
+        "dewC": -19.73891050172054,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 324878.539864697,
+        "bubbleC": -19.12741910791408,
+        "dewC": -19.1152014283698,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 332481.289226227,
+        "bubbleC": -18.50057509298466,
+        "dewC": -18.488048519293784,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 340261.95676566527,
+        "bubbleC": -17.87026423804616,
+        "dewC": -17.857426447051864,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 348224.7060923234,
+        "bubbleC": -17.236460957141617,
+        "dewC": -17.223309715146456,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 356373.79825155,
+        "bubbleC": -16.59913949603282,
+        "dewC": -16.58567265877315,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 364713.59400491486,
+        "bubbleC": -15.958273933151418,
+        "dewC": -15.944489445680915,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 373248.556163748,
+        "bubbleC": -15.313838180668938,
+        "dewC": -15.299734077149253,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 381983.2519772904,
+        "bubbleC": -14.66580598569135,
+        "dewC": -14.651380389088501,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 390922.35557673086,
+        "bubbleC": -14.01415093158613,
+        "dewC": -13.999402053270387,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 400070.65047643887,
+        "bubbleC": -13.358846439448087,
+        "dewC": -13.343772578696473,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 409433.03213372955,
+        "bubbleC": -12.699865769701717,
+        "dewC": -12.68446531310235,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 419014.5105685336,
+        "bubbleC": -12.037182023914909,
+        "dewC": -12.021453444670783,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 428820.213044368,
+        "bubbleC": -11.370768146652324,
+        "dewC": -11.354710003787602,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 438855.3868120536,
+        "bubbleC": -10.700596927637946,
+        "dewC": -10.684207865103133,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 449125.40191763395,
+        "bubbleC": -10.02664100402285,
+        "dewC": -10.009919749701623,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 459635.7540760076,
+        "bubbleC": -9.348872862862777,
+        "dewC": -9.33181822748088,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 470392.06761180796,
+        "bubbleC": -8.66726484379916,
+        "dewC": -8.64987571973677,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 481400.0984691058,
+        "bubbleC": -7.9817891419534135,
+        "dewC": -7.964064501963605,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 492665.7372915439,
+        "bubbleC": -7.2924178110484945,
+        "dewC": -7.274356706884987,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 504195.0125745494,
+        "bubbleC": -6.59912276676971,
+        "dewC": -6.580724327726614,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 515994.0938913215,
+        "bubbleC": -5.901875790378028,
+        "dewC": -5.883139221747342,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 528069.2951943048,
+        "bubbleC": -5.200648532591288,
+        "dewC": -5.181573114042976,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 540427.0781939271,
+        "bubbleC": -4.495412517748434,
+        "dewC": -4.475997601639676,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 553074.0558164058,
+        "bubbleC": -3.7861391482727527,
+        "dewC": -3.7663841578944357,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 566016.9957424724,
+        "bubbleC": -3.0727997094522834,
+        "dewC": -3.052704137221383,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 579262.8240289094,
+        "bubbleC": -2.3553653745556744,
+        "dewC": -2.3349287801636933,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 592818.6288148395,
+        "bubbleC": -1.6338072103033028,
+        "dewC": -1.6130292188329918,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 606691.6641147473,
+        "bubbleC": -0.9080961827149849,
+        "dewC": -0.8869764827385893,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 620889.3537002611,
+        "bubbleC": -0.1782031633570682,
+        "dewC": -0.15674150503087958,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 635419.2950727857,
+        "bubbleC": 0.5559010639879602,
+        "dewC": 0.5777048708144434,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 650289.2635290906,
+        "bubbleC": 1.2942457962020057,
+        "dewC": 1.3163918838438917,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 665507.216322047,
+        "bubbleC": 2.0368604032359485,
+        "dewC": 2.0593488479759685,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 681081.2969187318,
+        "bubbleC": 2.7837743200076375,
+        "dewC": 2.806605143819411,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 697019.8393581795,
+        "bubbleC": 3.5350170377631116,
+        "dewC": 3.5581902099281706,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 713331.3727111092,
+        "bubbleC": 4.290618094865351,
+        "dewC": 4.3141335334537985,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 730024.6256440278,
+        "bubbleC": 5.050607066976397,
+        "dewC": 5.074464640157032,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 747108.5310901302,
+        "bubbleC": 5.815013556592248,
+        "dewC": 5.839213083735956,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 764592.2310295127,
+        "bubbleC": 6.5838671818897865,
+        "dewC": 6.608408434424177,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 782485.0813812515,
+        "bubbleC": 7.3571975648406465,
+        "dewC": 7.38208026681076,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 800796.6570099638,
+        "bubbleC": 8.135034318588737,
+        "dewC": 8.16025814687606,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 819536.7568495328,
+        "bubbleC": 8.917407033696747,
+        "dewC": 8.942971617827936,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 838715.4091467361,
+        "bubbleC": 9.70434526432291,
+        "dewC": 9.730250185835757,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 858342.8768275849,
+        "bubbleC": 10.495878512229012,
+        "dewC": 10.522123303495334,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 878429.6629892471,
+        "bubbleC": 11.29203621081166,
+        "dewC": 11.31862035326293,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 898986.5165204834,
+        "bubbleC": 12.09284770756318,
+        "dewC": 12.119770629230914,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 920024.4378536274,
+        "bubbleC": 12.898342245470076,
+        "dewC": 12.925603317752802,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 941554.6848511568,
+        "bubbleC": 13.70854894316625,
+        "dewC": 13.73614747672326,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 963588.7788300295,
+        "bubbleC": 14.523496773752129,
+        "dewC": 14.55143201341565,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 986138.5107269979,
+        "bubbleC": 15.343214542182523,
+        "dewC": 15.371485660769451,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1009215.9474082043,
+        "bubbleC": 16.167730861117548,
+        "dewC": 16.19633695200929,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1032833.4381264251,
+        "bubbleC": 16.997074125121458,
+        "dewC": 17.026014193467688,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1057003.6211294415,
+        "bubbleC": 17.83127248308483,
+        "dewC": 17.860545435488234,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1081739.4304230425,
+        "bubbleC": 18.670353808722155,
+        "dewC": 18.69995844114169,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1107054.1026923028,
+        "bubbleC": 19.514345669061242,
+        "dewC": 19.544280652957127,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1132961.184384828,
+        "bubbleC": 20.363275290572517,
+        "dewC": 20.393539156809027,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1159474.5389597635,
+        "bubbleC": 21.217169523059965,
+        "dewC": 21.247760643528522,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1186608.3543064399,
+        "bubbleC": 22.07605480083373,
+        "dewC": 22.10697136746569,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1214377.150336632,
+        "bubbleC": 22.93995710109408,
+        "dewC": 22.97119710200508,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1242795.786754487,
+        "bubbleC": 23.808901899260718,
+        "dewC": 23.840463091706113,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1271879.4710082875,
+        "bubbleC": 24.682914120971247,
+        "dewC": 24.714794000776806,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1301643.766428288,
+        "bubbleC": 25.56201809036014,
+        "dewC": 25.594213857452075,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1332104.6005550162,
+        "bubbleC": 26.44623747483132,
+        "dewC": 26.478745994433552,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1363278.2736624447,
+        "bubbleC": 27.33559522472069,
+        "dewC": 27.368412983829614,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1395181.46748064,
+        "bubbleC": 28.230113509072964,
+        "dewC": 28.26323656758018,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1427831.2541225168,
+        "bubbleC": 29.129813645787806,
+        "dewC": 29.163237581794135,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1461245.1052195253,
+        "bubbleC": 30.03471602625632,
+        "dewC": 30.068435874903287,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1495440.9012711,
+        "bubbleC": 30.94484003375311,
+        "dewC": 30.978850218884304,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1530436.9412129184,
+        "bubbleC": 31.860203954967062,
+        "dewC": 31.89449821284427,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1566251.952209072,
+        "bubbleC": 32.78082488394904,
+        "dewC": 32.81539617815821,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1602905.0996733885,
+        "bubbleC": 33.70671861765965,
+        "dewC": 33.74155904423867,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1640415.997525276,
+        "bubbleC": 34.637899542186176,
+        "dewC": 34.67300022389105,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1678804.7186855683,
+        "bubbleC": 35.57438050856638,
+        "dewC": 35.60973147705761,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1718091.805817996,
+        "bubbleC": 36.51617269699972,
+        "dewC": 36.55176276157732,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1758298.2823220233,
+        "bubbleC": 37.46328546804261,
+        "dewC": 37.49910206938114,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1799445.6635829443,
+        "bubbleC": 38.41572619916383,
+        "dewC": 38.45175524629252,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1841555.9684852343,
+        "bubbleC": 39.3735001047732,
+        "dewC": 39.409725793307075,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1884651.7311953653,
+        "bubbleC": 40.33661003751007,
+        "dewC": 40.3730146468568,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1928756.0132203316,
+        "bubbleC": 41.305056268269766,
+        "dewC": 41.341619935209394,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1973892.4157483813,
+        "bubbleC": 42.27883624172807,
+        "dewC": 42.315536707367016,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2020085.0922785387,
+        "bubbleC": 43.25794430401271,
+        "dewC": 43.294756630655854,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2067358.7615456881,
+        "bubbleC": 44.24237139794201,
+        "dewC": 44.279267651864586,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2115738.720748105,
+        "bubbleC": 45.23210472071918,
+        "dewC": 45.26905361615036,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2165250.8590845773,
+        "bubbleC": 46.22712733772329,
+        "dewC": 46.264093836537086,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2215921.671608277,
+        "bubbleC": 47.22741774464669,
+        "dewC": 47.264362605256736,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2267778.273404864,
+        "bubbleC": 48.23294936842643,
+        "dewC": 48.269828636142904,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2320848.4141023722,
+        "bubbleC": 49.243689995072145,
+        "dewC": 49.2804544246402,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2375160.4927206556,
+        "bubbleC": 50.2596011094322,
+        "dewC": 50.296195508526864,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2430743.5728683434,
+        "bubbleC": 51.280637127876275,
+        "dewC": 51.316999607851244,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2487627.398295423,
+        "bubbleC": 52.30674449940847,
+        "dewC": 52.34280561640418,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2545842.4088097927,
+        "bubbleC": 53.33786064327376,
+        "dewC": 53.37354240860958,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2605419.7565662665,
+        "bubbleC": 54.373912680775334,
+        "dewC": 54.40912741400774,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2666391.3227368155,
+        "bubbleC": 55.41481590440509,
+        "dewC": 55.44946489495328,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2728789.7345708786,
+        "bubbleC": 56.46047190632788,
+        "dewC": 56.49444383928375,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2792648.382854942,
+        "bubbleC": 57.51076625685721,
+        "dewC": 57.54393534418608,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2858001.43978068,
+        "bubbleC": 58.56556557737173,
+        "dewC": 58.59778931494128,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2924883.8772312845,
+        "bubbleC": 59.624713776100634,
+        "dewC": 59.655830216441984,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 2993331.485495686,
+        "bubbleC": 60.688027099118926,
+        "dewC": 60.717851483163486,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 3063380.892420741,
+        "bubbleC": 61.75528744491368,
+        "dewC": 61.783607962319024,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 3135069.583011614,
+        "bubbleC": 62.82623303701456,
+        "dewC": 62.852805363037135,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 3208435.9194908417,
+        "bubbleC": 63.90054488132904,
+        "dewC": 63.92508492623119,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 3283519.161826817,
+        "bubbleC": 64.97782608791175,
+        "dewC": 64.99999999999517,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R22",
@@ -7719,7 +9005,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R290",
@@ -9005,7 +10291,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R600a",
@@ -10291,7 +11577,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R1234yf",
@@ -11577,7 +12863,1293 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
+    "generator": "CoolProp",
+    "coolPropVersion": "6.8.0",
+    "refrigerant": "R1234ze(E)",
+    "refrigerantType": "pure",
+    "validRange": {
+      "minC": -60.0,
+      "maxC": 65.0,
+      "minPressurePaAbs": 11165.73738889966,
+      "maxPressurePaAbs": 1436454.1153704054
+    },
+    "limitations": [
+      "No se calcula saturación por encima de la temperatura crítica."
+    ],
+    "points": [
+      {
+        "pressurePaAbs": 11165.73738889966,
+        "bubbleC": -59.99999999970851,
+        "dewC": -59.99999999970851,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 11471.13319039495,
+        "bubbleC": -59.59235240241924,
+        "dewC": -59.59235240241924,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 11784.88191945091,
+        "bubbleC": -59.182813390578445,
+        "dewC": -59.182813390578445,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 12107.212038274592,
+        "bubbleC": -58.77136922702644,
+        "dewC": -58.77136922702644,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 12438.358257778027,
+        "bubbleC": -58.35800604606365,
+        "dewC": -58.35800604606365,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 12778.561708487521,
+        "bubbleC": -57.94270985208243,
+        "dewC": -57.94270985208243,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 13128.070116127505,
+        "bubbleC": -57.525466518184885,
+        "dewC": -57.525466518184885,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 13487.137982006823,
+        "bubbleC": -57.1062617847858,
+        "dewC": -57.1062617847858,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 13856.02676833878,
+        "bubbleC": -56.68508125820142,
+        "dewC": -56.68508125820142,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 14235.005088629903,
+        "bubbleC": -56.26191040922126,
+        "dewC": -56.26191040922126,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 14624.348903276083,
+        "bubbleC": -55.83673457166648,
+        "dewC": -55.83673457166648,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 15024.34172050845,
+        "bubbleC": -55.40953894093215,
+        "dewC": -55.40953894093215,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 15435.274802835398,
+        "bubbleC": -54.98030857251385,
+        "dewC": -54.98030857251385,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 15857.447379131005,
+        "bubbleC": -54.54902838051896,
+        "dewC": -54.54902838051896,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 16291.16686252433,
+        "bubbleC": -54.11568313616249,
+        "dewC": -54.11568313616249,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 16736.749074248255,
+        "bubbleC": -53.68025746624633,
+        "dewC": -53.68025746624633,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 17194.51847361072,
+        "bubbleC": -53.24273585162379,
+        "dewC": -53.24273585162379,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 17664.8083942562,
+        "bubbleC": -52.80310262564669,
+        "dewC": -52.80310262564669,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 18147.961286888956,
+        "bubbleC": -52.36134197259787,
+        "dewC": -52.36134197259787,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 18644.32896863515,
+        "bubbleC": -51.917437926105805,
+        "dewC": -51.917437926105805,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 19154.272879225304,
+        "bubbleC": -51.471374367544655,
+        "dewC": -51.471374367544655,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 19678.16434418362,
+        "bubbleC": -51.02313502441635,
+        "dewC": -51.02313502441635,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 20216.384845215856,
+        "bubbleC": -50.57270346871735,
+        "dewC": -50.57270346871735,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 20769.326297992615,
+        "bubbleC": -50.12006311528825,
+        "dewC": -50.12006311528825,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 21337.391337530295,
+        "bubbleC": -49.66519722014675,
+        "dewC": -49.66519722014675,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 21920.9936113776,
+        "bubbleC": -49.20808887880398,
+        "dewC": -49.20808887880398,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 22520.55808082098,
+        "bubbleC": -48.74872102456436,
+        "dewC": -48.74872102456436,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 23136.52133032844,
+        "bubbleC": -48.2870764268082,
+        "dewC": -48.2870764268082,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 23769.331885456926,
+        "bubbleC": -47.82313768925735,
+        "dewC": -47.82313768925735,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 24419.45053945493,
+        "bubbleC": -47.356887248223785,
+        "dewC": -47.356887248223785,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 25087.350688797986,
+        "bubbleC": -46.8883073708424,
+        "dewC": -46.8883073708424,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 25773.51867790147,
+        "bubbleC": -46.417380153284796,
+        "dewC": -46.417380153284796,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 26478.454153261704,
+        "bubbleC": -45.944087518957616,
+        "dewC": -45.944087518957616,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 27202.670427283218,
+        "bubbleC": -45.46841121668285,
+        "dewC": -45.46841121668285,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 27946.694852057106,
+        "bubbleC": -44.990332818861845,
+        "dewC": -44.990332818861845,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 28711.06920336265,
+        "bubbleC": -44.50983371962164,
+        "dewC": -44.50983371962164,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 29496.35007517185,
+        "bubbleC": -44.02689513294379,
+        "dewC": -44.02689513294379,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 30303.10928494406,
+        "bubbleC": -43.54149809077788,
+        "dewC": -43.54149809077788,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 31131.934290005982,
+        "bubbleC": -43.05362344113587,
+        "dewC": -43.05362344113587,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 31983.428615320037,
+        "bubbleC": -42.56325184617094,
+        "dewC": -42.56325184617094,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 32858.212292952776,
+        "bubbleC": -42.070363780238665,
+        "dewC": -42.070363780238665,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 33756.922313563206,
+        "bubbleC": -41.574939527942234,
+        "dewC": -41.574939527942234,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 34680.21309023987,
+        "bubbleC": -41.07695918215964,
+        "dewC": -41.07695918215964,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 35628.7569350244,
+        "bubbleC": -40.57640264205534,
+        "dewC": -40.57640264205534,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 36603.24454846852,
+        "bubbleC": -40.07324961107494,
+        "dewC": -40.07324961107494,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 37604.38552258105,
+        "bubbleC": -39.56747959492367,
+        "dewC": -39.56747959492367,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 38632.908857531,
+        "bubbleC": -39.059071899528135,
+        "dewC": -39.059071899528135,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 39689.56349248322,
+        "bubbleC": -38.54800562898296,
+        "dewC": -38.54800562898296,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 40775.11885095295,
+        "bubbleC": -38.03425968348074,
+        "dewC": -38.03425968348074,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 41890.3654010762,
+        "bubbleC": -37.51781275722698,
+        "dewC": -37.51781275722698,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 43036.115231204785,
+        "bubbleC": -36.9986433363394,
+        "dewC": -36.9986433363394,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 44213.20264124395,
+        "bubbleC": -36.47672969673201,
+        "dewC": -36.47672969673201,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 45422.48475016403,
+        "bubbleC": -35.95204990198468,
+        "dewC": -35.95204990198468,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 46664.842120128196,
+        "bubbleC": -35.424581801198485,
+        "dewC": -35.424581801198485,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 47941.179397690845,
+        "bubbleC": -34.894303026836525,
+        "dewC": -34.894303026836525,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 49252.4259725335,
+        "bubbleC": -34.36119099255072,
+        "dewC": -34.36119099255072,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 50599.53665421787,
+        "bubbleC": -33.825222890995974,
+        "dewC": -33.825222890995974,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 51983.49236744891,
+        "bubbleC": -33.286375691631775,
+        "dewC": -33.286375691631775,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 53405.300866354126,
+        "bubbleC": -32.74462613850977,
+        "dewC": -32.74462613850977,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 54865.99746829925,
+        "bubbleC": -32.19995074805166,
+        "dewC": -32.19995074805166,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 56366.64580777456,
+        "bubbleC": -31.652325806814503,
+        "dewC": -31.652325806814503,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 57908.338610901,
+        "bubbleC": -31.101727369244458,
+        "dewC": -31.101727369244458,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 59492.19849111976,
+        "bubbleC": -30.548131255423442,
+        "dewC": -30.548131255423442,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 61119.378766645015,
+        "bubbleC": -29.99151304880229,
+        "dewC": -29.99151304880229,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 62791.064300274884,
+        "bubbleC": -29.431848093929403,
+        "dewC": -29.431848093929403,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 64508.47236217221,
+        "bubbleC": -28.869111494167498,
+        "dewC": -28.869111494167498,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 66272.85351624337,
+        "bubbleC": -28.30327810940622,
+        "dewC": -28.30327810940622,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 68085.49253076057,
+        "bubbleC": -27.73432255376693,
+        "dewC": -27.73432255376693,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 69947.70931389077,
+        "bubbleC": -27.16221919330195,
+        "dewC": -27.16221919330195,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 71860.85987481223,
+        "bubbleC": -26.58694214369018,
+        "dewC": -26.58694214369018,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 73826.33731111899,
+        "bubbleC": -26.008465267928216,
+        "dewC": -26.008465267928216,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 75845.57282323169,
+        "bubbleC": -25.42676217401919,
+        "dewC": -25.42676217401919,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 77920.03675655408,
+        "bubbleC": -24.841806212660515,
+        "dewC": -24.841806212660515,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 80051.23967213288,
+        "bubbleC": -24.253570474930143,
+        "dewC": -24.253570474930143,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 82240.73344660272,
+        "bubbleC": -23.66202778997544,
+        "dewC": -23.66202778997544,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 84490.1124022153,
+        "bubbleC": -23.067150722701143,
+        "dewC": -23.067150722701143,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 86801.01446777466,
+        "bubbleC": -22.46891157146314,
+        "dewC": -22.46891157146314,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 89175.12237132822,
+        "bubbleC": -21.86728236576539,
+        "dewC": -21.86728236576539,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 91614.16486547701,
+        "bubbleC": -21.262234863962703,
+        "dewC": -21.262234863962703,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 94119.91798620047,
+        "bubbleC": -20.65374055097024,
+        "dewC": -20.65374055097024,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 96694.2063461114,
+        "bubbleC": -20.04177063598246,
+        "dewC": -20.04177063598246,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 99338.90446308293,
+        "bubbleC": -19.426296050200705,
+        "dewC": -19.426296050200705,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 102055.938125215,
+        "bubbleC": -18.807287444573348,
+        "dewC": -18.807287444573348,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 104847.28579313424,
+        "bubbleC": -18.184715187547795,
+        "dewC": -18.184715187547795,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 107714.98004064828,
+        "bubbleC": -17.558549362837425,
+        "dewC": -17.558549362837425,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 110661.10903480373,
+        "bubbleC": -16.92875976720427,
+        "dewC": -16.92875976720427,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 113687.81805642544,
+        "bubbleC": -16.295315908259568,
+        "dewC": -16.295315908259568,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 116797.31106224422,
+        "bubbleC": -15.658187002282943,
+        "dewC": -15.658187002282943,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 119991.85228975053,
+        "bubbleC": -15.01734197206224,
+        "dewC": -15.01734197206224,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 123273.76790594289,
+        "bubbleC": -14.372749444757176,
+        "dewC": -14.372749444757176,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 126645.44770117133,
+        "bubbleC": -13.724377749785276,
+        "dewC": -13.724377749785276,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 130109.34682930946,
+        "bubbleC": -13.072194916735441,
+        "dewC": -13.072194916735441,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 133667.98759552234,
+        "bubbleC": -12.416168673307311,
+        "dewC": -12.416168673307311,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 137323.96129293164,
+        "bubbleC": -11.756266443282016,
+        "dewC": -11.756266443282016,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 141079.93008951604,
+        "bubbleC": -11.092455344522648,
+        "dewC": -11.092455344522648,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 144938.62896662022,
+        "bubbleC": -10.424702187007995,
+        "dewC": -10.424702187007995,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 148902.86771048442,
+        "bubbleC": -9.75297347090202,
+        "dewC": -9.75297347090202,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 152975.53295824482,
+        "bubbleC": -9.077235384659105,
+        "dewC": -9.077235384659105,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 157159.590299894,
+        "bubbleC": -8.397453803167764,
+        "dewC": -8.397453803167764,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 161458.08643773277,
+        "bubbleC": -7.7135942859368924,
+        "dewC": -7.7135942859368924,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 165874.1514048855,
+        "bubbleC": -7.02562207532219,
+        "dewC": -7.02562207532219,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 170411.0008444941,
+        "bubbleC": -6.333502094799144,
+        "dewC": -6.333502094799144,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 175071.93835125084,
+        "bubbleC": -5.637198947282968,
+        "dewC": -5.637198947282968,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 179860.3578769749,
+        "bubbleC": -4.936676913496797,
+        "dewC": -4.936676913496797,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 184779.74620198377,
+        "bubbleC": -4.231899950392744,
+        "dewC": -4.231899950392744,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 189833.6854740601,
+        "bubbleC": -3.5228316896261163,
+        "dewC": -3.5228316896261163,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 195025.85581686164,
+        "bubbleC": -2.8094354360883926,
+        "dewC": -2.8094354360883926,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 200360.03800967467,
+        "bubbleC": -2.09167416649791,
+        "dewC": -2.09167416649791,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 205840.11624046182,
+        "bubbleC": -1.3695105280555708,
+        "dewC": -1.3695105280555708,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 211470.08093420698,
+        "bubbleC": -0.6429068371659241,
+        "dewC": -0.6429068371659241,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 217254.03165862433,
+        "bubbleC": 0.08817492177223585,
+        "dewC": 0.08817492177223585,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 223196.18010933287,
+        "bubbleC": 0.8237730974983606,
+        "dewC": 0.8237730974983606,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 229300.85317668764,
+        "bubbleC": 1.5639263729480604,
+        "dewC": 1.5639263729480604,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 235572.4960964889,
+        "bubbleC": 2.308673766223478,
+        "dewC": 2.308673766223478,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 242015.6756868628,
+        "bubbleC": 3.0580546314769776,
+        "dewC": 3.0580546314769776,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 248635.0836736825,
+        "bubbleC": 3.812108659699959,
+        "dewC": 3.812108659699959,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 255435.54010693697,
+        "bubbleC": 4.570875879407822,
+        "dewC": 4.570875879407822,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 262421.99687054416,
+        "bubbleC": 5.334396657218861,
+        "dewC": 5.334396657218861,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 269599.5412881612,
+        "bubbleC": 6.102711698312021,
+        "dewC": 6.102711698312021,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 276973.3998276171,
+        "bubbleC": 6.875862046761313,
+        "dewC": 6.875862046761313,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 284548.941906667,
+        "bubbleC": 7.653889085730384,
+        "dewC": 7.653889085730384,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 292331.6838028372,
+        "bubbleC": 8.436834537521065,
+        "dewC": 8.436834537521065,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 300327.29267020937,
+        "bubbleC": 9.224740463457863,
+        "dewC": 9.224740463457863,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 308541.5906660686,
+        "bubbleC": 10.01764926359948,
+        "dewC": 10.01764926359948,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 316980.5591904198,
+        "bubbleC": 10.815603676258036,
+        "dewC": 10.815603676258036,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 325650.34324145975,
+        "bubbleC": 11.618646777311483,
+        "dewC": 11.618646777311483,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 334557.2558901767,
+        "bubbleC": 12.426821979286728,
+        "dewC": 12.426821979286728,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 343707.7828773346,
+        "bubbleC": 13.24017303019815,
+        "dewC": 13.24017303019815,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 353108.5873361915,
+        "bubbleC": 14.058744012114687,
+        "dewC": 14.058744012114687,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 362766.5146443887,
+        "bubbleC": 14.882579339432255,
+        "dewC": 14.882579339432255,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 372688.5974085424,
+        "bubbleC": 15.711723756828462,
+        "dewC": 15.711723756828462,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 382882.0605851785,
+        "bubbleC": 16.546222336866492,
+        "dewC": 16.546222336866492,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 393354.3267417184,
+        "bubbleC": 17.386120477223358,
+        "dewC": 17.386120477223358,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 404113.02146136604,
+        "bubbleC": 18.231463897509173,
+        "dewC": 18.231463897509173,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 415165.9788958262,
+        "bubbleC": 19.082298635643212,
+        "dewC": 19.082298635643212,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 426521.2474698949,
+        "bubbleC": 19.93867104375863,
+        "dewC": 19.93867104375863,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 438187.0957420685,
+        "bubbleC": 20.800627783592347,
+        "dewC": 20.800627783592347,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 450172.0184254623,
+        "bubbleC": 21.668215821332524,
+        "dewC": 21.668215821332524,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 462484.7425733964,
+        "bubbleC": 22.541482421884098,
+        "dewC": 22.541482421884098,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 475134.23393416934,
+        "bubbleC": 23.42047514251709,
+        "dewC": 23.42047514251709,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 488129.70347964065,
+        "bubbleC": 24.305241825861913,
+        "dewC": 24.305241825861913,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 501480.6141123788,
+        "bubbleC": 25.195830592220148,
+        "dewC": 25.195830592220148,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 515196.6875562566,
+        "bubbleC": 26.092289831153266,
+        "dewC": 26.092289831153266,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 529287.9114355122,
+        "bubbleC": 26.994668192321058,
+        "dewC": 26.994668192321058,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 543764.5465474317,
+        "bubbleC": 27.90301457553784,
+        "dewC": 27.90301457553784,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 558637.134333946,
+        "bubbleC": 28.817378120016542,
+        "dewC": 28.817378120016542,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 573916.5045575869,
+        "bubbleC": 29.73780819277772,
+        "dewC": 29.73780819277772,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 589613.7831873874,
+        "bubbleC": 30.664354376189863,
+        "dewC": 30.664354376189863,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 605740.4005004717,
+        "bubbleC": 31.597066454621654,
+        "dewC": 31.597066454621654,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 622308.0994052324,
+        "bubbleC": 32.53599440017507,
+        "dewC": 32.53599440017507,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 639328.9439921567,
+        "bubbleC": 33.48118835747056,
+        "dewC": 33.48118835747056,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 656815.328318527,
+        "bubbleC": 34.43269862745461,
+        "dewC": 34.43269862745461,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 674779.9854333935,
+        "bubbleC": 35.390575650185724,
+        "dewC": 35.390575650185724,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 693235.9966493907,
+        "bubbleC": 36.354869986558754,
+        "dewC": 36.354869986558754,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 712196.8010681474,
+        "bubbleC": 37.325632298905646,
+        "dewC": 37.325632298905646,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 731676.2053662295,
+        "bubbleC": 38.30291333040384,
+        "dewC": 38.30291333040384,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 751688.3938487379,
+        "bubbleC": 39.28676388320707,
+        "dewC": 39.28676388320707,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 772247.9387778853,
+        "bubbleC": 40.27723479518619,
+        "dewC": 40.27723479518619,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 793369.81098407,
+        "bubbleC": 41.274376915156154,
+        "dewC": 41.274376915156154,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 815069.3907671768,
+        "bubbleC": 42.27824107642738,
+        "dewC": 42.27824107642738,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 837362.4790960388,
+        "bubbleC": 43.28887806849559,
+        "dewC": 43.28887806849559,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 860265.3091142199,
+        "bubbleC": 44.30633860665216,
+        "dewC": 44.30633860665216,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 883794.5579604907,
+        "bubbleC": 45.33067329925569,
+        "dewC": 45.33067329925569,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 907967.358912611,
+        "bubbleC": 46.36193261237452,
+        "dewC": 46.36193261237452,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 932801.313863257,
+        "bubbleC": 47.400166831461604,
+        "dewC": 47.400166831461604,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 958314.50613718,
+        "bubbleC": 48.44542601968743,
+        "dewC": 48.44542601968743,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 984525.5136589293,
+        "bubbleC": 49.49775997250737,
+        "dewC": 49.49775997250737,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1011453.4224807272,
+        "bubbleC": 50.55721816799843,
+        "dewC": 50.55721816799843,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1039117.8406803474,
+        "bubbleC": 51.623849712448475,
+        "dewC": 51.623849712448475,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1067538.912639116,
+        "bubbleC": 52.69770328063896,
+        "dewC": 52.69770328063896,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1096737.3337104323,
+        "bubbleC": 53.77882705020659,
+        "dewC": 53.77882705020659,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1126734.3652894914,
+        "bubbleC": 54.86726862941873,
+        "dewC": 54.86726862941873,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1157551.8502951819,
+        "bubbleC": 55.96307497764241,
+        "dewC": 55.96307497764241,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1189212.2290754197,
+        "bubbleC": 57.06629231772354,
+        "dewC": 57.06629231772354,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1221738.5557475449,
+        "bubbleC": 58.17696603942949,
+        "dewC": 58.17696603942949,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1255154.5149855928,
+        "bubbleC": 59.29514059302443,
+        "dewC": 59.29514059302443,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1289484.4392667697,
+        "bubbleC": 60.420859371969755,
+        "dewC": 60.420859371969755,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1324753.326589617,
+        "bubbleC": 61.554164583627994,
+        "dewC": 61.554164583627994,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1360986.858676767,
+        "bubbleC": 62.69509710673327,
+        "dewC": 62.69509710673327,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1398211.419675609,
+        "bubbleC": 63.84369633424234,
+        "dewC": 63.84369633424234,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      },
+      {
+        "pressurePaAbs": 1436454.1153704054,
+        "bubbleC": 65.00000000000102,
+        "dewC": 65.00000000000102,
+        "source": "CoolProp 6.8.0, PropsSI saturation by pressure",
+        "warning": null
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
     "generator": "CoolProp",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R744",
@@ -12863,7 +15435,7 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
     "generator": "pending",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R454B",
@@ -12881,10 +15453,154 @@ export const generatedRefrigerantTables: RefrigerantTable[] = [
   },
   {
     "schemaVersion": 1,
-    "generatedAt": "2026-06-23T20:11:00.458297+00:00",
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
+    "generator": "pending",
+    "coolPropVersion": "6.8.0",
+    "refrigerant": "R452B",
+    "refrigerantType": "pending",
+    "validRange": {
+      "minC": null,
+      "maxC": null,
+      "minPressurePaAbs": null,
+      "maxPressurePaAbs": null
+    },
+    "limitations": [
+      "CoolProp no soporta este refrigerante en esta versión o falló la validación."
+    ],
+    "points": []
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
+    "generator": "pending",
+    "coolPropVersion": "6.8.0",
+    "refrigerant": "R455A",
+    "refrigerantType": "pending",
+    "validRange": {
+      "minC": null,
+      "maxC": null,
+      "minPressurePaAbs": null,
+      "maxPressurePaAbs": null
+    },
+    "limitations": [
+      "CoolProp no soporta este refrigerante en esta versión o falló la validación."
+    ],
+    "points": []
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
     "generator": "pending",
     "coolPropVersion": "6.8.0",
     "refrigerant": "R454C",
+    "refrigerantType": "pending",
+    "validRange": {
+      "minC": null,
+      "maxC": null,
+      "minPressurePaAbs": null,
+      "maxPressurePaAbs": null
+    },
+    "limitations": [
+      "CoolProp no soporta este refrigerante en esta versión o falló la validación."
+    ],
+    "points": []
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
+    "generator": "pending",
+    "coolPropVersion": "6.8.0",
+    "refrigerant": "R513A",
+    "refrigerantType": "pending",
+    "validRange": {
+      "minC": null,
+      "maxC": null,
+      "minPressurePaAbs": null,
+      "maxPressurePaAbs": null
+    },
+    "limitations": [
+      "CoolProp no soporta este refrigerante en esta versión o falló la validación."
+    ],
+    "points": []
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
+    "generator": "pending",
+    "coolPropVersion": "6.8.0",
+    "refrigerant": "R450A",
+    "refrigerantType": "pending",
+    "validRange": {
+      "minC": null,
+      "maxC": null,
+      "minPressurePaAbs": null,
+      "maxPressurePaAbs": null
+    },
+    "limitations": [
+      "CoolProp no soporta este refrigerante en esta versión o falló la validación."
+    ],
+    "points": []
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
+    "generator": "pending",
+    "coolPropVersion": "6.8.0",
+    "refrigerant": "R470A",
+    "refrigerantType": "pending",
+    "validRange": {
+      "minC": null,
+      "maxC": null,
+      "minPressurePaAbs": null,
+      "maxPressurePaAbs": null
+    },
+    "limitations": [
+      "CoolProp no soporta este refrigerante en esta versión o falló la validación."
+    ],
+    "points": []
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
+    "generator": "pending",
+    "coolPropVersion": "6.8.0",
+    "refrigerant": "R466A",
+    "refrigerantType": "pending",
+    "validRange": {
+      "minC": null,
+      "maxC": null,
+      "minPressurePaAbs": null,
+      "maxPressurePaAbs": null
+    },
+    "limitations": [
+      "CoolProp no soporta este refrigerante en esta versión o falló la validación."
+    ],
+    "points": []
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
+    "generator": "pending",
+    "coolPropVersion": "6.8.0",
+    "refrigerant": "R448A",
+    "refrigerantType": "pending",
+    "validRange": {
+      "minC": null,
+      "maxC": null,
+      "minPressurePaAbs": null,
+      "maxPressurePaAbs": null
+    },
+    "limitations": [
+      "CoolProp no soporta este refrigerante en esta versión o falló la validación."
+    ],
+    "points": []
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-06-24T14:59:08.049867+00:00",
+    "generator": "pending",
+    "coolPropVersion": "6.8.0",
+    "refrigerant": "R449A",
     "refrigerantType": "pending",
     "validRange": {
       "minC": null,

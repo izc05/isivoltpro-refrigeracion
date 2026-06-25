@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { refrigerantTables } from '../data/generated'
 import { maxGlideK, commonPressureRows } from '../domain/refrigerants/summary'
+import { interpolatePressureFromTemperature, interpolateTemperatureFromPressure } from '../domain/refrigerants/calculations'
+import { paAbsoluteToPressure, pressureToPaAbsolute } from '../domain/units'
 
 describe('generated CoolProp data', () => {
   it('contains generated data for the validated initial refrigerants', () => {
@@ -29,5 +31,13 @@ describe('generated CoolProp data', () => {
     const rows = commonPressureRows(r32, [0, 5, 10])
     expect(rows).toHaveLength(3)
     expect(rows.every((row) => row.dewPressurePaAbs !== null)).toBe(true)
+  })
+
+  it('matches the accepted R32 manometric field checks', () => {
+    const r32 = refrigerantTables.find((table) => table.refrigerant === 'R32')!
+    const measuredPressure = pressureToPaAbsolute(9, 'bar', 'gauge')
+    expect(interpolateTemperatureFromPressure(r32, measuredPressure, 'dew')).toBeCloseTo(6.67, 1)
+    const targetPressure = interpolatePressureFromTemperature(r32, 5, 'dew')
+    expect(paAbsoluteToPressure(targetPressure, 'bar', 'gauge')).toBeCloseTo(8.5, 1)
   })
 })
