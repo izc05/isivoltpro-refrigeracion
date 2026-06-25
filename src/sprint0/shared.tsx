@@ -39,7 +39,7 @@ export function useSettings() {
   const [atmospherePa, setAtmospherePa] = useState(() => Number(localStorage.getItem('isivolt_atmosphere')) || DEFAULT_ATMOSPHERE_PA)
   const [technician, setTechnician] = useState(() => localStorage.getItem('isivolt_technician') ?? '')
   const [altitudeM, setAltitudeM] = useState(() => Number(localStorage.getItem('isivolt_altitude_m')) || 0)
-  const [theme, setTheme] = useState<Theme>(() => localStorage.getItem('isivolt_theme') === 'light' ? 'light' : 'dark')
+  const [theme, setTheme] = useState<Theme>(() => localStorage.getItem('isivolt_theme') === 'dark' ? 'dark' : 'light')
 
   useEffect(() => localStorage.setItem('isivolt_atmosphere', String(atmospherePa)), [atmospherePa])
   useEffect(() => localStorage.setItem('isivolt_technician', technician), [technician])

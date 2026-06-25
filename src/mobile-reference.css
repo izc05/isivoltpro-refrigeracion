@@ -1046,3 +1046,135 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+:root[data-theme='light'] body,
+:root[data-theme='light'] html {
+  background: #f4f6f9;
+}
+
+:root[data-theme='light'] .sz-app {
+  background: linear-gradient(180deg, #f7f9fc 0%, #eef2f6 100%);
+}
+
+:root[data-theme='light'] .sz-topbar,
+:root[data-theme='light'] .sz-bottom-nav {
+  background: rgba(249, 251, 253, .86);
+}
+
+.sz-section-heading.compact {
+  margin-top: 18px;
+  align-items: center;
+}
+
+.sz-section-heading.compact h2 {
+  font-size: 1.12rem;
+}
+
+.sz-compact-button {
+  min-height: 34px !important;
+  padding: 0 12px !important;
+  border-radius: 11px !important;
+  font-size: .75rem !important;
+}
+
+.sz-quick-tool-shell {
+  position: relative;
+  min-width: 0;
+}
+
+.sz-quick-tool-shell.is-editing .sz-quick-tool-card {
+  padding-bottom: 42px;
+  border-color: color-mix(in srgb, var(--sz-primary) 28%, var(--sz-border));
+}
+
+.sz-quick-move-controls {
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  bottom: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.sz-quick-move-controls button {
+  min-height: 30px;
+  display: grid;
+  place-items: center;
+  color: var(--sz-primary);
+  background: color-mix(in srgb, var(--sz-primary) 9%, var(--sz-panel));
+  border: 1px solid color-mix(in srgb, var(--sz-primary) 18%, var(--sz-border));
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.sz-quick-move-controls button:disabled {
+  color: var(--sz-muted);
+  opacity: .45;
+}
+
+.sz-quick-move-controls svg {
+  width: 15px;
+  height: 15px;
+}
+
+.sz-phase-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 14px;
+  padding: 12px;
+  color: var(--sz-muted);
+  background: var(--sz-panel);
+  border: 1px solid var(--sz-border);
+  border-radius: 17px;
+  box-shadow: var(--sz-shadow);
+  font-size: .73rem;
+}
+
+.sz-phase-strip strong {
+  color: var(--sz-text);
+}
+
+.sz-phase-strip span {
+  padding: 5px 8px;
+  color: var(--sz-primary);
+  background: color-mix(in srgb, var(--sz-primary) 8%, transparent);
+  border-radius: 999px;
+  font-weight: 760;
+}
+
+@media (max-width: 430px) {
+  .sz-quick-tool-card {
+    min-height: 108px;
+    padding: 12px 10px;
+    border-radius: 18px;
+    gap: 6px;
+  }
+
+  .sz-quick-tool-card svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  .sz-quick-tool-card strong {
+    font-size: .82rem;
+  }
+
+  .sz-quick-tool-card small {
+    font-size: .64rem;
+    line-height: 1.22;
+  }
+
+  .sz-new-intervention {
+    min-height: 102px;
+    grid-template-columns: 56px minmax(0, 1fr) 22px;
+    border-radius: 22px;
+  }
+
+  .sz-new-intervention > span {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+  }
+}
