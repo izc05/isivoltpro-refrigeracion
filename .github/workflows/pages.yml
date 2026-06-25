@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/initial-refrigeration-app
   workflow_dispatch:
 
 permissions:
@@ -32,6 +31,8 @@ jobs:
       - run: npm run build
         env:
           GITHUB_PAGES: 'true'
+      - name: Add SPA fallback
+        run: cp dist/index.html dist/404.html
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
