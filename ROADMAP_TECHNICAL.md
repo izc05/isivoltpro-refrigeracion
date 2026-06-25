@@ -42,3 +42,7 @@ Este roadmap ordena las ampliaciones solicitadas para convertir IsiVoltPro Refri
 - No certificar vacío profundo con manómetro analógico.
 - No declarar fugas o ausencia de fugas de forma absoluta.
 - Mantener funcionamiento offline y almacenamiento local.
+
+## Inventario maestro
+
+El inventario operativo de calculadoras, entradas, fórmulas, pantallas y prioridades está en [docs/calculators-inventory.md](docs/calculators-inventory.md).
