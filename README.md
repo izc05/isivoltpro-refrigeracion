@@ -6,13 +6,14 @@ Aplicación móvil/PWA para técnicos de aire acondicionado y refrigeración. Fu
 
 - PWA instalable con service worker.
 - UI mobile first con navegación inferior.
-- Herramientas de presión-temperatura, recalentamiento, subenfriamiento, conversor, carga adicional, diagnóstico, refrigerantes, comparador, intervenciones, informes y ajustes.
+- Herramientas de presión-temperatura, recalentamiento, subenfriamiento, psicrometría, conversor, carga adicional, diagnóstico, refrigerantes, comparador, intervenciones, informes y ajustes.
 - Conversión de presión absoluta/manométrica y vacío.
 - Conversor técnico con presión, vacío, temperatura, potencia frigorífica, masa, longitud, caudal, electricidad y COP/EER.
 - Calculadora de vacío con fases de prueba, valores inicial/final y gráfica orientativa.
 - Calculadora de carga por peso con g, kg, lb y oz.
 - Interpolación monotónica y cálculo de recalentamiento/subenfriamiento contra tablas generadas.
 - Motor modular src/calculation-engine con schemas, validación, normalización, resultados trazables, interpretación y advertencias.
+- Psicrometría con PsychroLib MIT, adaptada a resultados estructurados e historial local.
 - Almacenamiento local Dexie/IndexedDB con historial estructurado de cálculos.
 - PDF A4 con jsPDF.
 - Capacitor Android con `com.isivoltpro.refrigeracion`.
@@ -80,6 +81,7 @@ No subas keystores a Git.
 - Subenfriamiento: abre /subcooling, introduce presión de líquido y temperatura de línea; revisa resultado e interpretación.
 - Carga adicional: abre /charge, introduce placa, longitud incluida/instalada y g/m del fabricante.
 - Comparador: abre /compare; la salida es informativa y no declara intercambiabilidad.
+- Psicrometría: abre /psychrometrics, introduce temperatura seca, humedad relativa y presión atmosférica.
 
 ## Pruebas ejecutadas
 
@@ -97,6 +99,10 @@ No subas keystores a Git.
 - `scripts`: generación de datos.
 - `android`: proyecto Capacitor Android.
 - `play-store`: textos y checklist de publicación.
+
+## Referencias externas
+
+La revisión de repositorios HVAC queda documentada en [docs/github-hvac-research.md](docs/github-hvac-research.md). Solo se integra código con licencia compatible y fuente técnica explícita.
 
 ## Fuentes de datos
 
