@@ -1,18 +1,18 @@
 import type { CalculationInterpretation } from '../types'
 
-export function interpretDuctSizing(velocityMs: number): CalculationInterpretation {
-  const indicator = velocityMs <= 4 ? 'low' : velocityMs <= 7 ? 'normal' : 'high'
+export function interpretDuctSizing(velocityMs: number, pressureLossPaM = 0): CalculationInterpretation {
+  const indicator = velocityMs > 7 || pressureLossPaM > 1.5 ? 'high' : velocityMs <= 4 && pressureLossPaM < 0.45 ? 'low' : 'normal'
   return {
     title: 'Dimensionado orientativo de conducto',
-    summary: 'Calcula sección mínima desde caudal y velocidad máxima. No sustituye cálculo acústico, pérdidas de carga ni normativa del proyecto.',
+    summary: 'Calcula sección, velocidad real y pérdida lineal aproximada. No sustituye cálculo acústico, accesorios, equilibrado ni normativa del proyecto.',
     indicator,
     causes: indicator === 'high'
-      ? ['Velocidad alta: posible ruido, pérdida de carga elevada o dificultad de equilibrado']
+      ? ['Velocidad o pérdida lineal elevada: posible ruido, mayor presión de ventilador o dificultad de equilibrado']
       : indicator === 'low'
         ? ['Velocidad baja: conducto más grande, menor ruido y menor pérdida, con más espacio requerido']
-        : ['Velocidad en zona orientativa habitual para muchas redes de climatización'],
-    nextChecks: ['Comprobar velocidad recomendada por uso', 'Calcular pérdidas de carga', 'Revisar acústica', 'Verificar espacio disponible', 'Validar con proyecto o fabricante'],
-    formula: 'Área = caudal (m³/s) / velocidad (m/s). Diámetro circular = √(4 · área / π).',
-    example: '1.000 m³/h a 5 m/s requiere aprox. 0,0556 m² y diámetro circular cercano a 266 mm.',
+        : ['Velocidad y pérdida lineal en zona orientativa razonable para predimensionado'],
+    nextChecks: ['Añadir accesorios y pérdidas singulares', 'Comprobar velocidad recomendada por uso', 'Revisar acústica', 'Verificar espacio disponible', 'Validar con proyecto o fabricante'],
+    formula: 'Área = Q / v. Diámetro por área = √(4 · A / π). Pérdida lineal aproximada: Δp/L = f · (1/Dh) · ρv²/2.',
+    example: '1.000 m³/h a 5 m/s requiere aprox. 0,0556 m²; la pérdida real depende de tamaño normalizado, rugosidad y diámetro hidráulico.',
   }
 }
