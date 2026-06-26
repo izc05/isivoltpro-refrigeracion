@@ -1,0 +1,311 @@
+.sz-iphone-home {
+  width: min(560px, 100%);
+  padding-inline: 16px;
+}
+
+.sz-home-identity {
+  margin: 0 0 14px;
+}
+
+.sz-home-identity h1 {
+  font-size: 1.86rem;
+}
+
+.sz-home-identity p {
+  margin-top: 4px;
+  font-size: .82rem;
+}
+
+.sz-home-primary-action {
+  min-height: 82px;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 20px;
+  align-items: center;
+  gap: 13px;
+  padding: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #228af0, #0759d1);
+  border-radius: 21px;
+  box-shadow: 0 14px 30px rgba(14, 98, 217, .22);
+  text-decoration: none;
+}
+
+.sz-home-primary-action > span {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  color: #116bd5;
+  background: #fff;
+  border-radius: 14px;
+}
+
+.sz-home-primary-action svg {
+  width: 22px;
+  height: 22px;
+}
+
+.sz-home-primary-action strong,
+.sz-home-primary-action small {
+  display: block;
+}
+
+.sz-home-primary-action strong {
+  font-size: .94rem;
+}
+
+.sz-home-primary-action small {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, .78);
+  font-size: .7rem;
+  line-height: 1.25;
+}
+
+.sz-ios-shortcuts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin: 15px 0 8px;
+}
+
+.sz-ios-shortcut {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  color: var(--sz-text);
+  text-align: center;
+  text-decoration: none;
+}
+
+.sz-ios-shortcut > span {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 18px rgba(22, 45, 72, .15);
+}
+
+.sz-ios-shortcut.is-blue > span { background: linear-gradient(145deg, #3e9cff, #146bd7); }
+.sz-ios-shortcut.is-cyan > span { background: linear-gradient(145deg, #36d4e4, #0698b0); }
+.sz-ios-shortcut.is-violet > span { background: linear-gradient(145deg, #9b75ff, #6848d5); }
+.sz-ios-shortcut.is-orange > span { background: linear-gradient(145deg, #ffaf4d, #ed7627); }
+
+.sz-ios-shortcut svg {
+  width: 23px;
+  height: 23px;
+  stroke-width: 2;
+}
+
+.sz-ios-shortcut strong {
+  max-width: 72px;
+  color: var(--sz-text);
+  font-size: .66rem;
+  font-weight: 720;
+  line-height: 1.12;
+}
+
+.sz-ios-app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 17px 8px;
+  margin: 13px 0 18px;
+}
+
+.sz-ios-app {
+  position: relative;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  color: var(--sz-text);
+  text-align: center;
+  text-decoration: none;
+}
+
+.sz-ios-app-glyph {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  border-radius: 17px;
+  box-shadow: 0 9px 20px rgba(18, 36, 58, .18), inset 0 1px 0 rgba(255, 255, 255, .22);
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+.sz-ios-app:hover .sz-ios-app-glyph {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+}
+
+.sz-ios-app svg {
+  width: 29px;
+  height: 29px;
+  stroke-width: 1.9;
+}
+
+.sz-ios-app strong {
+  max-width: 76px;
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--sz-text);
+  font-size: .66rem;
+  font-weight: 720;
+  line-height: 1.15;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.sz-ios-app.is-refrigerantes .sz-ios-app-glyph { background: linear-gradient(145deg, #37b6ff, #0877db); }
+.sz-ios-app.is-climatizacion .sz-ios-app-glyph { background: linear-gradient(145deg, #42d7c6, #0a9a8e); }
+.sz-ios-app.is-conductos .sz-ios-app-glyph { background: linear-gradient(145deg, #68c9f5, #3c78d8); }
+.sz-ios-app.is-aerotermia .sz-ios-app-glyph { background: linear-gradient(145deg, #5bc9ff, #476be7); }
+.sz-ios-app.is-electricidad .sz-ios-app-glyph { background: linear-gradient(145deg, #ffc34f, #ec7d20); }
+.sz-ios-app.is-diagnostico .sz-ios-app-glyph { background: linear-gradient(145deg, #a879ff, #7147d8); }
+
+.sz-ios-app.is-pinned i {
+  position: absolute;
+  top: -2px;
+  right: calc(50% - 33px);
+  width: 10px;
+  height: 10px;
+  background: var(--sz-warning);
+  border: 2px solid var(--sz-bg);
+  border-radius: 50%;
+}
+
+.sz-home-overview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 6px;
+}
+
+.sz-home-overview > a {
+  min-width: 0;
+  min-height: 82px;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 15px;
+  align-items: center;
+  gap: 9px;
+  padding: 12px;
+  color: var(--sz-text);
+  background: var(--sz-panel);
+  border: 1px solid var(--sz-border);
+  border-radius: 17px;
+  box-shadow: var(--sz-shadow);
+  text-decoration: none;
+}
+
+.sz-home-overview > a > svg:first-child {
+  width: 22px;
+  height: 22px;
+  color: var(--sz-primary);
+}
+
+.sz-home-overview > a.is-warning > svg:first-child {
+  color: var(--sz-warning);
+}
+
+.sz-home-overview strong,
+.sz-home-overview small {
+  display: block;
+}
+
+.sz-home-overview strong {
+  overflow: hidden;
+  font-size: .76rem;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sz-home-overview small {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: 4px;
+  color: var(--sz-muted);
+  font-size: .62rem;
+  line-height: 1.25;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.sz-home-overview > a > svg:last-child {
+  width: 15px;
+  height: 15px;
+  color: var(--sz-muted);
+}
+
+.sz-route-visual-help {
+  position: fixed;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: calc(88px + env(safe-area-inset-bottom));
+  z-index: 76;
+}
+
+.sz-route-visual-help .sz-visual-help-button {
+  min-height: 46px;
+  padding: 0 16px;
+  border-radius: 999px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .22);
+  white-space: nowrap;
+}
+
+.sz-route-visual-help .sz-visual-help-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.sz-visual-modal {
+  max-height: min(82vh, 760px);
+  overflow-y: auto;
+}
+
+.sz-gallery-card .sz-visual-media svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 370px) {
+  .sz-ios-shortcuts {
+    gap: 6px;
+  }
+
+  .sz-ios-shortcut > span {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+  }
+
+  .sz-ios-app-grid {
+    gap: 15px 5px;
+  }
+
+  .sz-ios-app-glyph {
+    width: 53px;
+    height: 53px;
+    border-radius: 16px;
+  }
+
+  .sz-ios-app svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .sz-home-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .sz-route-visual-help .sz-visual-help-button {
+    max-width: 210px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
