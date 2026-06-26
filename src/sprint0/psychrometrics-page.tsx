@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ArrowDownUp, BookOpen, Copy, RotateCcw, Save, Trash2 } from 'lucide-react'
 import { ZodError } from 'zod'
+import { PsychrometricChart } from '../components/psychrometrics/PsychrometricChart'
 import {
   calculateCondensationRisk,
   calculateFromDewPoint,
@@ -20,6 +21,7 @@ import { clearCalculationHistoryByCalculators, deleteCalculationHistory, listRec
 import type { CalculationEnvelope } from '../calculation-engine/types'
 import type { CalculationHistoryRecord } from '../domain/storage/db'
 import { altitudeToAtmospherePa, parseLocalizedNumber } from '../domain/units'
+import { calculateProcessPower } from '../lib/psychrometrics/processCalculations'
 import { TechnicalImageGallery, VisualHelpButton } from '../visual/visual-components'
 import { Notice, PageTitle, formatNumber, parseRequiredNumber, useSettings } from './shared'
 
@@ -74,10 +76,13 @@ function resultRows(state: PsychrometricState) {
     ['Punto de rocío', `${formatNumber(state.dewPointC, 1)} °C`],
     ['Razón de humedad', `${formatNumber(state.humidityRatioGKg, 2)} g/kg`],
     ['Humedad absoluta', `${formatNumber(state.absoluteHumidityGM3, 2)} g/m³`],
+    ['Presión vapor', `${formatNumber(state.vaporPressurePa, 0)} Pa`],
     ['Entalpía', `${formatNumber(state.moistAirEnthalpyKJkg, 2)} kJ/kg`],
     ['Volumen específico', `${formatNumber(state.moistAirVolumeM3kg, 3)} m³/kg`],
     ['Densidad aire húmedo', `${formatNumber(state.moistAirDensityKgM3, 3)} kg/m³`],
+    ['Grado de saturación', `${formatNumber(state.degreeOfSaturationPct, 1)} %`],
     ['Déficit presión vapor', `${formatNumber(state.vaporPressureDeficitPa / 1000, 2)} kPa`],
+    ['Presión atmosférica', `${formatNumber(state.pressurePa, 0)} Pa · ${formatNumber(state.pressurePa / 1000, 2)} kPa`],
   ]
 }
 
@@ -115,6 +120,7 @@ export function PsychrometricsPage() {
   const [bDry, setBDry] = useState('20')
   const [bRh, setBRh] = useState('50')
   const [bPressure, setBPressure] = useState(String(Math.round(atmospherePa)))
+  const [airflowM3h, setAirflowM3h] = useState('')
   const [openLearning, setOpenLearning] = useState(0)
 
   const effectivePressurePa = useMemo(() => {
@@ -266,18 +272,18 @@ export function PsychrometricsPage() {
       </div>
       <AtmosphereBlock pressureMode={pressureMode} setPressureMode={setPressureMode} customAltitude={customAltitude} setCustomAltitude={setCustomAltitude} manualPressure={manualPressure} setManualPressure={setManualPressure} pressureUnit={pressureUnit} setPressureUnit={setPressureUnit} pressurePa={effectivePressurePa} pressureWarning={pressureWarning} />
       <div className="sz-button-row"><button className="sz-button primary" type="button" onClick={calculateState}>Calcular</button><button className="sz-button secondary" type="button" onClick={resetState}><RotateCcw />Restablecer</button><button className="sz-button secondary" type="button" disabled={!calculation} onClick={saveCurrent}><Save />Guardar</button></div>
-    </section><StateResult calculation={calculation} /></>}
+    </section><PsychrometricChart pressurePa={effectivePressurePa} mode={mode} state={state} /><StateResult calculation={calculation} /></>}
 
     {tab === 'condensacion' && <><section className="sz-panel sz-form">
       <div className="sz-two-columns"><label>Temperatura seca °C<input inputMode="decimal" value={dryBulb} onChange={(event) => setDryBulb(event.target.value)} /></label><label>Humedad relativa %<input inputMode="decimal" value={relativeHumidity} onChange={(event) => setRelativeHumidity(event.target.value)} /></label><label>Superficie °C<input inputMode="decimal" value={surfaceTemp} onChange={(event) => setSurfaceTemp(event.target.value)} /></label><label>Margen seguridad K<input inputMode="decimal" value={safetyMargin} onChange={(event) => setSafetyMargin(event.target.value)} /></label></div>
       <AtmosphereBlock pressureMode={pressureMode} setPressureMode={setPressureMode} customAltitude={customAltitude} setCustomAltitude={setCustomAltitude} manualPressure={manualPressure} setManualPressure={setManualPressure} pressureUnit={pressureUnit} setPressureUnit={setPressureUnit} pressurePa={effectivePressurePa} pressureWarning={pressureWarning} />
       <div className="sz-button-row"><button className="sz-button primary" type="button" onClick={calculateCondensation}>Evaluar</button><button className="sz-button secondary" type="button" disabled={!condensation} onClick={saveCondensation}><Save />Guardar</button></div>
-    </section><CondensationResult calculation={condensation} /></>}
+    </section><PsychrometricChart pressurePa={effectivePressurePa} mode={mode} condensation={condensation?.result ?? null} /><CondensationResult calculation={condensation} /></>}
 
     {tab === 'comparar' && <><section className="sz-panel sz-form"><div className="sz-two-columns">
       <StateMini title="Estado A" dry={aDry} setDry={setADry} rh={aRh} setRh={setARh} pressure={aPressure} setPressure={setAPressure} />
       <StateMini title="Estado B" dry={bDry} setDry={setBDry} rh={bRh} setRh={setBRh} pressure={bPressure} setPressure={setBPressure} />
-    </div><div className="sz-button-row"><button className="sz-button secondary" type="button" disabled={!state} onClick={() => copyCurrentTo('a')}><Copy />Actual a A</button><button className="sz-button secondary" type="button" disabled={!state} onClick={() => copyCurrentTo('b')}><Copy />Actual a B</button><button className="sz-button secondary" type="button" onClick={swapComparison}><ArrowDownUp />Intercambiar</button><button className="sz-button primary" type="button" onClick={calculateComparison}>Comparar</button><button className="sz-button secondary" type="button" disabled={!comparison} onClick={saveComparison}><Save />Guardar</button></div></section><ComparisonResult calculation={comparison} /></>}
+    </div><label>Caudal de aire opcional m³/h<input inputMode="decimal" value={airflowM3h} onChange={(event) => setAirflowM3h(event.target.value)} placeholder="Para potencia sensible/latente" /></label><div className="sz-button-row"><button className="sz-button secondary" type="button" disabled={!state} onClick={() => copyCurrentTo('a')}><Copy />Actual a A</button><button className="sz-button secondary" type="button" disabled={!state} onClick={() => copyCurrentTo('b')}><Copy />Actual a B</button><button className="sz-button secondary" type="button" onClick={swapComparison}><ArrowDownUp />Intercambiar</button><button className="sz-button primary" type="button" onClick={calculateComparison}>Comparar</button><button className="sz-button secondary" type="button" disabled={!comparison} onClick={saveComparison}><Save />Guardar</button></div></section><PsychrometricChart pressurePa={comparison?.result.a.pressurePa ?? effectivePressurePa} mode="advanced" comparison={comparison?.result ?? null} /><ComparisonResult calculation={comparison} airflowM3h={airflowM3h} /></>}
 
     {tab === 'aprender' && <section className="sz-panel psychro-learning">{learning.map(([title, definition, use, example, error], index) => <div className="psychro-accordion" key={title}><button type="button" aria-expanded={openLearning === index} onClick={() => setOpenLearning(openLearning === index ? -1 : index)}><strong>{title}</strong><span>{openLearning === index ? 'Cerrar' : 'Abrir'}</span></button>{openLearning === index && <div><p><strong>Definición:</strong> {definition}</p><p><strong>Uso práctico:</strong> {use}</p><p><strong>Ejemplo:</strong> {example}</p><p><strong>Error frecuente:</strong> {error}</p></div>}</div>)}</section>}
 
@@ -309,10 +315,12 @@ function StateMini({ title, dry, setDry, rh, setRh, pressure, setPressure }: { t
   return <div className="psychro-state-mini"><h3>{title}</h3><label>Temperatura seca °C<input inputMode="decimal" value={dry} onChange={(event) => setDry(event.target.value)} /></label><label>Humedad relativa %<input inputMode="decimal" value={rh} onChange={(event) => setRh(event.target.value)} /></label><label>Presión Pa<input inputMode="decimal" value={pressure} onChange={(event) => setPressure(event.target.value)} /></label></div>
 }
 
-function ComparisonResult({ calculation }: { calculation: CompareCalculation | null }) {
+function ComparisonResult({ calculation, airflowM3h }: { calculation: CompareCalculation | null; airflowM3h: string }) {
   if (!calculation) return <section className="sz-result"><small>Comparación</small><strong>--</strong><span>Compara dos estados A/B.</span></section>
   const deltas = calculation.result.deltas
-  return <section className="sz-result"><small>{calculation.result.processLabel}</small><strong>{formatNumber(deltas.moistAirEnthalpyKJkg, 1)} kJ/kg</strong><span>Diferencia de entalpía B - A</span><p>{calculation.result.summary}</p><div className="sz-data-list">{[['Δ temperatura', `${formatNumber(deltas.dryBulbC, 1)} K`], ['Δ HR', `${formatNumber(deltas.relativeHumidityPct, 1)} %`], ['Δ punto rocío', `${formatNumber(deltas.dewPointC, 1)} K`], ['Δ razón humedad', `${formatNumber(deltas.humidityRatioGKg, 2)} g/kg`], ['Δ humedad absoluta', `${formatNumber(deltas.absoluteHumidityGM3, 2)} g/m³`], ['Δ volumen específico', `${formatNumber(deltas.moistAirVolumeM3kg, 3)} m³/kg`]].map(([label, value]) => <p key={label}><span>{label}</span><strong>{value}</strong></p>)}</div></section>
+  const parsedAirflow = airflowM3h.trim() ? parseLocalizedNumber(airflowM3h) : Number.NaN
+  const power = calculateProcessPower(calculation.result.a, calculation.result.b, parsedAirflow)
+  return <section className="sz-result"><small>{calculation.result.processLabel}</small><strong>{formatNumber(deltas.moistAirEnthalpyKJkg, 1)} kJ/kg</strong><span>Diferencia de entalpía B - A</span><p>{calculation.result.summary}</p><div className="sz-data-list">{[['Δ temperatura', `${formatNumber(deltas.dryBulbC, 1)} K`], ['Δ HR', `${formatNumber(deltas.relativeHumidityPct, 1)} %`], ['Δ punto rocío', `${formatNumber(deltas.dewPointC, 1)} K`], ['Δ razón humedad', `${formatNumber(deltas.humidityRatioGKg, 2)} g/kg`], ['Δ humedad absoluta', `${formatNumber(deltas.absoluteHumidityGM3, 2)} g/m³`], ['Δ volumen específico', `${formatNumber(deltas.moistAirVolumeM3kg, 3)} m³/kg`], ...(power ? [['Potencia sensible', `${formatNumber(power.sensibleKw, 2)} kW`], ['Potencia latente', `${formatNumber(power.latentKw, 2)} kW`], ['Potencia total', `${formatNumber(power.totalKw, 2)} kW`]] : [])].map(([label, value]) => <p key={label}><span>{label}</span><strong>{value}</strong></p>)}</div></section>
 }
 
 function HistoryCard({ record, onRecover, onDuplicate, onDelete }: { record: CalculationHistoryRecord; onRecover: () => void; onDuplicate: () => void; onDelete: () => void }) {

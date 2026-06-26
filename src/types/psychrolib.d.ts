@@ -17,6 +17,8 @@ declare module 'psychrolib' {
     GetRelHumFromHumRatio(dryBulbTemperature: number, humidityRatio: number, pressure: number): number
     GetVapPresFromHumRatio(humidityRatio: number, pressure: number): number
     GetSatVapPres(dryBulbTemperature: number): number
+    GetSatHumRatio(dryBulbTemperature: number, pressure: number): number
+    GetHumRatioFromEnthalpyAndTDryBulb(moistAirEnthalpy: number, dryBulbTemperature: number): number
     GetMoistAirEnthalpy(dryBulbTemperature: number, humidityRatio: number): number
     GetMoistAirVolume(dryBulbTemperature: number, humidityRatio: number, pressure: number): number
     GetMoistAirDensity(dryBulbTemperature: number, humidityRatio: number, pressure: number): number
