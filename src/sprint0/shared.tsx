@@ -6,8 +6,9 @@ import { refrigerantTables, type RefrigerantTable } from '../data/generated'
 import { maxGlideK } from '../domain/refrigerants/summary'
 import { altitudeToAtmospherePa, DEFAULT_ATMOSPHERE_PA, parseLocalizedNumber, type PressureUnit } from '../domain/units'
 import { db, newId, type Intervention } from '../domain/storage/db'
+import { VisualHelpButton } from '../visual/visual-components'
 
-export const APP_VERSION = '1.1.0-sprint0'
+export const APP_VERSION = '1.2.0-sprint0'
 export const appIconUrl = `${import.meta.env.BASE_URL}icons/icon.png`
 export const preferredPressureUnits: PressureUnit[] = ['bar', 'PSI', 'kPa', 'MPa']
 
@@ -86,6 +87,21 @@ function useUpdateReady() {
   return ready
 }
 
+const routeVisualGuides: Record<string, { module: string; calculator: string; label: string }> = {
+  '/pt': { module: 'refrigerants', calculator: 'pressure-temperature', label: 'Explicación visual P/T' },
+  '/superheat': { module: 'refrigerants', calculator: 'superheat', label: 'Dónde medir el recalentamiento' },
+  '/subcooling': { module: 'refrigerants', calculator: 'subcooling', label: 'Dónde medir el subenfriamiento' },
+  '/vacuum': { module: 'refrigerants', calculator: 'vacuum-procedure', label: 'Montaje correcto de vacío' },
+  '/charge': { module: 'refrigerants', calculator: 'additional-charge', label: 'Cómo calcular la carga' },
+  '/converter': { module: 'electricity', calculator: 'technical-converter', label: 'Guía de conversiones' },
+  '/refrigerants': { module: 'refrigerants', calculator: 'refrigerant-safety', label: 'Identificación y seguridad' },
+  '/compare': { module: 'refrigerants', calculator: 'refrigerant-comparison', label: 'Cómo comparar refrigerantes' },
+  '/diagnostics': { module: 'diagnostics', calculator: 'guided-diagnostics', label: 'Proceso de diagnóstico' },
+  '/psychrometrics': { module: 'psychrometrics', calculator: 'dry-bulb-relative-humidity', label: 'Medición psicrométrica' },
+  '/ducts': { module: 'ducts', calculator: 'duct-sizing', label: 'Caudal y sección de conducto' },
+  '/hydraulics': { module: 'hydraulics', calculator: 'water-flow', label: 'Caudal de agua y salto térmico' },
+}
+
 export function Shell({ children }: { children: ReactNode }) {
   const location = useLocation()
   const navigate = useNavigate()
@@ -93,6 +109,8 @@ export function Shell({ children }: { children: ReactNode }) {
   const online = useOnline()
   const updateReady = useUpdateReady()
   const home = location.pathname === '/' || location.pathname === '/tools'
+  const visualGuide = routeVisualGuides[location.pathname]
+
   return <div className="sz-app">
     <header className="sz-topbar">
       {home ? <NavLink className="sz-icon-button" to="/" aria-label="Inicio"><Home /></NavLink> : <button className="sz-icon-button" type="button" aria-label="Volver" onClick={() => navigate(-1)}><ArrowLeft /></button>}
@@ -102,6 +120,7 @@ export function Shell({ children }: { children: ReactNode }) {
     <div className={`sz-connection ${online ? 'is-online' : 'is-offline'}`} role="status">{online ? <Wifi /> : <WifiOff />}<span>{online ? 'Con conexión · guardado local activo' : 'Sin conexión · modo local activo'}</span></div>
     {updateReady && <div className="sz-update-banner"><RefreshCw /><span>Nueva versión disponible.</span><button type="button" onClick={() => window.location.reload()}>Actualizar</button></div>}
     {children}
+    {visualGuide && <div className="sz-route-visual-help"><VisualHelpButton scope={{ module: visualGuide.module, calculator: visualGuide.calculator }} label={visualGuide.label} /></div>}
     <nav className="sz-bottom-nav" aria-label="Navegación principal">
       <NavLink to="/"><Home /><span>Inicio</span></NavLink><NavLink to="/tools"><Grid3X3 /><span>Herramientas</span></NavLink><NavLink to="/work"><BriefcaseBusiness /><span>Trabajo</span></NavLink><NavLink to="/library"><BookOpen /><span>Biblioteca</span></NavLink><NavLink to="/settings"><Settings /><span>Ajustes</span></NavLink>
     </nav>
