@@ -1598,6 +1598,7 @@
 .sz-finding,
 .sz-result,
 .sz-chart,
+.psychro-chart-panel,
 .sz-table-wrap,
 .sz-empty,
 .sz-gallery-card,
@@ -1780,6 +1781,7 @@
 .sz-result,
 .sz-notice,
 .psychro-atmosphere,
+.psychro-chart-frame,
 .sz-app input,
 .sz-app select,
 .sz-app textarea {
