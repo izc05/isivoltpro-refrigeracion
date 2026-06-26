@@ -6,7 +6,20 @@ import type { VisualResource } from '../domain/storage/db'
 import { Notice, PageTitle } from './shared'
 
 const modules = ['refrigerants', 'psychrometrics', 'ducts', 'hydraulics', 'electricity', 'diagnostics']
-const calculators = ['pressure-temperature', 'superheat', 'subcooling', 'dry-bulb-relative-humidity', 'duct-sizing', 'water-flow']
+const calculators = [
+  'pressure-temperature',
+  'superheat',
+  'subcooling',
+  'vacuum-procedure',
+  'additional-charge',
+  'technical-converter',
+  'refrigerant-safety',
+  'refrigerant-comparison',
+  'guided-diagnostics',
+  'dry-bulb-relative-humidity',
+  'duct-sizing',
+  'water-flow',
+]
 
 function readFileAsDataUrl(file: File) {
   return new Promise<string>((resolve, reject) => {
