@@ -4,5 +4,7 @@ export {
   chartSaturationPressurePa as saturationPressurePa,
   enthalpyLine,
   relativeHumidityCurve,
+  specificVolumeLine,
+  wetBulbLine,
   type ChartPoint,
 } from '../calculation-engine/formulas/psychrometrics'

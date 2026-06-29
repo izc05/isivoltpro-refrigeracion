@@ -7,11 +7,25 @@ import type {
 } from 'react'
 import { LocateFixed, Maximize2, Minimize2, Minus, Plus, RotateCcw } from 'lucide-react'
 import type { PsychrometricComparisonResult, PsychrometricState } from '../calculation-engine/formulas/psychrometrics'
-import { CHART_BOUNDS, enthalpyLine, humidityRatioGKg, relativeHumidityCurve, type ChartPoint } from './psychrometric-chart-math'
+import {
+  CHART_BOUNDS,
+  enthalpyLine,
+  humidityRatioGKg,
+  relativeHumidityCurve,
+  specificVolumeLine,
+  wetBulbLine,
+  type ChartPoint,
+} from './psychrometric-chart-math'
+import {
+  enthalpyGuideValuesKJkg,
+  specificVolumeGuideValuesM3kg,
+  wetBulbGuideValuesC,
+} from './psychrometric-professional-lines'
 import { createChartViewBox, fitChartPoints, zoomChartViewport, type ChartViewport } from './psychrometric-chart-viewport'
 import './psychrometric-chart.css'
 import './psychrometric-chart-details.css'
 import './psychrometric-chart-mobile.css'
+import './psychrometric-chart-professional.css'
 
 type Props = {
   state?: PsychrometricState | null
@@ -40,6 +54,12 @@ const y = (ratioGKg: number) => height - pad.bottom - ((ratioGKg - CHART_BOUNDS.
 const pathFor = (points: ChartPoint[]) => points.map((point, index) => `${index ? 'L' : 'M'} ${x(point.dryBulbC).toFixed(1)} ${y(point.humidityRatioGKg).toFixed(1)}`).join(' ')
 const value = (number: number, digits = 1) => number.toLocaleString('es-ES', { minimumFractionDigits: digits, maximumFractionDigits: digits })
 
+function guideLabelPoint(points: ChartPoint[], fraction: number) {
+  if (points.length === 0) return null
+  const index = Math.min(points.length - 1, Math.max(0, Math.floor((points.length - 1) * fraction)))
+  return points[index]
+}
+
 function detailRows(state: PsychrometricState) {
   return [
     ['Temperatura seca', `${value(state.dryBulbC, 1)} °C`],
@@ -62,20 +82,35 @@ export function PsychrometricChart({ state = null, comparison = null, pressurePa
   const dragRef = useRef<{ pointerId: number; clientX: number; clientY: number; viewport: ChartViewport } | null>(null)
   const pinchRef = useRef<{ distance: number; viewport: ChartViewport; focusX: number; focusY: number } | null>(null)
   const [showComfort, setShowComfort] = useState(true)
-  const [showEnthalpy, setShowEnthalpy] = useState(true)
+  const [showStateEnthalpy, setShowStateEnthalpy] = useState(true)
+  const [showWetBulbGuides, setShowWetBulbGuides] = useState(false)
+  const [showEnthalpyGuides, setShowEnthalpyGuides] = useState(false)
+  const [showSpecificVolumeGuides, setShowSpecificVolumeGuides] = useState(false)
   const [selectedId, setSelectedId] = useState<RenderPoint['id'] | null>(null)
   const [viewport, setViewport] = useState<ChartViewport>(defaultViewport)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [isImmersiveFallback, setIsImmersiveFallback] = useState(false)
   const safePressure = Number.isFinite(pressurePa) && pressurePa > 50000 ? pressurePa : 101325
   const curves = useMemo(() => rhValues.map((rh) => ({ rh, points: relativeHumidityCurve(rh, safePressure) })), [safePressure])
+  const wetBulbGuides = useMemo(
+    () => showWetBulbGuides ? wetBulbGuideValuesC.map((wetBulbC) => ({ value: wetBulbC, points: wetBulbLine(wetBulbC, safePressure) })) : [],
+    [safePressure, showWetBulbGuides],
+  )
+  const enthalpyGuides = useMemo(
+    () => showEnthalpyGuides ? enthalpyGuideValuesKJkg.map((enthalpyKJkg) => ({ value: enthalpyKJkg, points: enthalpyLine(enthalpyKJkg) })) : [],
+    [showEnthalpyGuides],
+  )
+  const specificVolumeGuides = useMemo(
+    () => showSpecificVolumeGuides ? specificVolumeGuideValuesM3kg.map((specificVolumeM3kg) => ({ value: specificVolumeM3kg, points: specificVolumeLine(specificVolumeM3kg, safePressure) })) : [],
+    [safePressure, showSpecificVolumeGuides],
+  )
   const points: RenderPoint[] = comparison
     ? [{ id: 'a', label: 'Estado A', state: comparison.a }, { id: 'b', label: 'Estado B', state: comparison.b }]
     : state
       ? [{ id: 'state', label: 'Estado calculado', state }]
       : []
   const selected = points.find((point) => point.id === selectedId) ?? points[0] ?? null
-  const enthalpy = selected && showEnthalpy ? enthalpyLine(selected.state.moistAirEnthalpyKJkg) : []
+  const selectedEnthalpy = selected && showStateEnthalpy ? enthalpyLine(selected.state.moistAirEnthalpyKJkg) : []
   const viewBox = createChartViewBox(viewport, width, height)
   const expanded = isFullscreen || isImmersiveFallback
   const comfort = [
@@ -222,7 +257,8 @@ export function PsychrometricChart({ state = null, comparison = null, pressurePa
   }
 
   return <section ref={cardRef} className={`psychro-chart-card ${expanded ? 'is-expanded' : ''}`} aria-labelledby="psychro-chart-title">
-    <div className="psychro-chart-head"><div><span>Carta interactiva</span><h2 id="psychro-chart-title">Carta psicrométrica</h2><p>Toca un punto para consultar sus propiedades. Pellizca o usa los controles para ampliar la carta.</p></div><div className="psychro-chart-controls"><button type="button" className={showComfort ? 'active' : ''} onClick={() => setShowComfort(!showComfort)}>Confort</button><button type="button" className={showEnthalpy ? 'active' : ''} onClick={() => setShowEnthalpy(!showEnthalpy)}>Entalpía</button></div></div>
+    <div className="psychro-chart-head"><div><span>Carta interactiva</span><h2 id="psychro-chart-title">Carta psicrométrica</h2><p>Toca un punto para consultar sus propiedades. Activa solo las familias de líneas que necesites.</p></div><div className="psychro-chart-controls professional"><button type="button" className={showComfort ? 'active' : ''} onClick={() => setShowComfort(!showComfort)}>Confort</button><button type="button" className={showStateEnthalpy ? 'active' : ''} onClick={() => setShowStateEnthalpy(!showStateEnthalpy)}>h estado</button><button type="button" className={showWetBulbGuides ? 'active' : ''} onClick={() => setShowWetBulbGuides(!showWetBulbGuides)}>Bulbo húmedo</button><button type="button" className={showEnthalpyGuides ? 'active' : ''} onClick={() => setShowEnthalpyGuides(!showEnthalpyGuides)}>Entalpías</button><button type="button" className={showSpecificVolumeGuides ? 'active' : ''} onClick={() => setShowSpecificVolumeGuides(!showSpecificVolumeGuides)}>Volumen</button></div></div>
+    <div className="psychro-chart-legend" aria-label="Leyenda de líneas"><span className="legend-rh">HR</span>{showWetBulbGuides && <span className="legend-wet-bulb">Tbh</span>}{showEnthalpyGuides && <span className="legend-enthalpy">h</span>}{showSpecificVolumeGuides && <span className="legend-volume">v</span>}{showComfort && <span className="legend-comfort">Confort</span>}</div>
     {points.length > 1 && <div className="psychro-point-selector" aria-label="Seleccionar estado">{points.map((point) => <button key={point.id} type="button" className={selected?.id === point.id ? 'active' : ''} onClick={() => setSelectedId(point.id)}>{point.label}</button>)}</div>}
     <div className="psychro-chart-viewport-tools" aria-label="Controles de visualización">
       <button type="button" onClick={() => zoomAt(viewport.zoom - 0.5)} disabled={viewport.zoom <= 1} aria-label="Alejar carta" title="Alejar"><Minus /></button>
@@ -232,22 +268,43 @@ export function PsychrometricChart({ state = null, comparison = null, pressurePa
       <button type="button" onClick={() => setViewport(defaultViewport)} aria-label="Restablecer vista" title="Restablecer vista"><RotateCcw /></button>
       <button type="button" onClick={toggleFullscreen} aria-label={expanded ? 'Salir de pantalla completa' : 'Abrir en pantalla completa'} title={expanded ? 'Salir de pantalla completa' : 'Pantalla completa'}>{expanded ? <Minimize2 /> : <Maximize2 />}</button>
     </div>
-    <p className="psychro-mobile-hint">En móvil, gira el dispositivo para aprovechar mejor la pantalla. Puedes arrastrar la carta cuando esté ampliada.</p>
-    <div className="psychro-chart-scroll"><svg ref={svgRef} className="psychro-chart-svg" viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label="Carta psicrométrica ampliable con curvas de humedad relativa y estados seleccionables" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerEnd} onPointerCancel={onPointerEnd} onWheel={onWheel} onDoubleClick={onDoubleClick}>
-      <defs><marker id="psychro-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" /></marker></defs>
+    <p className="psychro-mobile-hint">En móvil, gira el dispositivo para aprovechar mejor la pantalla. Puedes pellizcar y arrastrar la carta.</p>
+    <div className="psychro-chart-scroll"><svg ref={svgRef} className="psychro-chart-svg" viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label="Carta psicrométrica ampliable con líneas de humedad relativa, bulbo húmedo, entalpía y volumen específico" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerEnd} onPointerCancel={onPointerEnd} onWheel={onWheel} onDoubleClick={onDoubleClick}>
+      <defs><clipPath id="psychro-plot-clip"><rect x={pad.left} y={pad.top} width={width - pad.left - pad.right} height={height - pad.top - pad.bottom} rx="12" /></clipPath><marker id="psychro-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" /></marker></defs>
       <rect className="psychro-plot-bg" x={pad.left} y={pad.top} width={width - pad.left - pad.right} height={height - pad.top - pad.bottom} rx="12" />
       {tempTicks.map((tick) => <g key={`t-${tick}`}><line className="psychro-grid" x1={x(tick)} y1={pad.top} x2={x(tick)} y2={height - pad.bottom} /><text className="psychro-axis-label" x={x(tick)} y={height - 24} textAnchor="middle">{tick}°</text></g>)}
       {humidityTicks.map((tick) => <g key={`w-${tick}`}><line className="psychro-grid" x1={pad.left} y1={y(tick)} x2={width - pad.right} y2={y(tick)} /><text className="psychro-axis-label" x={width - 12} y={y(tick) + 4} textAnchor="end">{tick}</text></g>)}
-      {showComfort && comfort.every((point) => Number.isFinite(point.humidityRatioGKg)) && <polygon className="psychro-comfort" points={comfort.map((point) => `${x(point.dryBulbC)},${y(point.humidityRatioGKg)}`).join(' ')} />}
-      {curves.map(({ rh, points: curve }) => curve.length > 1 && <g key={rh}><path className={rh === 100 ? 'psychro-rh-line saturation' : 'psychro-rh-line'} d={pathFor(curve)} />{rh >= 30 && rh < 100 && <text className="psychro-rh-label" x={x(curve[curve.length - 1].dryBulbC) - 4} y={y(curve[curve.length - 1].humidityRatioGKg) - 5} textAnchor="end">{rh}%</text>}</g>)}
-      {enthalpy.length > 1 && <path className="psychro-enthalpy-line" d={pathFor(enthalpy)} />}
-      {comparison && <line className="psychro-process-line" x1={x(comparison.a.dryBulbC)} y1={y(comparison.a.humidityRatioGKg)} x2={x(comparison.b.dryBulbC)} y2={y(comparison.b.humidityRatioGKg)} markerEnd="url(#psychro-arrow)" />}
-      {selected && <g className="psychro-crosshair" aria-hidden="true"><line x1={x(selected.state.dryBulbC)} y1={y(selected.state.humidityRatioGKg)} x2={x(selected.state.dryBulbC)} y2={height - pad.bottom} /><line x1={pad.left} y1={y(selected.state.humidityRatioGKg)} x2={x(selected.state.dryBulbC)} y2={y(selected.state.humidityRatioGKg)} /></g>}
+      <g clipPath="url(#psychro-plot-clip)">
+        {showComfort && comfort.every((point) => Number.isFinite(point.humidityRatioGKg)) && <polygon className="psychro-comfort" points={comfort.map((point) => `${x(point.dryBulbC)},${y(point.humidityRatioGKg)}`).join(' ')} />}
+        {wetBulbGuides.map((guide) => guide.points.length > 1 && <path key={`tbh-${guide.value}`} className="psychro-wet-bulb-line" d={pathFor(guide.points)} />)}
+        {enthalpyGuides.map((guide) => guide.points.length > 1 && <path key={`h-${guide.value}`} className="psychro-enthalpy-guide" d={pathFor(guide.points)} />)}
+        {specificVolumeGuides.map((guide) => guide.points.length > 1 && <path key={`v-${guide.value}`} className="psychro-volume-line" d={pathFor(guide.points)} />)}
+        {curves.map(({ rh, points: curve }) => curve.length > 1 && <path key={rh} className={rh === 100 ? 'psychro-rh-line saturation' : 'psychro-rh-line'} d={pathFor(curve)} />)}
+        {selectedEnthalpy.length > 1 && <path className="psychro-enthalpy-line selected" d={pathFor(selectedEnthalpy)} />}
+        {comparison && <line className="psychro-process-line" x1={x(comparison.a.dryBulbC)} y1={y(comparison.a.humidityRatioGKg)} x2={x(comparison.b.dryBulbC)} y2={y(comparison.b.humidityRatioGKg)} markerEnd="url(#psychro-arrow)" />}
+        {selected && <g className="psychro-crosshair" aria-hidden="true"><line x1={x(selected.state.dryBulbC)} y1={y(selected.state.humidityRatioGKg)} x2={x(selected.state.dryBulbC)} y2={height - pad.bottom} /><line x1={pad.left} y1={y(selected.state.humidityRatioGKg)} x2={x(selected.state.dryBulbC)} y2={y(selected.state.humidityRatioGKg)} /></g>}
+      </g>
+      {curves.map(({ rh, points: curve }) => {
+        const labelPoint = guideLabelPoint(curve, 0.82)
+        return labelPoint && rh >= 30 && rh < 100 ? <text key={`rh-label-${rh}`} className="psychro-rh-label" x={x(labelPoint.dryBulbC) - 4} y={y(labelPoint.humidityRatioGKg) - 5} textAnchor="end">{rh}%</text> : null
+      })}
+      {wetBulbGuides.map((guide) => {
+        const labelPoint = guideLabelPoint(guide.points, 0.68)
+        return labelPoint ? <text key={`tbh-label-${guide.value}`} className="psychro-guide-label wet-bulb" x={x(labelPoint.dryBulbC) + 3} y={y(labelPoint.humidityRatioGKg) - 3}>Tbh {guide.value}°</text> : null
+      })}
+      {enthalpyGuides.map((guide) => {
+        const labelPoint = guideLabelPoint(guide.points, 0.18)
+        return labelPoint ? <text key={`h-label-${guide.value}`} className="psychro-guide-label enthalpy" x={x(labelPoint.dryBulbC) + 3} y={y(labelPoint.humidityRatioGKg) - 3}>{guide.value}</text> : null
+      })}
+      {specificVolumeGuides.map((guide) => {
+        const labelPoint = guideLabelPoint(guide.points, 0.62)
+        return labelPoint ? <text key={`v-label-${guide.value}`} className="psychro-guide-label volume" x={x(labelPoint.dryBulbC) + 3} y={y(labelPoint.humidityRatioGKg) - 3}>{guide.value.toFixed(2)}</text> : null
+      })}
       {points.map((point, index) => <g className={`psychro-state-point point-${index} ${selected?.id === point.id ? 'selected' : ''}`} key={point.id} role="button" tabIndex={0} aria-label={`Seleccionar ${point.label}`} onClick={() => setSelectedId(point.id)} onKeyDown={(event) => selectWithKeyboard(event, point.id)}><circle cx={x(point.state.dryBulbC)} cy={y(point.state.humidityRatioGKg)} r="8" /><circle className="pulse" cx={x(point.state.dryBulbC)} cy={y(point.state.humidityRatioGKg)} r="14" /><text x={x(point.state.dryBulbC) + 12} y={y(point.state.humidityRatioGKg) - 12}>{point.label}</text></g>)}
       <text className="psychro-axis-title" x={(pad.left + width - pad.right) / 2} y={height - 5} textAnchor="middle">Temperatura seca (°C)</text>
       <text className="psychro-axis-title" transform={`translate(${width - 7} ${(pad.top + height - pad.bottom) / 2}) rotate(-90)`} textAnchor="middle">Razón de humedad (g/kg aire seco)</text>
     </svg></div>
     {selected ? <article className="psychro-selected-state" aria-live="polite"><div className="psychro-selected-head"><div><small>Punto seleccionado</small><h3>{selected.label}</h3></div><strong>{value(selected.state.dryBulbC, 1)} °C · {value(selected.state.relativeHumidityPct, 0)} % HR</strong></div><div className="psychro-selected-grid">{detailRows(selected.state).map(([label, result]) => <p key={label}><span>{label}</span><strong>{result}</strong></p>)}</div></article> : <p className="psychro-chart-empty">Introduce un estado válido para colocarlo sobre la carta.</p>}
-    <p className="psychro-chart-note">Curvas y estados usan el mismo motor PsychroLib. La carta no sustituye el proyecto ni instrumentos calibrados.</p>
+    <p className="psychro-chart-note">Las familias profesionales se calculan con PsychroLib para la presión seleccionada. Activa solo las necesarias para evitar saturar la lectura.</p>
   </section>
 }

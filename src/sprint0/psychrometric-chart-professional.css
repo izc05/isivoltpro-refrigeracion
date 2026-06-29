@@ -1,0 +1,235 @@
+.psychro-chart-controls.professional {
+  max-width: 460px;
+}
+
+.psychro-chart-controls.professional button {
+  white-space: nowrap;
+}
+
+.psychro-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 9px 11px;
+  color: var(--sz-muted);
+  background: var(--sz-panel-muted);
+  border: 1px solid var(--sz-border);
+  border-radius: 12px;
+  font-size: .7rem;
+  font-weight: 760;
+}
+
+.psychro-chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.psychro-chart-legend span::before {
+  width: 24px;
+  height: 0;
+  content: '';
+  border-top: 2px solid currentColor;
+}
+
+.psychro-chart-legend .legend-rh {
+  color: color-mix(in srgb, var(--sz-secondary) 72%, var(--sz-muted));
+}
+
+.psychro-chart-legend .legend-wet-bulb {
+  color: var(--sz-info, #38bdf8);
+}
+
+.psychro-chart-legend .legend-wet-bulb::before {
+  border-top-style: dashed;
+}
+
+.psychro-chart-legend .legend-enthalpy {
+  color: var(--sz-warning);
+}
+
+.psychro-chart-legend .legend-enthalpy::before {
+  border-top-style: dotted;
+}
+
+.psychro-chart-legend .legend-volume {
+  color: color-mix(in srgb, var(--sz-success) 80%, white);
+}
+
+.psychro-chart-legend .legend-volume::before {
+  border-top-style: dashed;
+}
+
+.psychro-chart-legend .legend-comfort {
+  color: var(--sz-success);
+}
+
+.psychro-chart-legend .legend-comfort::before {
+  height: 8px;
+  border: 1px solid currentColor;
+  background: color-mix(in srgb, var(--sz-success) 18%, transparent);
+}
+
+.psychro-wet-bulb-line,
+.psychro-enthalpy-guide,
+.psychro-volume-line {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.psychro-wet-bulb-line {
+  stroke: var(--sz-info, #38bdf8);
+  stroke-width: 1.15;
+  stroke-dasharray: 6 4;
+  opacity: .6;
+}
+
+.psychro-enthalpy-guide {
+  stroke: var(--sz-warning);
+  stroke-width: 1.05;
+  stroke-dasharray: 2 5;
+  opacity: .5;
+}
+
+.psychro-volume-line {
+  stroke: color-mix(in srgb, var(--sz-success) 78%, white);
+  stroke-width: 1.1;
+  stroke-dasharray: 9 4 2 4;
+  opacity: .58;
+}
+
+.psychro-enthalpy-line.selected {
+  stroke-width: 2.4;
+  opacity: 1;
+}
+
+.psychro-guide-label {
+  font-size: 9px;
+  font-weight: 760;
+  pointer-events: none;
+  paint-order: stroke;
+  stroke: var(--sz-bg);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.psychro-guide-label.wet-bulb {
+  fill: var(--sz-info, #38bdf8);
+}
+
+.psychro-guide-label.enthalpy {
+  fill: var(--sz-warning);
+}
+
+.psychro-guide-label.volume {
+  fill: color-mix(in srgb, var(--sz-success) 82%, white);
+}
+
+.psychro-chart-card.is-expanded,
+.psychro-chart-card:fullscreen {
+  grid-template-rows: auto auto auto auto minmax(0, 1fr);
+}
+
+.psychro-chart-card.is-expanded .psychro-chart-head,
+.psychro-chart-card:fullscreen .psychro-chart-head {
+  grid-row: 1;
+}
+
+.psychro-chart-card.is-expanded .psychro-chart-legend,
+.psychro-chart-card:fullscreen .psychro-chart-legend {
+  grid-row: 2;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scrollbar-width: none;
+}
+
+.psychro-chart-card.is-expanded .psychro-point-selector,
+.psychro-chart-card:fullscreen .psychro-point-selector {
+  grid-row: 3;
+}
+
+.psychro-chart-card.is-expanded .psychro-chart-viewport-tools,
+.psychro-chart-card:fullscreen .psychro-chart-viewport-tools {
+  grid-row: 4;
+}
+
+.psychro-chart-card.is-expanded .psychro-chart-scroll,
+.psychro-chart-card:fullscreen .psychro-chart-scroll {
+  grid-row: 5;
+}
+
+.psychro-chart-card.is-expanded .psychro-chart-legend::-webkit-scrollbar,
+.psychro-chart-card:fullscreen .psychro-chart-legend::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .psychro-chart-controls.professional {
+    max-width: none;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .psychro-chart-controls.professional::-webkit-scrollbar {
+    display: none;
+  }
+
+  .psychro-chart-controls.professional button {
+    flex: 0 0 auto;
+  }
+
+  .psychro-chart-legend {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .psychro-chart-legend::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 620px) {
+  .psychro-chart-card.is-expanded,
+  .psychro-chart-card:fullscreen {
+    grid-template-columns: minmax(190px, 270px) minmax(0, 1fr);
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+  }
+
+  .psychro-chart-card.is-expanded .psychro-chart-head,
+  .psychro-chart-card:fullscreen .psychro-chart-head {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .psychro-chart-card.is-expanded .psychro-chart-legend,
+  .psychro-chart-card:fullscreen .psychro-chart-legend {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .psychro-chart-card.is-expanded .psychro-point-selector,
+  .psychro-chart-card:fullscreen .psychro-point-selector {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .psychro-chart-card.is-expanded .psychro-chart-viewport-tools,
+  .psychro-chart-card:fullscreen .psychro-chart-viewport-tools {
+    grid-column: 1;
+    grid-row: 4;
+    align-content: start;
+    align-self: start;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .psychro-chart-card.is-expanded .psychro-chart-scroll,
+  .psychro-chart-card:fullscreen .psychro-chart-scroll {
+    grid-column: 2;
+    grid-row: 1 / 5;
+  }
+}
