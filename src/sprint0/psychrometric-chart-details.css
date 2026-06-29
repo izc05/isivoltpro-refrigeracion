@@ -1,0 +1,19 @@
+.psychro-point-selector { display: flex; flex-wrap: wrap; gap: 8px; }
+.psychro-point-selector button { min-height: 36px; padding: 0 12px; color: var(--sz-muted); background: var(--sz-panel-muted); border: 1px solid var(--sz-border); border-radius: 10px; box-shadow: none; font-size: .75rem; font-weight: 780; }
+.psychro-point-selector button.active { color: var(--sz-primary-text); background: var(--sz-primary); border-color: var(--sz-primary); }
+.psychro-crosshair { pointer-events: none; }
+.psychro-crosshair line { stroke: color-mix(in srgb, var(--sz-primary) 72%, transparent); stroke-width: 1.4; stroke-dasharray: 5 4; }
+.psychro-state-point { cursor: pointer; outline: none; }
+.psychro-state-point.selected circle:first-of-type, .psychro-state-point:focus circle:first-of-type { stroke: var(--sz-warning); stroke-width: 3; }
+.psychro-state-point.selected .pulse { stroke-width: 3; opacity: 1; }
+.psychro-selected-state { overflow: hidden; background: var(--sz-panel-muted); border: 1px solid var(--sz-border-strong); border-radius: 16px; }
+.psychro-selected-head { padding: 14px; display: flex; align-items: center; justify-content: space-between; gap: 14px; background: color-mix(in srgb, var(--sz-primary) 9%, transparent); border-bottom: 1px solid var(--sz-border); }
+.psychro-selected-head small { display: block; color: var(--sz-primary); font-size: .68rem; font-weight: 820; letter-spacing: .08em; text-transform: uppercase; }
+.psychro-selected-head h3 { margin: 3px 0 0; color: var(--sz-text); font-size: 1rem; }
+.psychro-selected-head > strong { color: var(--sz-text); font-size: .86rem; text-align: right; }
+.psychro-selected-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.psychro-selected-grid p { min-width: 0; margin: 0; padding: 11px 13px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--sz-border); }
+.psychro-selected-grid p:nth-child(odd) { border-right: 1px solid var(--sz-border); }
+.psychro-selected-grid span { min-width: 0; color: var(--sz-muted); font-size: .73rem; }
+.psychro-selected-grid strong { flex: 0 0 auto; color: var(--sz-text); font-size: .78rem; text-align: right; }
+@media (max-width: 620px) { .psychro-selected-head { align-items: flex-start; display: grid; } .psychro-selected-head > strong { text-align: left; } .psychro-selected-grid { grid-template-columns: 1fr; } .psychro-selected-grid p, .psychro-selected-grid p:nth-child(odd) { border-right: 0; border-bottom: 1px solid var(--sz-border); } }
