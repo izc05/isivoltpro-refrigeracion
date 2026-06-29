@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowDownUp, RotateCcw } from 'lucide-react'
 import {
   calculateFromRelativeHumidity,
@@ -9,6 +9,7 @@ import {
 import { parseLocalizedNumber } from '../domain/units'
 import { Notice, PageTitle, useSettings } from './shared'
 import { PsychrometricChart } from './psychrometric-chart'
+import { PsychrometricChartActions } from './psychrometric-chart-actions'
 import { PsychrometricPressureControl, type PsychrometricPressureMode } from './psychrometric-pressure-control'
 import { pressureToApproximateAltitudeM, pressureValueForUnit, resolvePsychrometricPressurePa } from './psychrometric-pressure-utils'
 import { PsychrometricProcessCard } from './psychrometric-process-card'
@@ -18,6 +19,8 @@ const numberFrom = (value: string) => parseLocalizedNumber(value)
 
 export function PsychrometricChartWorkbench() {
   const { atmospherePa, altitudeM } = useSettings()
+  const chartHostRef = useRef<HTMLDivElement>(null)
+  const [chartSvg, setChartSvg] = useState<SVGSVGElement | null>(null)
   const [dryA, setDryA] = useState('24')
   const [rhA, setRhA] = useState('50')
   const [compare, setCompare] = useState(false)
@@ -45,20 +48,27 @@ export function PsychrometricChartWorkbench() {
   const pressureWarning = Number.isFinite(effectivePressurePa) ? pressureRangeWarning(effectivePressurePa) : 'Introduce una presión atmosférica válida.'
   const approximateAltitudeM = pressureToApproximateAltitudeM(effectivePressurePa)
 
-  const state = useMemo(() => {
-    try { return calculateFromRelativeHumidity({ dryBulbC: numberFrom(dryA), relativeHumidityPct: numberFrom(rhA), pressurePa: effectivePressurePa }).result }
+  const stateCalculation = useMemo(() => {
+    try { return calculateFromRelativeHumidity({ dryBulbC: numberFrom(dryA), relativeHumidityPct: numberFrom(rhA), pressurePa: effectivePressurePa }) }
     catch { return null }
   }, [dryA, effectivePressurePa, rhA])
+  const state = stateCalculation?.result ?? null
 
-  const comparison = useMemo(() => {
+  const comparisonCalculation = useMemo(() => {
     if (!compare) return null
     try {
       return comparePsychrometricStates({
         a: { dryBulbC: numberFrom(dryA), relativeHumidityPct: numberFrom(rhA), pressurePa: effectivePressurePa },
         b: { dryBulbC: numberFrom(dryB), relativeHumidityPct: numberFrom(rhB), pressurePa: effectivePressurePa },
-      }).result
+      })
     } catch { return null }
   }, [compare, dryA, dryB, effectivePressurePa, rhA, rhB])
+  const comparison = comparisonCalculation?.result ?? null
+  const activeCalculation = compare ? comparisonCalculation : stateCalculation
+
+  useEffect(() => {
+    setChartSvg(chartHostRef.current?.querySelector<SVGSVGElement>('svg.psychro-chart-svg') ?? null)
+  }, [compare, comparison, state])
 
   const changePressureUnit = (nextUnit: PsychrometricPressureUnit) => {
     let currentPressurePa = effectivePressurePa
@@ -77,7 +87,7 @@ export function PsychrometricChartWorkbench() {
   }
 
   return <main className="sz-screen psychro-chart-workbench">
-    <PageTitle eyebrow="Climatización" title="Carta psicrométrica interactiva" description="Localiza estados de aire y visualiza procesos A → B." />
+    <PageTitle eyebrow="Climatización" title="Carta psicrométrica interactiva" description="Localiza estados de aire, visualiza procesos y genera documentación técnica." />
     <section className="sz-panel sz-form psychro-chart-inputs">
       <div className="segmented two-segment"><button type="button" className={!compare ? 'active' : ''} onClick={() => setCompare(false)}>Un estado</button><button type="button" className={compare ? 'active' : ''} onClick={() => setCompare(true)}>Comparar A → B</button></div>
       <div className="psychro-presets">{psychrometricPresets.map(([label, dry, rh]) => <button type="button" key={label} onClick={() => { setDryA(dry); setRhA(rh) }}>{label}</button>)}</div>
@@ -98,8 +108,15 @@ export function PsychrometricChartWorkbench() {
       />
       <div className="sz-button-row">{compare && <button className="sz-button secondary" type="button" onClick={swap}><ArrowDownUp />Intercambiar</button>}<button className="sz-button secondary" type="button" onClick={reset}><RotateCcw />Restablecer</button></div>
     </section>
-    <PsychrometricChart state={state} comparison={comparison} pressurePa={effectivePressurePa} />
+    <div ref={chartHostRef} className="psychro-chart-host"><PsychrometricChart state={state} comparison={comparison} pressurePa={effectivePressurePa} /></div>
     {comparison && <PsychrometricProcessCard comparison={comparison} />}
+    <PsychrometricChartActions
+      svg={chartSvg}
+      calculation={activeCalculation}
+      state={compare ? null : state}
+      comparison={comparison}
+      pressurePa={effectivePressurePa}
+    />
     {!state && <Notice tone="danger"><p>Revisa temperatura, humedad relativa y presión atmosférica.</p></Notice>}
   </main>
 }
