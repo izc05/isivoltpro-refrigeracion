@@ -1,0 +1,132 @@
+.psychro-process-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  color: var(--sz-text);
+  background: var(--sz-panel);
+  border: 1px solid var(--sz-border);
+  border-radius: 20px;
+  box-shadow: var(--sz-shadow);
+}
+
+.psychro-process-card header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.psychro-process-card header small {
+  color: var(--sz-primary);
+  font-size: .7rem;
+  font-weight: 820;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.psychro-process-card h2 {
+  margin: 4px 0 0;
+  font-size: 1rem;
+}
+
+.psychro-process-badge {
+  max-width: 220px;
+  padding: 7px 10px;
+  color: var(--sz-muted);
+  background: var(--sz-panel-muted);
+  border: 1px solid var(--sz-border);
+  border-radius: 999px;
+  font-size: .68rem;
+  font-weight: 800;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.psychro-process-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.psychro-process-metrics article {
+  min-width: 0;
+  padding: 12px;
+  display: grid;
+  gap: 4px;
+  background: var(--sz-panel-muted);
+  border: 1px solid var(--sz-border);
+  border-radius: 14px;
+}
+
+.psychro-process-metrics span,
+.psychro-process-metrics small,
+.psychro-process-water span {
+  color: var(--sz-muted);
+  font-size: .72rem;
+}
+
+.psychro-process-metrics strong {
+  font-size: 1rem;
+}
+
+.psychro-process-water {
+  padding: 12px 14px;
+  display: grid;
+  gap: 4px;
+  background: color-mix(in srgb, var(--sz-primary) 8%, var(--sz-panel-muted));
+  border: 1px solid var(--sz-border-strong);
+  border-radius: 14px;
+}
+
+.psychro-process-water strong {
+  font-size: .86rem;
+}
+
+.psychro-process-help,
+.psychro-process-alert,
+.psychro-process-ok {
+  margin: 0;
+  padding: 11px 13px;
+  border-radius: 13px;
+  font-size: .78rem;
+  line-height: 1.5;
+}
+
+.psychro-process-help {
+  color: var(--sz-muted);
+  background: var(--sz-panel-muted);
+  border: 1px solid var(--sz-border);
+}
+
+.psychro-process-alert.warning {
+  color: var(--sz-warning);
+  background: color-mix(in srgb, var(--sz-warning) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sz-warning) 38%, transparent);
+}
+
+.psychro-process-alert.danger {
+  color: var(--sz-danger);
+  background: color-mix(in srgb, var(--sz-danger) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sz-danger) 38%, transparent);
+}
+
+.psychro-process-ok {
+  color: var(--sz-success);
+  background: color-mix(in srgb, var(--sz-success) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sz-success) 38%, transparent);
+}
+
+@media (max-width: 640px) {
+  .psychro-process-card header {
+    display: grid;
+  }
+
+  .psychro-process-badge {
+    max-width: none;
+    justify-self: start;
+  }
+
+  .psychro-process-metrics {
+    grid-template-columns: 1fr;
+  }
+}
