@@ -4,30 +4,17 @@ import {
   calculateFromRelativeHumidity,
   comparePsychrometricStates,
   pressureRangeWarning,
-  psychrometricPressureToPa,
   type PsychrometricPressureUnit,
 } from '../calculation-engine/formulas/psychrometrics'
-import { altitudeToAtmospherePa, parseLocalizedNumber } from '../domain/units'
+import { parseLocalizedNumber } from '../domain/units'
 import { Notice, PageTitle, useSettings } from './shared'
 import { PsychrometricChart } from './psychrometric-chart'
 import { PsychrometricPressureControl, type PsychrometricPressureMode } from './psychrometric-pressure-control'
+import { pressureToApproximateAltitudeM, pressureValueForUnit, resolvePsychrometricPressurePa } from './psychrometric-pressure-utils'
 import { PsychrometricProcessCard } from './psychrometric-process-card'
 import { psychrometricPresets } from './psychrometric-presets'
 
 const numberFrom = (value: string) => parseLocalizedNumber(value)
-
-function pressureToApproximateAltitudeM(pressurePa: number) {
-  if (!Number.isFinite(pressurePa) || pressurePa <= 0) return Number.NaN
-  return (1 - Math.pow(pressurePa / 101325, 1 / 5.25588)) / 2.25577e-5
-}
-
-function pressureValueForUnit(pressurePa: number, unit: PsychrometricPressureUnit) {
-  if (!Number.isFinite(pressurePa)) return ''
-  if (unit === 'Pa') return pressurePa.toFixed(0)
-  if (unit === 'hPa' || unit === 'mbar') return (pressurePa / 100).toFixed(1)
-  if (unit === 'kPa') return (pressurePa / 1000).toFixed(2)
-  return (pressurePa / 100000).toFixed(4)
-}
 
 export function PsychrometricChartWorkbench() {
   const { atmospherePa, altitudeM } = useSettings()
@@ -43,9 +30,13 @@ export function PsychrometricChartWorkbench() {
 
   const effectivePressurePa = useMemo(() => {
     try {
-      if (pressureMode === 'settings') return atmospherePa
-      if (pressureMode === 'altitude') return altitudeToAtmospherePa(numberFrom(customAltitude))
-      return psychrometricPressureToPa(numberFrom(manualPressure), pressureUnit)
+      return resolvePsychrometricPressurePa({
+        mode: pressureMode,
+        settingsPressurePa: atmospherePa,
+        altitudeInput: customAltitude,
+        manualInput: manualPressure,
+        manualUnit: pressureUnit,
+      })
     } catch {
       return Number.NaN
     }
