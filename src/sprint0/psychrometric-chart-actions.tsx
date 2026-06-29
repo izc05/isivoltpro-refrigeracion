@@ -108,7 +108,7 @@ export function PsychrometricChartActions({ svg, calculation, state = null, comp
     const updatedAt = new Date().toISOString()
     await db.interventions.put({
       ...intervention,
-      photos: [...intervention.photos, rendered.dataUrl],
+      photos: [rendered.dataUrl, ...(intervention.photos ?? [])],
       observations: appendSummary(intervention.observations, snapshot),
       updatedAt,
     })
