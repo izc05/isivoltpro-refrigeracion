@@ -37,9 +37,6 @@ const styleProperties = [
   'dominant-baseline',
   'paint-order',
   'vector-effect',
-  'marker-start',
-  'marker-mid',
-  'marker-end',
 ] as const
 
 const format = (value: number, digits = 1) => value.toLocaleString('es-ES', {
@@ -123,11 +120,11 @@ export async function renderPsychrometricChart(svg: SVGSVGElement, scale = 2): P
   const clone = svg.cloneNode(true) as SVGSVGElement
   inlineSvgStyles(svg, clone)
   clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
-  clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
 
   const viewBox = svg.viewBox.baseVal
-  const sourceWidth = viewBox.width || svg.clientWidth || 760
-  const sourceHeight = viewBox.height || svg.clientHeight || 430
+  const aspectRatio = viewBox.width > 0 && viewBox.height > 0 ? viewBox.height / viewBox.width : 430 / 760
+  const sourceWidth = Math.max(760, svg.clientWidth || 0)
+  const sourceHeight = sourceWidth * aspectRatio
   const width = Math.max(1, Math.round(sourceWidth * scale))
   const height = Math.max(1, Math.round(sourceHeight * scale))
   clone.setAttribute('width', String(width))
