@@ -1,0 +1,87 @@
+.psychro-export-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  color: var(--sz-text);
+  background: var(--sz-panel);
+  border: 1px solid var(--sz-border);
+  border-radius: 20px;
+  box-shadow: var(--sz-shadow);
+}
+
+.psychro-export-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.psychro-export-head small {
+  color: var(--sz-primary);
+  font-size: .68rem;
+  font-weight: 820;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.psychro-export-head h2 {
+  margin: 4px 0 0;
+  font-size: 1rem;
+}
+
+.psychro-export-head > span {
+  padding: 7px 10px;
+  color: var(--sz-muted);
+  background: var(--sz-panel-muted);
+  border: 1px solid var(--sz-border);
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 780;
+  white-space: nowrap;
+}
+
+.psychro-export-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.psychro-export-buttons .sz-button {
+  min-width: 0;
+}
+
+.psychro-attach-block {
+  display: grid;
+  gap: 10px;
+  padding: 13px;
+  background: var(--sz-panel-muted);
+  border: 1px solid var(--sz-border);
+  border-radius: 15px;
+}
+
+.psychro-attach-block > p {
+  margin: 0;
+  color: var(--sz-muted);
+  font-size: .74rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 620px) {
+  .psychro-export-head {
+    display: grid;
+  }
+
+  .psychro-export-head > span {
+    justify-self: start;
+  }
+
+  .psychro-export-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .psychro-export-buttons .sz-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
