@@ -1,6 +1,6 @@
 .psychro-unified-nav {
   position: sticky;
-  top: 76px;
+  top: 102px;
   z-index: 45;
   width: min(904px, calc(100% - 36px));
   margin: 0 auto 10px;
@@ -51,10 +51,6 @@
 }
 
 @media (max-width: 560px) {
-  .psychro-unified-nav {
-    top: 70px;
-  }
-
   .psychro-unified-nav button {
     min-height: 42px;
     padding: 7px 8px;
