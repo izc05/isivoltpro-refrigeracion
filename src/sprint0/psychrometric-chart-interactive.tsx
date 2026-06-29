@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { KeyboardEvent, PointerEvent as ReactPointerEvent } from 'react'
+import type {
+  KeyboardEvent,
+  MouseEvent as ReactMouseEvent,
+  PointerEvent as ReactPointerEvent,
+  WheelEvent as ReactWheelEvent,
+} from 'react'
 import { LocateFixed, Maximize2, Minimize2, Minus, Plus, RotateCcw } from 'lucide-react'
 import type { PsychrometricComparisonResult, PsychrometricState } from '../calculation-engine/formulas/psychrometrics'
 import { CHART_BOUNDS, enthalpyLine, humidityRatioGKg, relativeHumidityCurve, type ChartPoint } from './psychrometric-chart-math'
@@ -205,13 +210,13 @@ export function PsychrometricChart({ state = null, comparison = null, pressurePa
     dragRef.current = null
   }
 
-  const onWheel = (event: React.WheelEvent<SVGSVGElement>) => {
+  const onWheel = (event: ReactWheelEvent<SVGSVGElement>) => {
     event.preventDefault()
     const focus = chartCoordinates(event.clientX, event.clientY)
     zoomAt(viewport.zoom + (event.deltaY < 0 ? 0.25 : -0.25), focus.x, focus.y)
   }
 
-  const onDoubleClick = (event: React.MouseEvent<SVGSVGElement>) => {
+  const onDoubleClick = (event: ReactMouseEvent<SVGSVGElement>) => {
     const focus = chartCoordinates(event.clientX, event.clientY)
     zoomAt(viewport.zoom + 0.75, focus.x, focus.y)
   }
