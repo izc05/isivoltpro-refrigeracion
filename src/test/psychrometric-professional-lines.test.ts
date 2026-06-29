@@ -23,11 +23,11 @@ describe('professional psychrometric chart lines', () => {
 
   it('builds constant specific-volume lines using the selected pressure', () => {
     psychrolib.SetUnitSystem(psychrolib.SI)
-    const line = specificVolumeLine(0.85, 101325)
+    const line = specificVolumeLine(0.9, 101325)
     expect(line.length).toBeGreaterThan(5)
     const sample = line[Math.floor(line.length / 2)]
     const calculatedM3kg = psychrolib.GetMoistAirVolume(sample.dryBulbC, sample.humidityRatioGKg / 1000, 101325)
-    expect(calculatedM3kg).toBeCloseTo(0.85, 5)
+    expect(calculatedM3kg).toBeCloseTo(0.9, 5)
   })
 
   it('moves specific-volume guides when atmospheric pressure changes', () => {
