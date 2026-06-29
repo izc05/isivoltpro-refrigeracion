@@ -1,36 +1,80 @@
 import { useMemo, useState } from 'react'
 import { ArrowDownUp, RotateCcw } from 'lucide-react'
-import { calculateFromRelativeHumidity, comparePsychrometricStates } from '../calculation-engine/formulas/psychrometrics'
-import { parseLocalizedNumber } from '../domain/units'
+import {
+  calculateFromRelativeHumidity,
+  comparePsychrometricStates,
+  pressureRangeWarning,
+  psychrometricPressureToPa,
+  type PsychrometricPressureUnit,
+} from '../calculation-engine/formulas/psychrometrics'
+import { altitudeToAtmospherePa, parseLocalizedNumber } from '../domain/units'
 import { Notice, PageTitle, useSettings } from './shared'
 import { PsychrometricChart } from './psychrometric-chart'
+import { PsychrometricPressureControl, type PsychrometricPressureMode } from './psychrometric-pressure-control'
 import { PsychrometricProcessCard } from './psychrometric-process-card'
 import { psychrometricPresets } from './psychrometric-presets'
 
 const numberFrom = (value: string) => parseLocalizedNumber(value)
 
+function pressureToApproximateAltitudeM(pressurePa: number) {
+  if (!Number.isFinite(pressurePa) || pressurePa <= 0) return Number.NaN
+  return (1 - Math.pow(pressurePa / 101325, 1 / 5.25588)) / 2.25577e-5
+}
+
+function pressureValueForUnit(pressurePa: number, unit: PsychrometricPressureUnit) {
+  if (!Number.isFinite(pressurePa)) return ''
+  if (unit === 'Pa') return pressurePa.toFixed(0)
+  if (unit === 'hPa' || unit === 'mbar') return (pressurePa / 100).toFixed(1)
+  if (unit === 'kPa') return (pressurePa / 1000).toFixed(2)
+  return (pressurePa / 100000).toFixed(4)
+}
+
 export function PsychrometricChartWorkbench() {
-  const { atmospherePa } = useSettings()
+  const { atmospherePa, altitudeM } = useSettings()
   const [dryA, setDryA] = useState('24')
   const [rhA, setRhA] = useState('50')
   const [compare, setCompare] = useState(false)
   const [dryB, setDryB] = useState('14')
   const [rhB, setRhB] = useState('90')
+  const [pressureMode, setPressureMode] = useState<PsychrometricPressureMode>('settings')
+  const [customAltitude, setCustomAltitude] = useState(String(Math.round(altitudeM)))
+  const [manualPressure, setManualPressure] = useState(String(Math.round(atmospherePa)))
+  const [pressureUnit, setPressureUnit] = useState<PsychrometricPressureUnit>('Pa')
+
+  const effectivePressurePa = useMemo(() => {
+    try {
+      if (pressureMode === 'settings') return atmospherePa
+      if (pressureMode === 'altitude') return altitudeToAtmospherePa(numberFrom(customAltitude))
+      return psychrometricPressureToPa(numberFrom(manualPressure), pressureUnit)
+    } catch {
+      return Number.NaN
+    }
+  }, [atmospherePa, customAltitude, manualPressure, pressureMode, pressureUnit])
+
+  const pressureWarning = Number.isFinite(effectivePressurePa) ? pressureRangeWarning(effectivePressurePa) : 'Introduce una presión atmosférica válida.'
+  const approximateAltitudeM = pressureToApproximateAltitudeM(effectivePressurePa)
 
   const state = useMemo(() => {
-    try { return calculateFromRelativeHumidity({ dryBulbC: numberFrom(dryA), relativeHumidityPct: numberFrom(rhA), pressurePa: atmospherePa }).result }
+    try { return calculateFromRelativeHumidity({ dryBulbC: numberFrom(dryA), relativeHumidityPct: numberFrom(rhA), pressurePa: effectivePressurePa }).result }
     catch { return null }
-  }, [atmospherePa, dryA, rhA])
+  }, [dryA, effectivePressurePa, rhA])
 
   const comparison = useMemo(() => {
     if (!compare) return null
     try {
       return comparePsychrometricStates({
-        a: { dryBulbC: numberFrom(dryA), relativeHumidityPct: numberFrom(rhA), pressurePa: atmospherePa },
-        b: { dryBulbC: numberFrom(dryB), relativeHumidityPct: numberFrom(rhB), pressurePa: atmospherePa },
+        a: { dryBulbC: numberFrom(dryA), relativeHumidityPct: numberFrom(rhA), pressurePa: effectivePressurePa },
+        b: { dryBulbC: numberFrom(dryB), relativeHumidityPct: numberFrom(rhB), pressurePa: effectivePressurePa },
       }).result
     } catch { return null }
-  }, [atmospherePa, compare, dryA, dryB, rhA, rhB])
+  }, [compare, dryA, dryB, effectivePressurePa, rhA, rhB])
+
+  const changePressureUnit = (nextUnit: PsychrometricPressureUnit) => {
+    let currentPressurePa = effectivePressurePa
+    if (!Number.isFinite(currentPressurePa)) currentPressurePa = atmospherePa
+    setPressureUnit(nextUnit)
+    setManualPressure(pressureValueForUnit(currentPressurePa, nextUnit))
+  }
 
   const swap = () => {
     const first = [dryA, rhA]
@@ -48,10 +92,23 @@ export function PsychrometricChartWorkbench() {
       <div className="psychro-presets">{psychrometricPresets.map(([label, dry, rh]) => <button type="button" key={label} onClick={() => { setDryA(dry); setRhA(rh) }}>{label}</button>)}</div>
       <div className="sz-two-columns"><label>Temperatura seca A °C<input inputMode="decimal" value={dryA} onChange={(event) => setDryA(event.target.value)} /></label><label>Humedad relativa A %<input inputMode="decimal" value={rhA} onChange={(event) => setRhA(event.target.value)} /></label></div>
       {compare && <div className="sz-two-columns"><label>Temperatura seca B °C<input inputMode="decimal" value={dryB} onChange={(event) => setDryB(event.target.value)} /></label><label>Humedad relativa B %<input inputMode="decimal" value={rhB} onChange={(event) => setRhB(event.target.value)} /></label></div>}
+      <PsychrometricPressureControl
+        mode={pressureMode}
+        onModeChange={setPressureMode}
+        altitudeM={customAltitude}
+        onAltitudeChange={setCustomAltitude}
+        manualPressure={manualPressure}
+        onManualPressureChange={setManualPressure}
+        pressureUnit={pressureUnit}
+        onPressureUnitChange={changePressureUnit}
+        effectivePressurePa={effectivePressurePa}
+        approximateAltitudeM={approximateAltitudeM}
+        warning={pressureWarning}
+      />
       <div className="sz-button-row">{compare && <button className="sz-button secondary" type="button" onClick={swap}><ArrowDownUp />Intercambiar</button>}<button className="sz-button secondary" type="button" onClick={reset}><RotateCcw />Restablecer</button></div>
     </section>
-    <PsychrometricChart state={state} comparison={comparison} pressurePa={atmospherePa} />
+    <PsychrometricChart state={state} comparison={comparison} pressurePa={effectivePressurePa} />
     {comparison && <PsychrometricProcessCard comparison={comparison} />}
-    {!state && <Notice tone="danger"><p>Revisa temperatura y humedad relativa.</p></Notice>}
+    {!state && <Notice tone="danger"><p>Revisa temperatura, humedad relativa y presión atmosférica.</p></Notice>}
   </main>
 }
