@@ -85,7 +85,18 @@
 
 .psychro-chart-card.is-expanded .psychro-chart-head,
 .psychro-chart-card:fullscreen .psychro-chart-head {
+  grid-row: 1;
   align-items: center;
+}
+
+.psychro-chart-card.is-expanded .psychro-point-selector,
+.psychro-chart-card:fullscreen .psychro-point-selector {
+  grid-row: 2;
+}
+
+.psychro-chart-card.is-expanded .psychro-chart-viewport-tools,
+.psychro-chart-card:fullscreen .psychro-chart-viewport-tools {
+  grid-row: 3;
 }
 
 .psychro-chart-card.is-expanded .psychro-chart-head p,
@@ -101,6 +112,7 @@
 
 .psychro-chart-card.is-expanded .psychro-chart-scroll,
 .psychro-chart-card:fullscreen .psychro-chart-scroll {
+  grid-row: 4;
   min-height: 0;
   height: 100%;
   padding: 0;
