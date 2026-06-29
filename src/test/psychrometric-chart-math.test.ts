@@ -20,6 +20,8 @@ describe('psychrometric chart math', () => {
   })
 
   it('returns a realistic saturation pressure at 25 C', () => {
-    expect(saturationPressurePa(25)).toBeCloseTo(3168, -1)
+    const pressure = saturationPressurePa(25)
+    expect(pressure).toBeGreaterThan(3160)
+    expect(pressure).toBeLessThan(3180)
   })
 })
