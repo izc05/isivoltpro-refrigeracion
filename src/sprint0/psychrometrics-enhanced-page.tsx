@@ -1,6 +1,7 @@
 import { PsychrometricChartWorkbench } from './psychrometric-chart-workbench'
 import { PsychrometricsPage } from './psychrometrics-page'
 import './psychrometric-workbench.css'
+import './psychrometric-segmented.css'
 
 export function PsychrometricsEnhancedPage() {
   return <>
