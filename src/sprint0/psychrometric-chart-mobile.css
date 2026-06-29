@@ -1,0 +1,181 @@
+.psychro-chart-viewport-tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  padding: 7px;
+  background: var(--sz-panel-muted);
+  border: 1px solid var(--sz-border);
+  border-radius: 13px;
+}
+
+.psychro-chart-viewport-tools button {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  color: var(--sz-text);
+  background: var(--sz-panel);
+  border: 1px solid var(--sz-border);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.psychro-chart-viewport-tools button:hover:not(:disabled) {
+  color: var(--sz-primary);
+  border-color: var(--sz-border-strong);
+  transform: none;
+}
+
+.psychro-chart-viewport-tools button:disabled {
+  cursor: not-allowed;
+  opacity: .38;
+}
+
+.psychro-chart-viewport-tools button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.psychro-chart-viewport-tools output {
+  min-width: 52px;
+  color: var(--sz-muted);
+  font-size: .75rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.psychro-mobile-hint {
+  display: none;
+  margin: -4px 0 0;
+  color: var(--sz-muted);
+  font-size: .72rem;
+  line-height: 1.4;
+}
+
+.psychro-chart-svg {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.psychro-chart-svg:active {
+  cursor: grabbing;
+}
+
+.psychro-chart-card.is-expanded,
+.psychro-chart-card:fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  width: 100vw;
+  height: 100dvh;
+  margin: 0;
+  padding: 12px;
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  gap: 10px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: var(--sz-bg);
+}
+
+.psychro-chart-card.is-expanded .psychro-chart-head,
+.psychro-chart-card:fullscreen .psychro-chart-head {
+  align-items: center;
+}
+
+.psychro-chart-card.is-expanded .psychro-chart-head p,
+.psychro-chart-card:fullscreen .psychro-chart-head p,
+.psychro-chart-card.is-expanded .psychro-mobile-hint,
+.psychro-chart-card:fullscreen .psychro-mobile-hint,
+.psychro-chart-card.is-expanded .psychro-selected-state,
+.psychro-chart-card:fullscreen .psychro-selected-state,
+.psychro-chart-card.is-expanded .psychro-chart-note,
+.psychro-chart-card:fullscreen .psychro-chart-note {
+  display: none;
+}
+
+.psychro-chart-card.is-expanded .psychro-chart-scroll,
+.psychro-chart-card:fullscreen .psychro-chart-scroll {
+  min-height: 0;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  display: grid;
+  place-items: stretch;
+  background: var(--sz-panel);
+  border: 1px solid var(--sz-border);
+  border-radius: 16px;
+}
+
+.psychro-chart-card.is-expanded .psychro-chart-svg,
+.psychro-chart-card:fullscreen .psychro-chart-svg {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 720px) {
+  .psychro-mobile-hint {
+    display: block;
+  }
+
+  .psychro-chart-viewport-tools {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .psychro-chart-viewport-tools::-webkit-scrollbar {
+    display: none;
+  }
+
+  .psychro-chart-viewport-tools button {
+    flex: 0 0 40px;
+  }
+
+  .psychro-chart-scroll {
+    margin-inline: -6px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 620px) {
+  .psychro-chart-card.is-expanded,
+  .psychro-chart-card:fullscreen {
+    grid-template-columns: minmax(190px, 260px) minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr);
+  }
+
+  .psychro-chart-card.is-expanded .psychro-chart-head,
+  .psychro-chart-card:fullscreen .psychro-chart-head {
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
+  }
+
+  .psychro-chart-card.is-expanded .psychro-point-selector,
+  .psychro-chart-card:fullscreen .psychro-point-selector {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .psychro-chart-card.is-expanded .psychro-chart-viewport-tools,
+  .psychro-chart-card:fullscreen .psychro-chart-viewport-tools {
+    grid-column: 1;
+    grid-row: 3;
+    align-content: start;
+    align-self: start;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .psychro-chart-card.is-expanded .psychro-chart-scroll,
+  .psychro-chart-card:fullscreen .psychro-chart-scroll {
+    grid-column: 2;
+    grid-row: 1 / 4;
+  }
+}
