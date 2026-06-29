@@ -4,6 +4,7 @@ import { calculateFromRelativeHumidity, comparePsychrometricStates } from '../ca
 import { parseLocalizedNumber } from '../domain/units'
 import { Notice, PageTitle, useSettings } from './shared'
 import { PsychrometricChart } from './psychrometric-chart'
+import { PsychrometricProcessCard } from './psychrometric-process-card'
 import { psychrometricPresets } from './psychrometric-presets'
 
 const numberFrom = (value: string) => parseLocalizedNumber(value)
@@ -50,7 +51,7 @@ export function PsychrometricChartWorkbench() {
       <div className="sz-button-row">{compare && <button className="sz-button secondary" type="button" onClick={swap}><ArrowDownUp />Intercambiar</button>}<button className="sz-button secondary" type="button" onClick={reset}><RotateCcw />Restablecer</button></div>
     </section>
     <PsychrometricChart state={state} comparison={comparison} pressurePa={atmospherePa} />
+    {comparison && <PsychrometricProcessCard comparison={comparison} />}
     {!state && <Notice tone="danger"><p>Revisa temperatura y humedad relativa.</p></Notice>}
-    {comparison && <Notice><p><strong>{comparison.processLabel}:</strong> {comparison.summary}</p></Notice>}
   </main>
 }
