@@ -8,6 +8,12 @@ export type ChartPoint = {
   humidityRatioGKg: number
 }
 
+export function chartSaturationPressurePa(dryBulbC: number): number {
+  if (!Number.isFinite(dryBulbC)) return Number.NaN
+  setPsychrolibSI()
+  return psychrolib.GetSatVapPres(dryBulbC)
+}
+
 export function chartHumidityRatioGKg(dryBulbC: number, relativeHumidityPct: number, pressurePa: number): number {
   if (!Number.isFinite(dryBulbC) || !Number.isFinite(relativeHumidityPct) || !Number.isFinite(pressurePa) || pressurePa <= 0) return Number.NaN
   setPsychrolibSI()
