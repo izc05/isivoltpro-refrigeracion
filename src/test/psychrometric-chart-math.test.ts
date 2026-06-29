@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest'
+import { calculateFromRelativeHumidity } from '../calculation-engine/formulas/psychrometrics'
 import { enthalpyLine, humidityRatioGKg, relativeHumidityCurve, saturationPressurePa } from '../sprint0/psychrometric-chart-math'
 
 describe('psychrometric chart math', () => {
-  it('matches the expected humidity ratio near standard indoor conditions', () => {
-    expect(humidityRatioGKg(25, 50, 101325)).toBeCloseTo(9.88, 1)
+  it('uses the same humidity ratio as the professional PsychroLib calculation', () => {
+    const state = calculateFromRelativeHumidity({ dryBulbC: 25, relativeHumidityPct: 50, pressurePa: 101325 }).result
+    expect(humidityRatioGKg(25, 50, 101325)).toBeCloseTo(state.humidityRatioGKg, 6)
   })
 
   it('builds ordered relative humidity curves inside chart bounds', () => {
