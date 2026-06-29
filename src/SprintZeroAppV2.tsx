@@ -7,7 +7,7 @@ import { HomePage, ToolsPage } from './sprint0/home-tools'
 import { PtPage } from './sprint0/pt-ruler-page'
 import { ConverterPage } from './sprint0/converter-page'
 import { ChargePage, VacuumPage } from './sprint0/charge-vacuum-pages'
-import { PsychrometricsPage } from './sprint0/psychrometrics-page'
+import { PsychrometricsEnhancedPage } from './sprint0/psychrometrics-enhanced-page'
 import { DuctsPage } from './sprint0/ducts-page'
 import { HydraulicsPage } from './sprint0/hydraulics-page'
 import { VisualLibraryAdminPage } from './sprint0/visual-library-admin-page'
@@ -28,7 +28,7 @@ export default function SprintZeroAppV2() {
     <Route path="/refrigerants" element={<RefrigerantsPage />} />
     <Route path="/compare" element={<ComparePage />} />
     <Route path="/diagnostics" element={<DiagnosticsPage />} />
-    <Route path="/psychrometrics" element={<PsychrometricsPage />} />
+    <Route path="/psychrometrics" element={<PsychrometricsEnhancedPage />} />
     <Route path="/ducts" element={<DuctsPage />} />
     <Route path="/hydraulics" element={<HydraulicsPage />} />
     <Route path="/work" element={<WorkHubPage />} />

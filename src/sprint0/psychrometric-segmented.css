@@ -1,0 +1,25 @@
+.psychro-chart-inputs .segmented {
+  display: grid;
+  gap: 4px;
+  padding: 4px;
+  background: color-mix(in srgb, var(--sz-bg) 44%, var(--sz-panel));
+  border: 1px solid var(--sz-border);
+  border-radius: 13px;
+}
+
+.psychro-chart-inputs .segmented button {
+  min-height: 39px;
+  padding: 7px 8px;
+  color: var(--sz-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  box-shadow: none;
+  font-size: .77rem;
+  font-weight: 760;
+}
+
+.psychro-chart-inputs .segmented button.active {
+  color: var(--sz-primary-text);
+  background: var(--sz-primary);
+}

@@ -1,0 +1,75 @@
+.psychro-chart-workbench {
+  width: min(940px, 100%);
+  padding-bottom: 8px;
+}
+
+.psychro-chart-inputs {
+  display: grid;
+  gap: 12px;
+}
+
+.psychro-chart-inputs .two-segment {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.psychro-presets {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.psychro-presets::-webkit-scrollbar {
+  display: none;
+}
+
+.psychro-presets button {
+  min-height: 36px;
+  padding: 0 12px;
+  flex: 0 0 auto;
+  color: var(--sz-muted);
+  background: var(--sz-panel-muted);
+  border: 1px solid var(--sz-border);
+  border-radius: 10px;
+  box-shadow: none;
+  font-size: .75rem;
+  font-weight: 760;
+}
+
+.psychro-presets button:hover {
+  color: var(--sz-primary);
+  border-color: var(--sz-border-strong);
+  transform: none;
+}
+
+.psychro-advanced-heading {
+  width: min(904px, calc(100% - 36px));
+  margin: 18px auto 0;
+  padding: 14px 16px;
+  background: color-mix(in srgb, var(--sz-primary) 7%, var(--sz-panel));
+  border: 1px solid var(--sz-border);
+  border-radius: 18px;
+}
+
+.psychro-advanced-heading span {
+  color: var(--sz-primary);
+  font-size: .7rem;
+  font-weight: 820;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.psychro-advanced-heading h2 {
+  margin: 4px 0;
+  color: var(--sz-text);
+  font-size: 1rem;
+}
+
+.psychro-advanced-heading p {
+  margin: 0;
+  color: var(--sz-muted);
+  font-size: .8rem;
+  line-height: 1.45;
+}
