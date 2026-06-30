@@ -1,0 +1,317 @@
+.psychro-guide-modal {
+  width: min(760px, calc(100vw - 24px));
+  max-height: min(90dvh, 920px);
+  padding: 0;
+  overflow: hidden;
+  background: var(--sz-panel-strong);
+  border: 1px solid var(--sz-border);
+  border-radius: 24px;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, .34);
+}
+
+.psychro-guide-scroll {
+  max-height: min(90dvh, 920px);
+  padding: 22px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.psychro-guide-close {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  width: 42px;
+  min-height: 42px;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  color: var(--sz-text);
+  background: color-mix(in srgb, var(--sz-panel) 94%, transparent);
+  border: 1px solid var(--sz-border);
+  border-radius: 13px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+}
+
+.psychro-guide-close svg {
+  width: 22px;
+  height: 22px;
+}
+
+.psychro-guide-header {
+  margin-top: -38px;
+  padding-right: 58px;
+}
+
+.psychro-guide-header small {
+  display: inline-flex;
+  padding: 6px 9px;
+  color: var(--sz-success);
+  background: color-mix(in srgb, var(--sz-success) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sz-success) 30%, var(--sz-border));
+  border-radius: 999px;
+  font-size: .68rem;
+  font-weight: 820;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.psychro-guide-header h2 {
+  margin: 11px 0 0;
+  color: var(--sz-text);
+  font-size: clamp(1.45rem, 5vw, 2.15rem);
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.psychro-guide-header p {
+  max-width: 650px;
+  margin: 9px 0 0;
+  color: var(--sz-muted);
+  font-size: .9rem;
+  line-height: 1.55;
+}
+
+.psychro-guide-hero {
+  margin-top: 18px;
+  padding: 14px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--sz-primary) 7%, var(--sz-panel-muted)), var(--sz-panel-muted));
+  border: 1px solid var(--sz-border);
+  border-radius: 18px;
+}
+
+.psychro-guide-hero svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.psychro-guide-caption {
+  margin: 9px 2px 0;
+  color: var(--sz-muted);
+  font-size: .74rem;
+  line-height: 1.45;
+}
+
+.psychro-guide-section {
+  margin-top: 20px;
+}
+
+.psychro-guide-section > h3 {
+  margin: 0 0 11px;
+  color: var(--sz-text);
+  font-size: 1rem;
+}
+
+.psychro-guide-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.psychro-guide-step {
+  min-width: 0;
+  padding: 13px;
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 10px;
+  background: var(--sz-panel-muted);
+  border: 1px solid var(--sz-border);
+  border-radius: 15px;
+}
+
+.psychro-guide-step > span {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: var(--sz-primary-text);
+  background: var(--sz-primary);
+  border-radius: 10px;
+  font-size: .8rem;
+  font-weight: 850;
+}
+
+.psychro-guide-step strong {
+  display: block;
+  color: var(--sz-text);
+  font-size: .84rem;
+}
+
+.psychro-guide-step p {
+  margin: 5px 0 0;
+  color: var(--sz-muted);
+  font-size: .76rem;
+  line-height: 1.47;
+}
+
+.psychro-guide-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.psychro-guide-example {
+  padding: 13px;
+  background: var(--sz-panel-muted);
+  border: 1px solid var(--sz-border);
+  border-radius: 15px;
+}
+
+.psychro-guide-example.is-correct {
+  border-color: color-mix(in srgb, var(--sz-success) 36%, var(--sz-border));
+}
+
+.psychro-guide-example.is-wrong {
+  border-color: color-mix(in srgb, var(--sz-warning) 42%, var(--sz-border));
+}
+
+.psychro-guide-example > span {
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: .68rem;
+  font-weight: 820;
+  text-transform: uppercase;
+}
+
+.psychro-guide-example.is-correct > span {
+  color: var(--sz-success);
+  background: color-mix(in srgb, var(--sz-success) 9%, transparent);
+}
+
+.psychro-guide-example.is-wrong > span {
+  color: var(--sz-warning);
+  background: color-mix(in srgb, var(--sz-warning) 9%, transparent);
+}
+
+.psychro-guide-example strong {
+  display: block;
+  margin-top: 9px;
+  color: var(--sz-text);
+  font-size: .86rem;
+}
+
+.psychro-guide-example p {
+  margin: 5px 0 0;
+  color: var(--sz-muted);
+  font-size: .76rem;
+  line-height: 1.45;
+}
+
+.psychro-guide-errors-toggle {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--sz-text);
+  background: var(--sz-panel-muted);
+  border: 1px solid var(--sz-border);
+  border-radius: 13px;
+  box-shadow: none;
+  font-size: .8rem;
+  font-weight: 780;
+  text-align: left;
+}
+
+.psychro-guide-errors-toggle span {
+  color: var(--sz-primary);
+}
+
+.psychro-guide-errors {
+  margin: 9px 0 0;
+  padding: 12px 14px 12px 30px;
+  color: var(--sz-muted);
+  background: color-mix(in srgb, var(--sz-warning) 7%, var(--sz-panel));
+  border: 1px solid color-mix(in srgb, var(--sz-warning) 26%, var(--sz-border));
+  border-radius: 13px;
+  font-size: .76rem;
+  line-height: 1.5;
+}
+
+.psychro-guide-errors li + li {
+  margin-top: 5px;
+}
+
+.psychro-guide-checklist {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.psychro-guide-checklist p {
+  min-width: 0;
+  margin: 0;
+  padding: 10px 11px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--sz-muted);
+  background: var(--sz-panel-muted);
+  border: 1px solid var(--sz-border);
+  border-radius: 12px;
+  font-size: .74rem;
+  line-height: 1.42;
+}
+
+.psychro-guide-checklist p::before {
+  content: '✓';
+  flex: 0 0 auto;
+  color: var(--sz-success);
+  font-weight: 900;
+}
+
+.psychro-guide-actions {
+  position: sticky;
+  bottom: -22px;
+  z-index: 3;
+  margin: 22px -22px -22px;
+  padding: 12px 22px calc(12px + env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  background: color-mix(in srgb, var(--sz-panel-strong) 94%, transparent);
+  border-top: 1px solid var(--sz-border);
+  backdrop-filter: blur(16px);
+}
+
+.psychro-guide-actions .sz-button {
+  min-width: 180px;
+}
+
+@media (max-width: 620px) {
+  .psychro-guide-modal {
+    width: calc(100vw - 18px);
+    max-height: calc(100dvh - 18px);
+    border-radius: 21px;
+  }
+
+  .psychro-guide-scroll {
+    max-height: calc(100dvh - 18px);
+    padding: 16px;
+  }
+
+  .psychro-guide-header {
+    margin-top: -34px;
+    padding-right: 48px;
+  }
+
+  .psychro-guide-steps,
+  .psychro-guide-comparison,
+  .psychro-guide-checklist {
+    grid-template-columns: 1fr;
+  }
+
+  .psychro-guide-actions {
+    bottom: -16px;
+    margin: 20px -16px -16px;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  }
+
+  .psychro-guide-actions .sz-button {
+    width: 100%;
+    min-width: 0;
+  }
+}
