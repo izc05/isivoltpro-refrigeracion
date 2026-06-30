@@ -1,9 +1,49 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Eye, Maximize2, X } from 'lucide-react'
 import type { VisualResource } from '../domain/storage/db'
+import {
+  isPsychrometricMeasurementScope,
+  psychrometricMeasurementChecklist,
+  psychrometricMeasurementErrors,
+  psychrometricMeasurementSteps,
+} from './psychrometric-measurement-guide'
 import { listVisualResources, visualTypeLabels } from './visual-resources'
+import './psychrometric-measurement-guide.css'
 
 type VisualScope = { module: string; calculator: string; field?: string }
+
+function PsychrometricMeasurementDiagram({ label = 'Colocación correcta de una sonda de temperatura y humedad relativa' }: { label?: string }) {
+  return <svg role="img" aria-label={label} viewBox="0 0 640 360">
+    <title>{label}</title>
+    <rect x="34" y="32" width="572" height="292" rx="22" fill="var(--sz-panel-muted)" stroke="var(--sz-border-strong)" strokeWidth="2" />
+    <rect x="158" y="112" width="320" height="166" rx="24" fill="color-mix(in srgb, var(--sz-success) 9%, var(--sz-panel))" stroke="color-mix(in srgb, var(--sz-success) 55%, var(--sz-border))" strokeWidth="3" strokeDasharray="10 7" />
+    <text x="181" y="145" fill="var(--sz-success)" fontSize="19" fontWeight="700">Zona representativa</text>
+    <text x="181" y="169" fill="var(--sz-muted)" fontSize="15">Aire de la zona ocupada</text>
+
+    <rect x="54" y="62" width="112" height="42" rx="10" fill="var(--sz-panel)" stroke="var(--sz-primary)" strokeWidth="3" />
+    <path d="M75 82h68M143 82l-18-11v22z" fill="none" stroke="var(--sz-primary)" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M164 78c46 7 77 21 105 45M164 91c45 13 71 31 94 57" fill="none" stroke="var(--sz-primary)" strokeWidth="3" strokeDasharray="7 6" opacity=".7" />
+    <text x="54" y="127" fill="var(--sz-warning)" fontSize="15">Evitar impulsión directa</text>
+
+    <rect x="526" y="58" width="54" height="100" rx="8" fill="var(--sz-panel)" stroke="var(--sz-border-strong)" strokeWidth="3" />
+    <path d="M553 58v100M526 108h54" stroke="var(--sz-border-strong)" strokeWidth="2" />
+    <circle cx="555" cy="39" r="14" fill="color-mix(in srgb, var(--sz-warning) 35%, transparent)" stroke="var(--sz-warning)" strokeWidth="3" />
+    <path d="M555 15v10M555 53v10M531 39h10M569 39h10" stroke="var(--sz-warning)" strokeWidth="3" strokeLinecap="round" />
+    <text x="492" y="182" fill="var(--sz-warning)" fontSize="15">Evitar sol y ventana</text>
+
+    <rect x="508" y="247" width="74" height="36" rx="8" fill="color-mix(in srgb, var(--sz-danger) 8%, var(--sz-panel))" stroke="var(--sz-danger)" strokeWidth="2" />
+    <path d="M521 258h48M521 271h48" stroke="var(--sz-danger)" strokeWidth="3" strokeLinecap="round" />
+    <text x="495" y="306" fill="var(--sz-warning)" fontSize="15">Evitar calor o frío</text>
+
+    <circle cx="332" cy="192" r="34" fill="color-mix(in srgb, var(--sz-primary) 18%, var(--sz-panel))" stroke="var(--sz-primary)" strokeWidth="4" />
+    <circle cx="332" cy="192" r="11" fill="var(--sz-primary)" />
+    <path d="M332 226v50M300 276h64" stroke="var(--sz-primary)" strokeWidth="10" strokeLinecap="round" />
+    <rect x="365" y="177" width="88" height="30" rx="15" fill="var(--sz-primary)" />
+    <text x="382" y="197" fill="var(--sz-primary-text)" fontSize="16" fontWeight="750">Sonda T / HR</text>
+    <path d="M366 210c-30 12-55 11-78 1" fill="none" stroke="var(--sz-success)" strokeWidth="3" strokeDasharray="5 5" />
+    <text x="202" y="233" fill="var(--sz-success)" fontSize="15">Aire libre alrededor</text>
+  </svg>
+}
 
 function Diagram({ id, label }: { id: string; label: string }) {
   const common = { role: 'img' as const, 'aria-label': label, viewBox: '0 0 640 360' }
@@ -134,6 +174,8 @@ function Diagram({ id, label }: { id: string; label: string }) {
     <text x="421" y="310" fill="var(--sz-text)" fontSize="18">Dato pendiente</text>
   </svg>
 
+  if (id === 'diagram:psychrometrics-rh') return <PsychrometricMeasurementDiagram label={label} />
+
   if (id === 'diagram:duct-airflow') return <svg {...common}>
     <rect x="250" y="85" width="245" height="175" rx="8" fill="var(--sz-panel-muted)" stroke="var(--sz-border-strong)" />
     <path d="M70 175h345" stroke="var(--sz-primary)" strokeWidth="20" strokeLinecap="round" />
@@ -154,10 +196,8 @@ function Diagram({ id, label }: { id: string; label: string }) {
 
   return <svg {...common}>
     <rect x="70" y="80" width="500" height="220" rx="18" fill="var(--sz-panel-muted)" stroke="var(--sz-border-strong)" />
-    <circle cx="330" cy="175" r="34" fill="var(--sz-primary)" opacity=".2" />
-    <path d="M330 208v56M300 264h60" stroke="var(--sz-primary)" strokeWidth="12" strokeLinecap="round" />
-    <text x="145" y="130" fill="var(--sz-text)" fontSize="22">Zona ocupada</text>
-    <text x="360" y="190" fill="var(--sz-muted)" fontSize="18">Sonda T / HR</text>
+    <circle cx="320" cy="180" r="38" fill="var(--sz-primary)" opacity=".18" />
+    <text x="195" y="250" fill="var(--sz-muted)" fontSize="20">Recurso técnico IsiVoltPro</text>
   </svg>
 }
 
@@ -184,7 +224,68 @@ export function TechnicalImageGallery({ module, calculator, field }: VisualScope
   return <section className="sz-technical-gallery"><div className="sz-gallery-grid">{visible.map((resource) => <article className="sz-gallery-card" key={resource.id}><span className="sz-badge ok">{visualTypeLabels[resource.type]}</span><AnnotatedImage resource={resource} onZoom={() => setZoom(resource)} /><div className="sz-tag-row">{resource.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></article>)}</div><ImageZoomViewer resource={zoom} onClose={() => setZoom(null)} /></section>
 }
 
+function PsychrometricMeasurementGuide({ onClose }: { onClose: () => void }) {
+  const [showErrors, setShowErrors] = useState(false)
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [onClose])
+
+  return <div className="sz-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="psychro-guide-title">
+    <div className="psychro-guide-modal">
+      <div className="psychro-guide-scroll">
+        <button className="psychro-guide-close" type="button" onClick={onClose} aria-label="Cerrar explicación"><X /></button>
+        <header className="psychro-guide-header">
+          <small>Procedimiento de campo</small>
+          <h2 id="psychro-guide-title">Cómo medir temperatura y humedad</h2>
+          <p>El objetivo es obtener un estado de aire representativo del local, sin que la lectura quede alterada por una impulsión, una superficie o una fuente de calor.</p>
+        </header>
+
+        <div className="psychro-guide-hero">
+          <PsychrometricMeasurementDiagram />
+          <p className="psychro-guide-caption">Sitúa el termo-higrómetro en la zona ocupada, con aire libre alrededor y fuera de influencias directas.</p>
+        </div>
+
+        <section className="psychro-guide-section" aria-labelledby="psychro-guide-steps-title">
+          <h3 id="psychro-guide-steps-title">Procedimiento en cuatro pasos</h3>
+          <div className="psychro-guide-steps">{psychrometricMeasurementSteps.map((step, index) => <article className="psychro-guide-step" key={step.title}><span>{index + 1}</span><div><strong>{step.title}</strong><p>{step.text}</p></div></article>)}</div>
+        </section>
+
+        <section className="psychro-guide-section" aria-labelledby="psychro-guide-position-title">
+          <h3 id="psychro-guide-position-title">Colocación correcta e incorrecta</h3>
+          <div className="psychro-guide-comparison">
+            <article className="psychro-guide-example is-correct"><span>Correcto</span><strong>Zona representativa</strong><p>Sonda separada de paredes, sin corriente directa y con la lectura estabilizada.</p></article>
+            <article className="psychro-guide-example is-wrong"><span>Revisar</span><strong>Lectura influenciada</strong><p>Sonda frente a una impulsión, junto a una ventana o apoyada sobre una superficie.</p></article>
+          </div>
+        </section>
+
+        <section className="psychro-guide-section" aria-labelledby="psychro-guide-errors-title">
+          <button className="psychro-guide-errors-toggle" type="button" aria-expanded={showErrors} onClick={() => setShowErrors(!showErrors)}><strong id="psychro-guide-errors-title">Errores frecuentes</strong><span>{showErrors ? 'Ocultar' : 'Ver errores'}</span></button>
+          {showErrors && <ul className="psychro-guide-errors">{psychrometricMeasurementErrors.map((error) => <li key={error}>{error}</li>)}</ul>}
+        </section>
+
+        <section className="psychro-guide-section" aria-labelledby="psychro-guide-check-title">
+          <h3 id="psychro-guide-check-title">Comprobación antes de calcular</h3>
+          <div className="psychro-guide-checklist">{psychrometricMeasurementChecklist.map((item) => <p key={item}>{item}</p>)}</div>
+        </section>
+
+        <div className="psychro-guide-actions"><button className="sz-button primary" type="button" onClick={onClose}>Entendido, ir a la medición</button></div>
+      </div>
+    </div>
+  </div>
+}
+
 export function VisualHelpModal({ scope, title, onClose }: { scope: VisualScope; title: string; onClose: () => void }) {
+  if (isPsychrometricMeasurementScope(scope)) return <PsychrometricMeasurementGuide onClose={onClose} />
   return <div className="sz-modal-backdrop" role="dialog" aria-modal="true"><div className="sz-visual-modal"><button className="sz-icon-button" type="button" onClick={onClose} aria-label="Cerrar"><X /></button><h2>{title}</h2><TechnicalImageGallery {...scope} /></div></div>
 }
 
