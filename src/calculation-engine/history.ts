@@ -7,7 +7,7 @@ export type SaveCalculationOptions = {
   reportId?: string
 }
 
-export async function saveCalculationHistory<TInputs, TResult>(calculation: CalculationEnvelope<TInputs, TResult>, options: SaveCalculationOptions = {}) {
+export async function saveCalculationHistory(calculation: CalculationEnvelope<unknown, unknown>, options: SaveCalculationOptions = {}) {
   const record: CalculationHistoryRecord = {
     id: newId('calc'),
     module: calculation.module,
