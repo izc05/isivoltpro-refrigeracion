@@ -38,8 +38,17 @@ jobs:
       - name: Typecheck new calculators
         run: npx tsc -p tsconfig.feature.json
       - name: Lint changed files
-        run: npx eslint src/calculation-engine/formulas/building-energy.ts src/calculation-engine/formulas/building-energy.test.ts src/sprint0/thermal-load-page.tsx src/sprint0/aerothermal-sizing-page.tsx src/sprint0/tool-catalog.ts src/SprintZeroAppV2.tsx
+        run: npx eslint src/calculation-engine/formulas/building-energy.ts src/calculation-engine/formulas/building-energy.test.ts src/sprint0/thermal-load-page.tsx src/sprint0/aerothermal-sizing-page.tsx src/sprint0/tool-catalog.ts src/SprintZeroAppV2.tsx src/calculation-engine/history.ts
       - name: Run calculation tests
         run: npx vitest run src/calculation-engine/formulas/building-energy.test.ts
       - name: Bundle application
         run: npx vite build
+      - name: Capture full lint report
+        if: always()
+        run: npm run lint > full-lint.log 2>&1 || true
+      - name: Upload full lint report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-lint-log
+          path: full-lint.log
