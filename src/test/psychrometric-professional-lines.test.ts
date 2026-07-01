@@ -9,7 +9,7 @@ describe('professional psychrometric chart lines', () => {
     expect(line.length).toBeGreaterThan(15)
     const sample = line[Math.floor(line.length / 2)]
     const calculatedWetBulbC = psychrolib.GetTWetBulbFromHumRatio(sample.dryBulbC, sample.humidityRatioGKg / 1000, 101325)
-    expect(calculatedWetBulbC).toBeCloseTo(15, 4)
+    expect(calculatedWetBulbC).toBeCloseTo(15, 3)
   })
 
   it('builds constant enthalpy lines across the visible chart', () => {

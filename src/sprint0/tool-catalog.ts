@@ -1,4 +1,4 @@
-import { Activity, ArrowUpDown, Cable, Fan, Flame, Gauge, LockKeyhole, Scale, Snowflake, Stethoscope, Table2, Thermometer, Waves, Wind, Zap } from 'lucide-react'
+import { Activity, ArrowUpDown, Cable, Fan, Flame, Gauge, Home, LockKeyhole, Scale, Snowflake, Stethoscope, Table2, Thermometer, Waves, Wind, Zap } from 'lucide-react'
 
 export type ToolCategory = 'refrigerantes' | 'climatizacion' | 'conductos' | 'aerotermia' | 'electricidad' | 'diagnostico'
 export type ToolStatus = 'active' | 'planned'
@@ -106,12 +106,12 @@ export const tools = [
   },
   {
     id: 'thermal-load',
-    title: 'Carga térmica orientativa',
-    subtitle: 'Superficie, orientación, ocupación, ventanas y potencia estimada.',
-    path: '/planned/thermal-load',
+    title: 'Carga térmica y frigorías',
+    subtitle: 'Transmisión, radiación, humedad, sensible, latente y potencia de diseño.',
+    path: '/thermal-load',
     icon: Flame,
     category: 'climatizacion',
-    status: 'planned',
+    status: 'active',
   },
   {
     id: 'ducts',
@@ -132,9 +132,18 @@ export const tools = [
     status: 'planned',
   },
   {
+    id: 'aerothermal-sizing',
+    title: 'Dimensionado de aerotermia',
+    subtitle: 'Carga, equipo, modulación, ACS, hidráulica, electricidad y coste.',
+    path: '/aerothermal-sizing',
+    icon: Home,
+    category: 'aerotermia',
+    status: 'active',
+  },
+  {
     id: 'hydraulics',
-    title: 'Aerotermia e hidráulica',
-    subtitle: 'Caudal de agua, depósito, vaso de expansión, ACS y suelo radiante.',
+    title: 'Caudal de agua',
+    subtitle: 'Caudal hidráulico desde potencia térmica y salto de temperatura.',
     path: '/hydraulics',
     icon: Fan,
     category: 'aerotermia',

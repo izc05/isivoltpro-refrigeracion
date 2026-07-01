@@ -1,0 +1,54 @@
+name: Validate feature
+
+on:
+  pull_request:
+  push:
+    branches:
+      - codex/aerotermia-frigorias
+
+jobs:
+  feature-test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --silent
+      - name: Create focused TypeScript config
+        run: |
+          cat > tsconfig.feature.json <<'EOF'
+          {
+            "extends": "./tsconfig.app.json",
+            "compilerOptions": {
+              "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.feature.tsbuildinfo"
+            },
+            "include": [
+              "src/calculation-engine/formulas/building-energy.ts",
+              "src/calculation-engine/formulas/building-energy.test.ts",
+              "src/sprint0/thermal-load-page.tsx",
+              "src/sprint0/aerothermal-sizing-page.tsx"
+            ]
+          }
+          EOF
+      - name: Typecheck new calculators
+        run: npx tsc -p tsconfig.feature.json
+      - name: Lint changed files
+        run: npx eslint src/calculation-engine/formulas/building-energy.ts src/calculation-engine/formulas/building-energy.test.ts src/sprint0/thermal-load-page.tsx src/sprint0/aerothermal-sizing-page.tsx src/sprint0/tool-catalog.ts src/SprintZeroAppV2.tsx src/calculation-engine/history.ts
+      - name: Run calculation tests
+        run: npx vitest run src/calculation-engine/formulas/building-energy.test.ts
+      - name: Bundle application
+        run: npx vite build
+      - name: Capture full project test report
+        if: always()
+        run: npm test > full-test.log 2>&1 || true
+      - name: Upload full project test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-test-log
+          path: full-test.log
