@@ -43,12 +43,12 @@ jobs:
         run: npx vitest run src/calculation-engine/formulas/building-energy.test.ts
       - name: Bundle application
         run: npx vite build
-      - name: Capture full lint report
+      - name: Capture full project test report
         if: always()
-        run: npm run lint > full-lint.log 2>&1 || true
-      - name: Upload full lint report
+        run: npm test > full-test.log 2>&1 || true
+      - name: Upload full project test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: full-lint-log
-          path: full-lint.log
+          name: full-test-log
+          path: full-test.log
