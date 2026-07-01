@@ -18,8 +18,27 @@ jobs:
           node-version: 22
           cache: npm
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --silent
+      - name: Capture typecheck
+        id: typecheck
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > typecheck.log 2>&1
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          cat typecheck.log
+          exit 0
+      - name: Upload typecheck log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: typecheck-log
+          path: typecheck.log
+      - name: Fail on typecheck errors
+        if: steps.typecheck.outputs.exit_code != '0'
+        run: exit 1
       - name: Run tests
         run: npm test
-      - name: Typecheck and build
+      - name: Build
         run: npm run build
