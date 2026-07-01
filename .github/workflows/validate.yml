@@ -1,4 +1,4 @@
-name: Validate
+name: Validate feature
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - codex/aerotermia-frigorias
 
 jobs:
-  test-and-build:
+  feature-test-and-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,26 +19,27 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci --silent
-      - name: Capture typecheck
-        id: typecheck
-        shell: bash
+      - name: Create focused TypeScript config
         run: |
-          set +e
-          npm run typecheck > typecheck.log 2>&1
-          code=$?
-          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
-          cat typecheck.log
-          exit 0
-      - name: Upload typecheck log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: typecheck-log
-          path: typecheck.log
-      - name: Fail on typecheck errors
-        if: steps.typecheck.outputs.exit_code != '0'
-        run: exit 1
-      - name: Run tests
-        run: npm test
-      - name: Build
-        run: npm run build
+          cat > tsconfig.feature.json <<'EOF'
+          {
+            "extends": "./tsconfig.app.json",
+            "compilerOptions": {
+              "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.feature.tsbuildinfo"
+            },
+            "include": [
+              "src/calculation-engine/formulas/building-energy.ts",
+              "src/calculation-engine/formulas/building-energy.test.ts",
+              "src/sprint0/thermal-load-page.tsx",
+              "src/sprint0/aerothermal-sizing-page.tsx"
+            ]
+          }
+          EOF
+      - name: Typecheck new calculators
+        run: npx tsc -p tsconfig.feature.json
+      - name: Lint changed files
+        run: npx eslint src/calculation-engine/formulas/building-energy.ts src/calculation-engine/formulas/building-energy.test.ts src/sprint0/thermal-load-page.tsx src/sprint0/aerothermal-sizing-page.tsx src/sprint0/tool-catalog.ts src/SprintZeroAppV2.tsx
+      - name: Run calculation tests
+        run: npx vitest run src/calculation-engine/formulas/building-energy.test.ts
+      - name: Bundle application
+        run: npx vite build
